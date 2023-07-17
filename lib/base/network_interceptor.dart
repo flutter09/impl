@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:chat_application/base/retry_interceptor.dart';
 import 'package:dio/dio.dart';
 
+import '../data/local/preference_constant.dart';
+import '../data/local/preference_utils.dart';
+
 class NetworkInterceptor extends Interceptor{
 
   final RetryInterceptor retryInterceptor;
@@ -17,6 +20,7 @@ class NetworkInterceptor extends Interceptor{
         method: options.method,
         queryParameters: options.queryParameters,
         data: options.data,
+        headers: _headers(),
         baseUrl: options.baseUrl);
     handler.next(options);
   }
@@ -24,8 +28,6 @@ class NetworkInterceptor extends Interceptor{
   bool _shouldRetry(DioError err) {
     return err.type == DioErrorType.other && err.error is SocketException;
   }
-
-
 
   @override
   Future<void> onError(DioError err, ErrorInterceptorHandler handler) async {
@@ -39,10 +41,8 @@ class NetworkInterceptor extends Interceptor{
 
   Map<String, String> _headers() {
     return {
-      'Content-type': 'application/json;charset=UTF-8',
-      'Accept': 'application/json',
-      'X-localization': Platform.localeName.substring(0, 2),
-      'Authorization': 'Bearer '
+      'token': getString(PreferenceConstant.token),
+      'user_id': getString(PreferenceConstant.userId)
     };
   }
 }

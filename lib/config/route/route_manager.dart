@@ -1,7 +1,17 @@
 
 
-import 'package:chat_application/presentation/screen/sing_in_screen.dart';
+import 'package:chat_application/presentation/screen/chat/chat_details_screen.dart';
+import 'package:chat_application/presentation/screen/chat/chat_list_screen.dart';
+import 'package:chat_application/presentation/screen/chat/chat_setting_screen.dart';
+import 'package:chat_application/presentation/screen/chat/create_group_screen.dart';
+import 'package:chat_application/presentation/screen/login/forgot_password_screen.dart';
+import 'package:chat_application/presentation/screen/login/generate_password_screen.dart';
+import 'package:chat_application/presentation/screen/login/otp_varification_screen.dart';
+import 'package:chat_application/presentation/screen/login/sing_in_screen.dart';
+import 'package:chat_application/presentation/screen/login/sing_up_screen.dart';
+import 'package:chat_application/presentation/screen/project/create_project_screen.dart';
 import 'package:flutter/material.dart';
+
 import '../../utils/resources/string_manager.dart';
 
 
@@ -10,6 +20,14 @@ class Routes {
   // static const String onBoardingRoute = "/onBoarding";
   static const String signInRoute = "/signIn";
   static const String signUpRoute = "/signUp";
+  static const String chatListRoute = "/chat_list";
+  static const String chatDetailsRoute = "/chat_detail_screen";
+  static const String createProjectRoute = "/create_project_screen";
+  static const String createGroupRoute = "/create_group_screen";
+  static const String chatSettingRoute = "/chat_setting_screen";
+  static const String forgotPasswordRoute = "/forgot_password_screen";
+  static const String otpVerificationRoute = "/otp_verification_screen";
+  static const String generatePasswordScreen = "/generate_password_screen";
 //static const String registerRoute = "/register";
 //static const String forgotPasswordRoute = "/forgotPassword";
 //static const String mainRoute = "/main";
@@ -21,9 +39,24 @@ class RouteGenerator {
     switch (routeSettings.name) {
       case Routes.signInRoute:
         return MaterialPageRoute(builder: (_) =>  SignInScreen());
-    // case Routes.loginRoute:
-    // //initLoginModule();
-    //   return MaterialPageRoute(builder: (_) => LoginView());
+      case Routes.signUpRoute:
+        return MaterialPageRoute(builder: (_) =>  SignUpScreen());
+      case Routes.chatListRoute:
+        return MaterialPageRoute(builder: (_) =>  ChatListScreen());
+      case Routes.chatDetailsRoute:
+        return MaterialPageRoute(builder: (_) =>  ChatDetailScreen());
+      case Routes.createProjectRoute:
+        return MaterialPageRoute(builder: (_) =>  CreateProjectScreen());
+      case Routes.createGroupRoute:
+        return MaterialPageRoute(builder: (_) =>  CreateGroupScreen());
+      case Routes.chatSettingRoute:
+        return MaterialPageRoute(builder: (_) =>  ChatSettingScreen());
+      case Routes.forgotPasswordRoute:
+        return MaterialPageRoute(builder: (_) =>  ForgotPasswordScreen());
+      case Routes.generatePasswordScreen:
+        return MaterialPageRoute(builder: (_) =>  GeneratePasswordScreen());
+      case Routes.otpVerificationRoute:
+        return MaterialPageRoute(builder: (_) =>  OtpVerificationScreen());
     // case Routes.onBoardingRoute:
     //   return MaterialPageRoute(builder: (_) => OnBoardingView());
     // case Routes.registerRoute:

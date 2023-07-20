@@ -1,12 +1,21 @@
+import 'dart:io';
+
+import 'package:chat_application/domain/model/request/req_check_otp.dart';
+import 'package:chat_application/domain/model/request/req_forgot_password.dart';
+import 'package:chat_application/domain/model/request/req_send_otp.dart';
+import 'package:chat_application/domain/model/request/req_user_register.dart';
+
 import '../../base/result.dart';
 import '../model/request/req_login.dart';
 import '../model/response/res_user_model.dart';
 
 abstract class UserRepository{
   Future<Result<ResUserModel>> login(ReqLogin request);
-  Future<Result<ResUserModel>> registerUser(ReqLogin request);
-  Future<Result<ResUserModel>> forgotPassword(ReqLogin request);
-  Future<Result<ResUserModel>> verifyOtp(ReqLogin request);
+  Future<Result<ResUserModel>> registerUser(ReqUserRegister reqUserRegister);
+  Future<Result<ResUserModel>> forgotPassword(ReqForgotPassword reqForgotPassword);
+  Future<Result<ResUserModel>> verifyOtp(ReqCheckOtp reqCheckOtp );
+  Future<Result<ResUserModel>> sendOtp(ReqSendOtp reqSendOtp);
+  Future<Result<String>> uploadFile(File file , Map<String , dynamic> fields);
 
 // Future<dynamic> getAllWallets(int page,String? searchText);
 // Future<dynamic> addWallet(String userKey,String walletId,String? publicKey);

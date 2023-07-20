@@ -1,3 +1,4 @@
+import 'package:chat_application/config/theme/app_theme.dart';
 import 'package:chat_application/presentation/screen/component/custom_textfield.dart';
 import 'package:chat_application/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -104,6 +105,22 @@ class _LabelDatePickerTextFieldState extends State<LabelDatePickerTextField> {
       initialDate: DateTime.now(),
       firstDate: DateTime(1900),
       lastDate: DateTime(2100),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: colorPrimary, // <-- SEE HERE
+              onPrimary: Colors.white, // <-- SEE HERE
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                primary: Colors.red, // button text color
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (picked != null && picked.toString() != widget.controller.text) {

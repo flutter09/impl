@@ -10,6 +10,8 @@ import 'package:chat_application/presentation/screen/login/otp_varification_scre
 import 'package:chat_application/presentation/screen/login/sing_in_screen.dart';
 import 'package:chat_application/presentation/screen/login/sing_up_screen.dart';
 import 'package:chat_application/presentation/screen/project/create_project_screen.dart';
+import 'package:chat_application/presentation/screen/user/add_user_screen.dart';
+import 'package:chat_application/presentation/screen/user/user_list_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/resources/string_manager.dart';
@@ -28,6 +30,8 @@ class Routes {
   static const String forgotPasswordRoute = "/forgot_password_screen";
   static const String otpVerificationRoute = "/otp_verification_screen";
   static const String generatePasswordScreen = "/generate_password_screen";
+  static const String addUserScreen = "/add_user_screen";
+  static const String userListScreen = "/user_list_screen";
 //static const String registerRoute = "/register";
 //static const String forgotPasswordRoute = "/forgotPassword";
 //static const String mainRoute = "/main";
@@ -57,6 +61,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) =>  GeneratePasswordScreen());
       case Routes.otpVerificationRoute:
         return MaterialPageRoute(builder: (_) =>  OtpVerificationScreen());
+      case Routes.addUserScreen:
+        return MaterialPageRoute(builder: (_) =>  AddUserScreen());
+      case Routes.userListScreen:
+        return MaterialPageRoute(builder: (_) =>  UserListScreen());
     // case Routes.onBoardingRoute:
     //   return MaterialPageRoute(builder: (_) => OnBoardingView());
     // case Routes.registerRoute:

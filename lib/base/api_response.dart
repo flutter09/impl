@@ -13,11 +13,11 @@ class ApiResponse<T> {
     required this.data,
   });
 
-  factory ApiResponse.fromJson(Map<String, dynamic> json,T Function(Map<String, dynamic> json) fromJsonT,) =>
+  factory ApiResponse.fromJson(Map<String, dynamic> json,T Function(Map<String, dynamic> json)? fromJsonT,) =>
       ApiResponse<T>(
         success: json['success'] as bool?,
         message: json['message'] as int?,
-        data: json['user'] != null ? fromJsonT(json['user']) : null,
+        data: json['user'] != null ? (json['user'].runtimeType == String ? json['user'] as T : fromJsonT!(json['user'])) : null,
       );
 
   Map<String, dynamic> toJson(Map<String, dynamic> Function(T value) toJsonT) => <String, dynamic>{

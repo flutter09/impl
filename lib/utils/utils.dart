@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:chat_application/utils/resources/api_message.dart';
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:enough_giphy_flutter/enough_giphy_flutter.dart';
 import 'package:flutter/material.dart';
@@ -200,3 +201,18 @@ String extractUserID(String message) {
   }
   return '';
 }*/
+
+Future<FormData> fileToFormData(String fileKey , File file) async {
+  FormData formData = FormData();
+
+  // Add the image file to be uploaded
+  formData.files.add(MapEntry(
+    fileKey,
+    await MultipartFile.fromFile(
+      file.path,
+      filename: file.path.split('/').last,
+    ),
+  ));
+
+  return formData;
+}

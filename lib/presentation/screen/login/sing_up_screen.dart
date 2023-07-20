@@ -6,7 +6,8 @@ import '../../../base/base_state.dart';
 import '../../../config/theme/app_theme.dart';
 import '../../../injection_conatainer.dart' as di;
 import '../../../utils/utils.dart';
-import '../../bloc/signup_cubit.dart';
+import 'bloc/signup_cubit.dart';
+import 'bloc/singin_state.dart';
 import '../component/component.dart';
 import '../component/custom_textfield.dart';
 

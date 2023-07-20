@@ -11,4 +11,5 @@ abstract class ApiService{
   Future<Result<ApiResponse<T>>?> post<T>(String url , T Function(Map<String, dynamic> json) fromJsonT, {Map data});
   Future<Result<ApiResponse<T>>?> delete<T>(String url ,T Function(Map<String, dynamic> json) fromJsonT);
   Future<Result<ApiResponse<T>>?> patch<T>(String url , Map data , T Function(Map<String, dynamic> json) fromJsonT);
+  Future<Result<ApiResponse<T>>?> postFile<T>(String url , T Function(Map<String, dynamic> json)? fromJsonT, {dynamic data});
 }

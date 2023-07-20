@@ -14,8 +14,8 @@ class PreferenceRepositoryImpl implements PreferenceRepository {
   }
 
   @override
-  String getLanguage() {
-    return getString(PreferenceConstant.language);
+  Future<String> getLanguage() async {
+    return getStringF(PreferenceConstant.language);
   }
 
   @override
@@ -29,8 +29,8 @@ class PreferenceRepositoryImpl implements PreferenceRepository {
   }
 
   @override
-  String getAccessToken() {
-    return getString(PreferenceConstant.token);
+  Future<String> getAccessToken() async {
+    return getStringF(PreferenceConstant.token);
   }
 
   @override
@@ -39,8 +39,8 @@ class PreferenceRepositoryImpl implements PreferenceRepository {
   }
 
   @override
-  String getRefreshToken() {
-    return getString(PreferenceConstant.refreshToken);
+  Future<String> getRefreshToken() async {
+    return getStringF(PreferenceConstant.refreshToken);
   }
 
   @override
@@ -49,8 +49,8 @@ class PreferenceRepositoryImpl implements PreferenceRepository {
   }
 
   @override
-  bool getOnBoardingStatus() {
-    return getBool(PreferenceConstant.onBoardingFlow);
+  Future<bool> getOnBoardingStatus() async {
+    return getBoolF(PreferenceConstant.onBoardingFlow);
   }
 
   @override
@@ -65,8 +65,8 @@ class PreferenceRepositoryImpl implements PreferenceRepository {
   }
 
   @override
-  String getLoginData() {
-    return getString(PreferenceConstant.loginData);
+  Future<String> getLoginData() async {
+    return getStringF(PreferenceConstant.loginData);
   }
 
   @override

@@ -1,24 +1,24 @@
 abstract class PreferenceRepository {
   initPreference();
 
-  String getLanguage();
+  Future<String> getLanguage();
 
   setLanguage(String value);
 
   setAccessToken(String value);
 
-  String getAccessToken();
+  Future<String> getAccessToken();
 
   setRefreshToken(String value);
 
-  String getRefreshToken();
+  Future<String> getRefreshToken();
 
   setOnBoardingStatus(bool value);
 
-  bool getOnBoardingStatus();
+  Future<bool> getOnBoardingStatus();
 
   clearPreference();
 
   setLoginData(String data);
-  String getLoginData();
+  Future<String> getLoginData();
 }

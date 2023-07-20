@@ -53,6 +53,10 @@ class _SelectContactState extends State<SelectContact> {
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 4),
                     child: ListTile(
+                        leading: const CircleAvatar(
+                          backgroundImage: NetworkImage("https://randomuser.me/api/portraits/men/5.jpg"),
+                          maxRadius: 20,
+                        ),
                       title: Text(
                         contact,
                         style: const TextStyle(

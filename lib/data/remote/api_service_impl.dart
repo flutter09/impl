@@ -109,4 +109,23 @@ class ApiServiceImpl implements ApiService {
           errorMessage: response?.statusMessage ?? "null response found"));
     }
   }
+
+  @override
+  Future<Result<ApiResponse<T>>?> postFile<T>(String url, T Function(Map<String, dynamic> json)? fromJsonT, {data}) async {
+
+    var response = await dio?.post(DioApiConstants.baseUrl + url, data: data, options: Options(contentType: 'multipart/form-data'));
+    if (response?.statusCode == 200) {
+      try {
+        print("Response : ${response?.data}");
+        return Success(ApiResponse.fromJson(response?.data, fromJsonT));
+      } catch (e) {
+        print("Error : ${e.toString()}");
+        return Error(ErrorResponse(errorMessage: e.toString()));
+      }
+    } else {
+      return Error(ErrorResponse(
+          errorMessage: response?.statusMessage ?? "null response found"));
+    }
+
+  }
 }

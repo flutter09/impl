@@ -1,7 +1,7 @@
 import 'package:chat_application/data/local/preference_repository.dart';
 import 'package:chat_application/data/local/preference_repository_impl.dart';
-import 'package:chat_application/presentation/bloc/signup_cubit.dart';
-import 'package:chat_application/presentation/bloc/singin_cubit.dart';
+import 'package:chat_application/presentation/screen/login/bloc/signup_cubit.dart';
+import 'package:chat_application/presentation/screen/login/bloc/singin_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 import 'data/remote/api_service.dart';

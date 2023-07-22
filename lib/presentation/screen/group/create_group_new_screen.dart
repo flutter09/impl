@@ -19,6 +19,7 @@ class _CreateGroupNewScreenState extends State<CreateGroupNewScreen> {
   final groupNameController = TextEditingController();
   final groupDescController = TextEditingController();
   final imageController = TextEditingController();
+  File? file;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   var formKey = GlobalKey<FormState>();
@@ -96,14 +97,14 @@ class _CreateGroupNewScreenState extends State<CreateGroupNewScreen> {
                   label: 'Image',
                   validate: (value) {
                     if (value.isEmpty) {
-                      return 'Name must not be Empty !!';
+                      return 'Image must not be Empty !!';
                     }
                     return null;
                   },
                   hintText: "choose file".tr(),
                   onTap: () async {
-                    File? file = await pickImageFromGallery(context);
-                    imageController.text = file?.path ?? "No file chosen";
+                    file = await pickImageFromGallery(context);
+                    imageController.text = file?.path.split('/').last ?? "No file chosen";
                   },
                   controller: imageController,
                   readOnly: true,

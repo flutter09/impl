@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../base/base_state.dart';
+import '../../../config/route/route_manager.dart';
 import '../../../config/theme/app_theme.dart';
 import '../../../injection_conatainer.dart' as di;
 import '../../../utils/utils.dart';
@@ -16,6 +19,8 @@ class SignUpScreen extends StatelessWidget {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _mobileController = TextEditingController();
+  final imageController = TextEditingController();
+  File? file;
 
   SignUpScreen({super.key});
 
@@ -34,6 +39,7 @@ class SignUpScreen extends StatelessWidget {
           listener: (context, state) {
             if (state is SignUpState) {
               print("Login is success");
+              Navigator.pushNamedAndRemoveUntil(context, Routes.projectListScreen,(Route<dynamic> route) => false);
             } else if (state is ErrorState) {
               print(state.errorMessage);
             }
@@ -110,24 +116,45 @@ class SignUpScreen extends StatelessWidget {
                           },
                         ),
                         const SizedBox(height: 20),
-                        BlocBuilder<SignUpCubit, BaseState>(
-                          builder: (context, state) {
-                            return SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  //register a user
-                                  if (formKey.currentState!.validate()) {}
-                                },
-                                child: const Text(
-                                  'Sign up',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ).tr(),
-                              ),
-                            );
+                        /*LabelTextField(
+                          label: 'Image',
+                          validate: (value) {
+                            if (value.isEmpty) {
+                              return 'Image must not be Empty !!';
+                            }
+                            return null;
                           },
+                          hintText: "choose file".tr(),
+                          onTap: () async {
+                            file = await pickImageFromGallery(context);
+                            imageController.text = file?.path.split('/').last ?? "No file chosen";
+                          },
+                          controller: imageController,
+                          readOnly: true,
+                        ),
+                        const SizedBox(height: 20),*/
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              //register a user
+                              if (formKey.currentState!.validate()) {
+                                signUpCubit.registerUser(
+                                  _nameController.text,
+                                  _emailController.text,
+                                  _mobileController.text,
+                                  _passwordController.text,
+                                  file
+                                );
+                              }
+                            },
+                            child: const Text(
+                              'Sign up',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ).tr(),
+                          ),
                         ),
                         const SizedBox(
                           height: 10,

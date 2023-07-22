@@ -30,7 +30,7 @@ class _SignInScreenState extends State<SignInScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    loginCubit.checkLogin();
+    // loginCubit.checkLogin();
   }
 
   @override
@@ -46,7 +46,7 @@ class _SignInScreenState extends State<SignInScreen> {
           bloc: loginCubit,
           listener: (context, state) {
             if (state is SignInState) {
-              Navigator.pushNamedAndRemoveUntil(context, Routes.chatListRoute,(Route<dynamic> route) => false);
+              Navigator.pushNamedAndRemoveUntil(context, Routes.projectListScreen,(Route<dynamic> route) => false);
             } else if (state is ErrorState && (state.errorMessage ?? "").isNotEmpty) {
               final snackBar = SnackBar(
                 content: Text(state.errorMessage ?? "error invalid"),

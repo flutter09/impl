@@ -1,4 +1,5 @@
 import 'package:chat_application/data/local/preference_repository.dart';
+import 'package:chat_application/presentation/screen/login/bloc/singin_cubit.dart';
 import 'package:chat_application/utils/resources/string_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           onGenerateRoute: RouteGenerator.getRoute,
-          initialRoute: Routes.signInRoute,
+          initialRoute:  di.di<SignInCubit>().checkLogin() ? Routes.projectListScreen : Routes.signInRoute,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,

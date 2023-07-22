@@ -7,6 +7,7 @@ import 'package:chat_application/domain/model/request/req_forgot_password.dart';
 import 'package:chat_application/domain/model/request/req_send_otp.dart';
 
 import 'package:chat_application/domain/model/request/req_user_register.dart';
+import 'package:dio/dio.dart';
 
 import '../../base/result.dart';
 import '../../base/api_response.dart';
@@ -65,10 +66,21 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Result<ResUserModel>> registerUser(ReqUserRegister reqUserRegister) async {
-    var response = await apiService.post<ResUserModel>(
-        DioApiConstants.userRegister, ResUserModel.fromJson,
-        data: reqUserRegister.toJson());
+  Future<Result<ResUserModel>> registerUser(ReqUserRegister reqUserRegister , File? image) async {
+
+    var formData = jsonToFormData(
+        reqUserRegister.toJson(),
+        image != null ? // if file is not null than only add to form data other wise we pass init form data object
+        await addFileToFormData("image", image, FormData()) // key , file , base form data instance
+            : FormData()
+    );
+
+    var response = await apiService.postFile<ResUserModel>(
+        DioApiConstants.userRegister,
+        ResUserModel.fromJson,
+        data: formData
+    );
+
     if (response is Success) {
 
       var result = (response as Success).data as ApiResponse;

@@ -203,6 +203,7 @@ String extractUserID(String message) {
 }*/
 
 Future<FormData> fileToFormData(String fileKey , File file) async {
+  // we need file path in this method but i pass file object just for batter understanding
   FormData formData = FormData();
 
   // Add the image file to be uploaded
@@ -213,6 +214,29 @@ Future<FormData> fileToFormData(String fileKey , File file) async {
       filename: file.path.split('/').last,
     ),
   ));
+
+  return formData;
+}
+
+Future<FormData> addFileToFormData(String fileKey , File file , FormData formData) async {
+  // we need file path in this method but i pass file object just for batter understanding
+    // Add the image file to be uploaded
+  formData.files.add(MapEntry(
+    fileKey,
+    await MultipartFile.fromFile(
+      file.path,
+      filename: file.path.split('/').last,
+    ),
+  ));
+
+  return formData;
+}
+
+
+FormData jsonToFormData(Map<String, dynamic> json , FormData formData){
+  json.forEach((key, value) {
+    formData.fields.add(MapEntry(key, value));
+  });
 
   return formData;
 }

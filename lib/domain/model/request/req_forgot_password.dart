@@ -6,9 +6,11 @@ part 'req_forgot_password.g.dart';
 class ReqForgotPassword {
   @JsonKey(name: 'email')
   final String email;
+  @JsonKey(name: 'password')
+  final String password;
 
   ReqForgotPassword({
-    required this.email,
+    required this.email, required this.password,
   });
 
   factory ReqForgotPassword.fromJson(Map<String, dynamic> json) =>

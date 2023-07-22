@@ -11,7 +11,7 @@ import '../model/response/res_user_model.dart';
 
 abstract class UserRepository{
   Future<Result<ResUserModel>> login(ReqLogin request);
-  Future<Result<ResUserModel>> registerUser(ReqUserRegister reqUserRegister);
+  Future<Result<ResUserModel>> registerUser(ReqUserRegister reqUserRegister , File? file);
   Future<Result<ResUserModel>> forgotPassword(ReqForgotPassword reqForgotPassword);
   Future<Result<ResUserModel>> verifyOtp(ReqCheckOtp reqCheckOtp );
   Future<Result<ResUserModel>> sendOtp(ReqSendOtp reqSendOtp);

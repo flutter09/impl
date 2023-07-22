@@ -20,6 +20,10 @@ import 'package:flutter/material.dart';
 
 import '../../utils/resources/string_manager.dart';
 
+class ArgConstant {
+  static const String eMail = "e-mail";
+}
+
 
 class Routes {
   // static const String splashRoute = "/";
@@ -66,7 +70,7 @@ class RouteGenerator {
       case Routes.forgotPasswordRoute:
         return MaterialPageRoute(builder: (_) =>  ForgotPasswordScreen());
       case Routes.generatePasswordScreen:
-        return MaterialPageRoute(builder: (_) =>  GeneratePasswordScreen());
+        return MaterialPageRoute(builder: (context) =>  GeneratePasswordScreen(email: (routeSettings.arguments as Map<String , dynamic>)[ArgConstant.eMail].toString(),));
       case Routes.otpVerificationRoute:
         return MaterialPageRoute(builder: (_) =>  OtpVerificationScreen());
       case Routes.addUserScreen:

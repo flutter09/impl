@@ -18,7 +18,7 @@ class SignInCubit extends BaseCubit<BaseState, String> {
   SignInCubit(this._userRepository, this._preferenceRepository)
       : super(BaseInitState(), "");
 
-  Future<void> checkLogin() async {
+  Future<void> checkLoginF() async {
     emit(LoadingState());
     var token = await _preferenceRepository.getAccessToken();
     if (token.isNotEmpty) {
@@ -26,6 +26,12 @@ class SignInCubit extends BaseCubit<BaseState, String> {
     }
     emit(const ErrorState(errorMessage: ""));
   }
+
+  bool checkLogin() {
+    var token =  _preferenceRepository.getAccessToken();
+    return token.isNotEmpty;
+  }
+
 
   Future<void> login(String email, String password) async {
     if (isBusy) return;

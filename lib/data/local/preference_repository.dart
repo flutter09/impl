@@ -7,7 +7,9 @@ abstract class PreferenceRepository {
 
   setAccessToken(String value);
 
-  Future<String> getAccessToken();
+  Future<String> getAccessTokenF();
+
+  String getAccessToken();
 
   setRefreshToken(String value);
 

@@ -9,9 +9,11 @@ part of 'req_forgot_password.dart';
 ReqForgotPassword _$ReqForgotPasswordFromJson(Map<String, dynamic> json) =>
     ReqForgotPassword(
       email: json['email'] as String,
+      password: json['password'] as String,
     );
 
 Map<String, dynamic> _$ReqForgotPasswordToJson(ReqForgotPassword instance) =>
     <String, dynamic>{
       'email': instance.email,
+      'password': instance.password,
     };

@@ -22,3 +22,7 @@ class SignUpState extends BaseState {
 }
 
 class ForgotPasswordState extends BaseState {}
+
+class OtpVerifiedState extends BaseState {}
+
+class GeneratePasswordState extends BaseState {}

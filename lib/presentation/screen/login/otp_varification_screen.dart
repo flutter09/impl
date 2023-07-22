@@ -1,20 +1,42 @@
+import 'package:chat_application/base/base_state.dart';
 import 'package:chat_application/config/route/route_manager.dart';
+import 'package:chat_application/presentation/screen/login/bloc/singin_state.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../config/theme/app_theme.dart';
+import '../../../injection_conatainer.dart' as di;
 import '../component/component.dart';
 import '../component/custom_textfield.dart';
+import 'bloc/forgot_password_cubit.dart';
 
 class OtpVerificationScreen extends StatelessWidget {
   OtpVerificationScreen({super.key});
-  final _controller = TextEditingController();
+  
+  final _forgotPasswordCubit = di.di<ForgotPasswordCubit>();
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     final formKey = GlobalKey<FormState>();
 
+    return BlocConsumer<ForgotPasswordCubit, BaseState>(
+      bloc: _forgotPasswordCubit,
+  listener: (context, state) {
+    if (state is OtpVerifiedState) {
+      Navigator.pushNamed(context, Routes.generatePasswordScreen , arguments: {ArgConstant.eMail : _forgotPasswordCubit.mailController.text});
+    } else if (state is ErrorState && (state.errorMessage ?? "").isNotEmpty) {
+      final snackBar = SnackBar(
+        content: Text(state.errorMessage ?? "error invalid"),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  },
+  builder: (context, state) {
+    if (state is LoadingState) {
+      return const Center(child: CircularProgressIndicator());
+    }
     return Scaffold(
         backgroundColor: Colors.white,
         body: Center(
@@ -43,11 +65,14 @@ class OtpVerificationScreen extends StatelessWidget {
                       height: 40,
                     ),
                     LabelTextField(
-                        controller: _controller,
+                        controller: _forgotPasswordCubit.otpController,
                         label: "OTP",
                         type: TextInputType.emailAddress,
                         validate: (value) {
-
+                          if(value.toString().isEmpty){
+                            return "Otp must not be empty";
+                          }
+                          return null;
                         }),
                     const SizedBox(
                       height: 10,
@@ -56,10 +81,8 @@ class OtpVerificationScreen extends StatelessWidget {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.pushNamed(
-                              context, Routes.generatePasswordScreen);
                           if (formKey.currentState!.validate()) {
-                            // to call api to verify email and send otp
+                            _forgotPasswordCubit.verifyOtp();
                           }
                         },
                         child: const Text(
@@ -90,5 +113,7 @@ class OtpVerificationScreen extends StatelessWidget {
           ),
         )
     );
+  },
+);
   }
 }

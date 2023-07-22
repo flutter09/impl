@@ -29,8 +29,13 @@ class PreferenceRepositoryImpl implements PreferenceRepository {
   }
 
   @override
-  Future<String> getAccessToken() async {
+  Future<String> getAccessTokenF() async {
     return getStringF(PreferenceConstant.token);
+  }
+
+  @override
+  String getAccessToken() {
+    return getString(PreferenceConstant.token);
   }
 
   @override

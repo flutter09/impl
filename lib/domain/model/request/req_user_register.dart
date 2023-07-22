@@ -4,6 +4,11 @@ part 'req_user_register.g.dart';
 
 @JsonSerializable()
 class ReqUserRegister {
+
+
+  @JsonKey(name: 'user_id')
+  final String? user_id;
+
   @JsonKey(name: 'name')
   final String name;
 
@@ -17,6 +22,7 @@ class ReqUserRegister {
   final String password;
 
   ReqUserRegister({
+    this.user_id,
     required this.name,
     required this.email,
     required this.phone,

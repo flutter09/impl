@@ -14,7 +14,7 @@ class FavouriteListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 65,
+      width: 55,
       margin: const EdgeInsets.only(right: 16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -22,8 +22,8 @@ class FavouriteListItem extends StatelessWidget {
           Stack(
             children: <Widget>[
               Container(
-                height: 60,
-                width: 60,
+                height: 50,
+                width: 50,
                 padding: const EdgeInsets.all(/*(index % 2 == 1) ? 2 :*/ 0),
                 decoration: BoxDecoration(
                   borderRadius:
@@ -38,7 +38,7 @@ class FavouriteListItem extends StatelessWidget {
                       ? IconButton(
                     icon: const Icon(
                       Icons.add,
-                      size: 30,
+                      size: 20,
                       color: lightGray,
                     ), onPressed: onPress,)
                       : Image.asset(
@@ -50,8 +50,8 @@ class FavouriteListItem extends StatelessWidget {
                 bottom: 0,
                 right: 0,
                 child: Container(
-                  height: (isLive ?? false) ? 18 : 0,
-                  width: 18,
+                  height: (isLive ?? false) ? 16 : 0,
+                  width: 16,
                   decoration: BoxDecoration(
                       borderRadius:
                       const BorderRadius.all(Radius.circular(9)),
@@ -68,6 +68,7 @@ class FavouriteListItem extends StatelessWidget {
                 fontFamily: "Roboto",
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
+                overflow: TextOverflow.ellipsis,
                 color: /*(index != 0)
                     ? Colors.white
                     :*/ Color.fromRGBO(123, 123, 123, 1)),

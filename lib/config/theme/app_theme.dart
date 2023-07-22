@@ -26,6 +26,7 @@ abstract class AppTheme {
         )),
         textTheme: const TextTheme(
             headlineLarge: TextStyle(fontSize: 40, color: colorHeader),
+            headlineMedium: TextStyle(fontSize: 36, color: colorHeader),
             titleLarge: TextStyle(
                 fontSize: 24, color: colorGray, fontWeight: FontWeight.normal),
             titleMedium: TextStyle(
@@ -50,3 +51,4 @@ const Color colorHeader = Color(0xff364a63);
 const Color colorDes = Color(0xff526484);
 const Color lightGray = Color.fromRGBO(195, 195, 195, 1);
 const Color darkGray = Color.fromRGBO(51, 51, 51, 1);
+const Color backgroundGray = Color.fromRGBO(239, 239, 239, 1.0);

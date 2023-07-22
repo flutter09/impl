@@ -3,12 +3,15 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_application/config/theme/app_theme.dart';
 import 'package:chat_application/presentation/screen/component/custom_appbar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:swipe_to/swipe_to.dart';
 
 import '../../../domain/model/response/chat_model.dart';
 import '../../../utils/message_enum.dart';
 import '../../../utils/utils.dart';
+import '../component/Searchbar.dart';
+import '../component/favourite_list_item.dart';
 import '../component/message_reply_field.dart';
 import '../component/message_widget.dart';
 
@@ -126,33 +129,79 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       ),
       body: Column(
         children: <Widget>[
+          Searchbar(
+            onChanged: (value) {
+              // todo search functionality
+            },
+          ),
+          Container(
+              width: double.infinity,
+              margin: const EdgeInsets.only(left: 16, right: 16, top: 8),
+              child: Text(
+                'Favorites',
+                style: Theme.of(context).textTheme.labelMedium,
+              ).tr()),
+          Container(
+            height: 70,
+            margin: const EdgeInsets.only(top: 8, bottom: 8, left: 16),
+            child: Row(
+              children: [
+                const FavouriteListItem(
+                  isAddButton: true,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        return const FavouriteListItem(
+                          name: "user",
+                          isLive: true,
+                        );
+                      },
+                      itemCount: 8,
+                      scrollDirection: Axis.horizontal,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+              width: double.infinity,
+              margin: const EdgeInsets.only(left: 16, right: 16, top: 8),
+              child: Text(
+                'Message',
+                style: Theme.of(context).textTheme.labelMedium,
+              ).tr()),
+          SizedBox(height: 10,),
           Expanded(
-            child: ListView.builder(
-              reverse: true,
-              itemCount: messages.length,
-              shrinkWrap: true,
-              padding: const EdgeInsets.only(top: 10, bottom: 10),
-              itemBuilder: (context, index) {
-                return MessageWidget(
-                  messages: messages.reversed.toList()[index],
-                  onLeftSwipe: () {
-                    setReply(messages.reversed.toList()[index]);
-                  },
-                  onLongPress: (){
+            child: Container(
+              color : backgroundGray,
+              child: ListView.builder(
+                reverse: true,
+                itemCount: messages.length,
+                shrinkWrap: true,
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                itemBuilder: (context, index) {
+                  return MessageWidget(
+                    messages: messages.reversed.toList()[index],
+                    onLeftSwipe: () {
+                      setReply(messages.reversed.toList()[index]);
+                    },
+                    onLongPress: (){
+                      setState(() {
+                        editableIndex = index;
+                      });
+                    },
+                    isEdit: index == editableIndex,
+                    onEdit: (value){
+                      updateMsg(index, value);
+                    }, onEditCancel: () {
                     setState(() {
-                      editableIndex = index;
+                      editableIndex = null;
                     });
                   },
-                  isEdit: index == editableIndex,
-                  onEdit: (value){
-                    updateMsg(index, value);
-                  }, onEditCancel: () {
-                  setState(() {
-                    editableIndex = null;
-                  });
+                  );
                 },
-                );
-              },
+              ),
             ),
           ),
           Align(

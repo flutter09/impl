@@ -125,7 +125,7 @@ Widget defaultTextButton({
 }) =>
     TextButton(
       onPressed: (){function();},
-      style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.blue[50])),
+      style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.blue[50]) , padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 0 , horizontal: 6))),
       child: Text(text,style: style,),
 );
 

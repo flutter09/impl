@@ -14,9 +14,9 @@ class Searchbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(14),
       child: Container(
-        padding: const EdgeInsets.only(left: 16, top: 4, bottom: 4),
+        padding: EdgeInsets.symmetric(horizontal: 16),
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(30)),
           color: Colors.black12,
@@ -24,6 +24,7 @@ class Searchbar extends StatelessWidget {
         child: TextField(
           onChanged: onChanged,
           onSubmitted: onSubmitted,
+          style: Theme.of(context).textTheme.titleSmall,
           decoration:const InputDecoration(
               border: InputBorder.none,
               focusedBorder: InputBorder.none,

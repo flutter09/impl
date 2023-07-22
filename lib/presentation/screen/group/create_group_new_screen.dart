@@ -1,31 +1,23 @@
 import 'dart:io';
 
-import 'package:chat_application/presentation/screen/component/custom_dropdown.dart';
-import 'package:chat_application/utils/utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../utils/utils.dart';
 import '../component/custom_appbar.dart';
 import '../component/custom_drawer.dart';
 import '../component/custom_textfield.dart';
-import '../component/date_picker.dart';
 
-class CreateProjectScreen extends StatefulWidget {
-  const CreateProjectScreen({super.key});
+class CreateGroupNewScreen extends StatefulWidget {
+  const CreateGroupNewScreen({super.key});
 
   @override
-  State<CreateProjectScreen> createState() => _CreateProjectScreenState();
+  State<CreateGroupNewScreen> createState() => _CreateGroupNewScreenState();
 }
 
-class _CreateProjectScreenState extends State<CreateProjectScreen> {
-  final projectNameController = TextEditingController();
-  final startDateController = TextEditingController();
-  final endDateController = TextEditingController();
-  final projectDescController = TextEditingController();
-  final budgetController = TextEditingController();
-  final priorityController = TextEditingController();
-  final categoryController = TextEditingController();
+class _CreateGroupNewScreenState extends State<CreateGroupNewScreen> {
+  final groupNameController = TextEditingController();
+  final groupDescController = TextEditingController();
   final imageController = TextEditingController();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -52,7 +44,7 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: CustomAppBar(
-        title: 'Create Project'.tr(),
+        title: 'Create Group'.tr(),
         isDrawerIcon: true,
         onLeadPress: () => _openDrawer(),
         actions: <Widget>[
@@ -78,7 +70,7 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 LabelTextField(
-                  label: 'Project Name',
+                  label: 'Group Name',
                   hintText: 'Enter Title'.tr(),
                   validate: (value) {
                     if (value.isEmpty) {
@@ -86,81 +78,20 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
                     }
                     return null;
                   },
-                  controller: projectNameController,
+                  controller: groupNameController,
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                /*LabelDatePickerTextField(
-                  controller: startDateController,
-                  label: "Start Date",
-                  validate: (value) {
-                    if (value.isEmpty) {
-                      return 'Start date must not be Empty !!';
-                    }
-                    return null;
-                  },
-                  onFieldSubmitted: (value) {
-                    if (formKey.currentState!.validate()) {}
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                LabelDatePickerTextField(
-                  controller: endDateController,
-                  label: "End Date",
-                  validate: (value) {
-                    if (value.isEmpty) {
-                      return 'End date must not be Empty !!';
-                    }
-                    return null;
-                  },
-                  onFieldSubmitted: (value) {
-                    if (formKey.currentState!.validate()) {}
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
-                ),*/
                 LabelTextField(
-                  controller: projectDescController,
-                  label: "Project Description",
+                  controller: groupDescController,
+                  label: "Group Description",
                   hintText: 'Your Description'.tr(),
                   maxLine: 5,
                   contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 ),
                 const SizedBox(height: 20),
-                /*LabelTextField(
-                  controller: projectDescController,
-                  label: "Budget",
-                  validate: (value) {
-                    if (value.isEmpty) {
-                      return 'End date must not be Empty !!';
-                    }
-                    return null;
-                  },
-                  onFieldSubmitted: (value) {
-                    if (formKey.currentState!.validate()) {}
-                  },
-                ),
-                const SizedBox(height: 20),
-                LabelDropDown(
-                  label: 'Priority Status',
-                  options: options,
-                ),
-                const SizedBox(height: 20),
-                LabelDropDown(
-                  label: 'Category',
-                  options: options,
-                ),
-                const SizedBox(height: 20),
-                LabelMultipleChipDropDown(
-                  options: options,
-                  label: 'Members',
-                ),
-                const SizedBox(height: 20),*/
                 LabelTextField(
                   label: 'Image',
                   validate: (value) {
@@ -196,7 +127,7 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
                           width: 10,
                         ),
                         const Text(
-                          'Create Project',
+                          'Create Group',
                           style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ).tr(),

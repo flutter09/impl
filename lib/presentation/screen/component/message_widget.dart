@@ -84,7 +84,7 @@ class _MessageWidgetState extends State<MessageWidget> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       color: (widget.messages.messageType == "receiver"
-                          ? Colors.grey.shade200
+                          ? Colors.white
                           : colorPrimary),
                     ),
                     padding: const EdgeInsets.all(8),

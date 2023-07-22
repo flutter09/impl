@@ -17,11 +17,13 @@ class LabelTextField extends StatefulWidget {
     this.width,
     this.maxLine,
     this.contentPadding,
-    this.readOnly
+    this.readOnly,
+    this.hintText
   });
 
   final TextEditingController controller;
   final String? label;
+  final String? hintText;
   final bool isPassword;
   TextInputType ? type;
   FormFieldValidator? validate;
@@ -65,6 +67,7 @@ class _LabelTextFieldState extends State<LabelTextField> {
             decoration: InputDecoration(
                 contentPadding: widget.contentPadding ?? const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                 border: const OutlineInputBorder(),
+                hintText: widget.hintText,
                 suffixIcon: widget.isPassword == true
                     ? IconButton(
                         icon: Icon(passwordVisible

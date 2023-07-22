@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:chat_application/config/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
   File? file;
   MessageEnum messageEnum = MessageEnum.text;
   String newText = "";
+  bool expandOption = false;
 
   var messageController = TextEditingController();
   List<String> mentionedPerson = [];
@@ -497,7 +499,8 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      color: Colors.white,
+      /*color: Colors.white,*/
+      decoration: BoxDecoration(color : Colors.white),
       child: Column(
         children: [
           mentionedPerson.isNotEmpty
@@ -514,20 +517,20 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
           )
               : const SizedBox(),
           Padding(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.symmetric(horizontal: 8 , vertical: 4),
             child: Row(
               children: <Widget>[
                 GestureDetector(
-                  onTap: selectImage,
+                  onTap: showOption,
                   child: Container(
-                    height: 30,
-                    width: 30,
+                    height: 24,
+                    width: 24,
                     decoration: BoxDecoration(
                       color: colorPrimary,
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(24),
                     ),
-                    child: const Icon(
-                      Icons.add,
+                    child: Icon(
+                      expandOption ? Icons.close : Icons.add,
                       color: Colors.white,
                       size: 20,
                     ),
@@ -536,7 +539,16 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
                 const SizedBox(
                   width: 15,
                 ),
-                Expanded(
+                expandOption ? Expanded(
+                      child: Row(
+                        children: [
+                          IconButton(onPressed: (){}, icon: Icon(Icons.image, color: colorPrimary,)),
+                          IconButton(onPressed: (){}, icon: Icon(Icons.camera, color: colorPrimary,)),
+                          IconButton(onPressed: (){}, icon: Icon(Icons.attach_file, color: colorPrimary,)),
+                          IconButton(onPressed: (){}, icon: Icon(Icons.mic, color: colorPrimary,)),
+                        ],
+                      ),
+                    ) : Expanded(
                   child: TextField(
                     controller: messageController,
                     decoration: const InputDecoration(
@@ -549,22 +561,26 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
                 const SizedBox(
                   width: 15,
                 ),
-                FloatingActionButton(
-                  onPressed: () {
-                    widget.sendMessage?.call(ChatMessage(
-                        messageType: "sender",
-                        messageContent: messageController.text,
-                        file: file,
-                        messageEnum: messageEnum,
-                        reply: widget.reply));
-                    messageController.clear();
-                  }, //todo send msg
-                  backgroundColor: colorPrimary,
-                  elevation: 0,
-                  child: const Icon(
-                    Icons.send,
-                    color: Colors.white,
-                    size: 18,
+                SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      widget.sendMessage?.call(ChatMessage(
+                          messageType: "sender",
+                          messageContent: messageController.text,
+                          file: file,
+                          messageEnum: messageEnum,
+                          reply: widget.reply));
+                      messageController.clear();
+                    }, //todo send msg
+                    backgroundColor: colorPrimary,
+                    elevation: 0,
+                    child: const Icon(
+                      Icons.send,
+                      color: Colors.white,
+                      size: 18,
+                    ),
                   ),
                 ),
               ],
@@ -573,6 +589,12 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
         ],
       ),
     );
+  }
+
+  void showOption() {
+    setState(() {
+      expandOption = !expandOption;
+    });
   }
 }
 

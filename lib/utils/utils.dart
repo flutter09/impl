@@ -7,6 +7,8 @@ import 'package:enough_giphy_flutter/enough_giphy_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../config/theme/app_theme.dart';
+
 void showSnackBar({required BuildContext context, required String content}) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
@@ -249,4 +251,52 @@ FormData jsonToFormData(Map<String, dynamic> json, FormData formData) {
   });
 
   return formData;
+}
+
+Future<String> pickDate(BuildContext context) async {
+  final DateTime? picked = await showDatePicker(
+    context: context,
+    initialDate: DateTime.now(),
+    firstDate: DateTime(1900),
+    lastDate: DateTime(2100),
+    builder: (context, child) {
+      return Theme(
+        data: Theme.of(context).copyWith(
+          colorScheme: const ColorScheme.light(
+            primary: colorPrimary, // <-- SEE HERE
+            onPrimary: Colors.white, // <-- SEE HERE
+          ),
+          textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(
+              primary: Colors.red, // button text color
+            ),
+          ),
+        ),
+        child: child!,
+      );
+    },
+  );
+
+  return picked.toString();
+}
+
+Future<String?> showPopupMenu(
+    {required BuildContext context,
+    required List<String> menuOption,
+    String? initSelected}) async {
+  // Show the popup menu and wait for user selection
+  String? selectedValue = await showMenu<String>(
+    context: context,
+    position: const RelativeRect.fromLTRB(0, 50.0, 0, 0),
+    // Position of the popup menu relative to the button
+    items: menuOption
+        .map((e) => PopupMenuItem(
+              value: e,
+              child: Text(e),
+            ))
+        .toList(),
+    initialValue: initSelected,
+  );
+  // Update the selected option if a value was selected
+  return selectedValue;
 }

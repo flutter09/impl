@@ -3,39 +3,39 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class LabelTextField extends StatefulWidget {
-  LabelTextField({
-    super.key,
-    required this.controller,
-    this.label,
-    this.isPassword = false,
-    this.validate,
-    this.type,
-    this.onChanged,
-    this.onTap,
-    this.onFieldSubmitted,
-    this.height,
-    this.width,
-    this.maxLine,
-    this.contentPadding,
-    this.readOnly,
-    this.hintText
-  });
+  const LabelTextField(
+      {super.key,
+      this.controller,
+      this.label,
+      this.isPassword = false,
+      this.validate,
+      this.type,
+      this.onChanged,
+      this.onTap,
+      this.onFieldSubmitted,
+      this.height,
+      this.width,
+      this.maxLine,
+      this.contentPadding,
+      this.readOnly,
+      this.hintText,
+      this.errorText});
 
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final String? label;
+  final String? errorText;
   final String? hintText;
   final bool isPassword;
-  TextInputType ? type;
-  FormFieldValidator? validate;
-  ValueChanged<String>? onChanged;
-  GestureTapCallback? onTap;
-  ValueChanged<String>? onFieldSubmitted;
-  double? height;
-  double? width;
-  int? maxLine;
-  EdgeInsetsGeometry? contentPadding;
-  bool? readOnly;
-
+  final TextInputType? type;
+  final FormFieldValidator? validate;
+  final ValueChanged<String>? onChanged;
+  final GestureTapCallback? onTap;
+  final ValueChanged<String>? onFieldSubmitted;
+  final double? height;
+  final double? width;
+  final int? maxLine;
+  final EdgeInsetsGeometry? contentPadding;
+  final bool? readOnly;
 
   @override
   State<LabelTextField> createState() => _LabelTextFieldState();
@@ -65,14 +65,18 @@ class _LabelTextFieldState extends State<LabelTextField> {
             controller: widget.controller,
             readOnly: widget.readOnly ?? false,
             decoration: InputDecoration(
-                contentPadding: widget.contentPadding ?? const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                contentPadding: widget.contentPadding ??
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                 border: const OutlineInputBorder(),
                 hintText: widget.hintText,
+                errorText: widget.errorText,
                 suffixIcon: widget.isPassword == true
                     ? IconButton(
-                        icon: Icon(passwordVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off , color: colorGray),
+                        icon: Icon(
+                            passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: colorGray),
                         onPressed: () {
                           setState(
                             () {
@@ -81,8 +85,7 @@ class _LabelTextFieldState extends State<LabelTextField> {
                           );
                         },
                       )
-                    : null
-            ),
+                    : null),
             keyboardType: widget.type,
             onFieldSubmitted: widget.onFieldSubmitted,
             onChanged: widget.onChanged,

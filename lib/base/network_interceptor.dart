@@ -6,8 +6,7 @@ import 'package:dio/dio.dart';
 import '../data/local/preference_constant.dart';
 import '../data/local/preference_utils.dart';
 
-class NetworkInterceptor extends Interceptor{
-
+class NetworkInterceptor extends Interceptor {
   final RetryInterceptor retryInterceptor;
 
   NetworkInterceptor({required this.retryInterceptor});

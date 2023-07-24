@@ -1,9 +1,8 @@
-
-
 import 'package:chat_application/presentation/screen/chat/chat_details_screen.dart';
 import 'package:chat_application/presentation/screen/chat/chat_list_screen.dart';
 import 'package:chat_application/presentation/screen/chat/chat_setting_screen.dart';
 import 'package:chat_application/presentation/screen/chat/create_group_screen.dart';
+import 'package:chat_application/presentation/screen/dashboard/dashboard_screen.dart';
 import 'package:chat_application/presentation/screen/group/create_group_new_screen.dart';
 import 'package:chat_application/presentation/screen/group/group_list_screen.dart';
 import 'package:chat_application/presentation/screen/login/forgot_password_screen.dart';
@@ -18,12 +17,14 @@ import 'package:chat_application/presentation/screen/user/personal_info_screen.d
 import 'package:chat_application/presentation/screen/user/user_list_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../domain/model/request/custom_user.dart';
+import '../../presentation/screen/user/select_custom_user_screen.dart';
 import '../../utils/resources/string_manager.dart';
 
 class ArgConstant {
   static const String eMail = "e-mail";
+  static const String otpType = "otpType";
 }
-
 
 class Routes {
   // static const String splashRoute = "/";
@@ -44,6 +45,8 @@ class Routes {
   static const String groupListScreen = "/group_list_screen";
   static const String createGroupNewScreen = "/new_create_group_screen";
   static const String personalInfoScreen = "/personal_info_screen";
+  static const String dashboardScreen = "/dashboard_screen";
+  static const String selectCustomUser = "/selectCustomUser";
 //static const String registerRoute = "/register";
 //static const String forgotPasswordRoute = "/forgotPassword";
 //static const String mainRoute = "/main";
@@ -54,29 +57,39 @@ class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case Routes.signInRoute:
-        return MaterialPageRoute(builder: (_) =>  SignInScreen());
+        return MaterialPageRoute(builder: (_) => SignInScreen());
       case Routes.signUpRoute:
-        return MaterialPageRoute(builder: (_) =>  SignUpScreen());
+        return MaterialPageRoute(builder: (_) => SignUpScreen());
       case Routes.chatListRoute:
-        return MaterialPageRoute(builder: (_) =>  ChatListScreen());
+        return MaterialPageRoute(builder: (_) => ChatListScreen());
       case Routes.chatDetailsRoute:
-        return MaterialPageRoute(builder: (_) =>  ChatDetailScreen());
+        return MaterialPageRoute(builder: (_) => ChatDetailScreen());
       case Routes.createProjectRoute:
-        return MaterialPageRoute(builder: (_) =>  CreateProjectScreen());
+        return MaterialPageRoute(builder: (_) => CreateProjectScreen());
       case Routes.createGroupRoute:
-        return MaterialPageRoute(builder: (_) =>  CreateGroupScreen());
+        return MaterialPageRoute(builder: (_) => CreateGroupScreen());
       case Routes.chatSettingRoute:
-        return MaterialPageRoute(builder: (_) =>  ChatSettingScreen());
+        return MaterialPageRoute(builder: (_) => ChatSettingScreen());
       case Routes.forgotPasswordRoute:
-        return MaterialPageRoute(builder: (_) =>  ForgotPasswordScreen());
+        return MaterialPageRoute(builder: (_) => ForgotPasswordScreen());
       case Routes.generatePasswordScreen:
-        return MaterialPageRoute(builder: (context) =>  GeneratePasswordScreen(email: (routeSettings.arguments as Map<String , dynamic>)[ArgConstant.eMail].toString(),));
+        Map<String, dynamic>? arguments =
+            routeSettings.arguments as Map<String, dynamic>?;
+        return MaterialPageRoute(
+            builder: (context) =>
+                GeneratePasswordScreen(email: arguments?[ArgConstant.eMail]));
       case Routes.otpVerificationRoute:
-        return MaterialPageRoute(builder: (_) =>  OtpVerificationScreen());
+        Map<String, dynamic>? arguments =
+            routeSettings.arguments as Map<String, dynamic>?;
+        return MaterialPageRoute(
+            builder: (_) => OtpVerificationScreen(
+                  email: arguments?[ArgConstant.eMail],
+                  type: arguments?[ArgConstant.otpType],
+                ));
       case Routes.addUserScreen:
-        return MaterialPageRoute(builder: (_) =>  AddUserScreen());
+        return MaterialPageRoute(builder: (_) => AddUserScreen());
       case Routes.userListScreen:
-        return MaterialPageRoute(builder: (_) =>  UserListScreen());
+        return MaterialPageRoute(builder: (_) => UserListScreen());
       case Routes.projectListScreen:
         return MaterialPageRoute(builder: (_) => ProjectListScreen());
       case Routes.groupListScreen:
@@ -85,20 +98,13 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => CreateGroupNewScreen());
       case Routes.personalInfoScreen:
         return MaterialPageRoute(builder: (_) => PersonalInfoScreen());
-    // case Routes.onBoardingRoute:
-    //   return MaterialPageRoute(builder: (_) => OnBoardingView());
-    // case Routes.registerRoute:
-    // //initRegisterModule();
-    //   return MaterialPageRoute(builder: (_) => RegisterView());
-    // case Routes.forgotPasswordRoute:
-    // //initForgotPasswordModule();
-    //   return MaterialPageRoute(builder: (_) => ForgotPasswordView());
-    // case Routes.mainRoute:
-    // //initHomeModule();
-    //   return MaterialPageRoute(builder: (_) => MainView());
-    // case Routes.storeDetailsRoute:
-    // //initStoreDetailsModule();
-    //   return MaterialPageRoute(builder: (_) => StoreDetailsView());
+      case Routes.dashboardScreen:
+        return MaterialPageRoute(builder: (_) => DashBoardScreen());
+      case Routes.selectCustomUser:
+        List<CustomUser>? selectedUser =
+            routeSettings.arguments as List<CustomUser>?;
+        return MaterialPageRoute(
+            builder: (_) => SelectUserScreen(selectedContact: selectedUser));
       default:
         return unDefinedRoute();
     }
@@ -107,10 +113,10 @@ class RouteGenerator {
   static Route<dynamic> unDefinedRoute() {
     return MaterialPageRoute(
         builder: (_) => Scaffold(
-          appBar: AppBar(
-            title:  const Text(AppStrings.noRouteFound),
-          ),
-          body: const Center(child: Text(AppStrings.noRouteFound)),
-        ));
+              appBar: AppBar(
+                title: const Text(AppStrings.noRouteFound),
+              ),
+              body: const Center(child: Text(AppStrings.noRouteFound)),
+            ));
   }
 }

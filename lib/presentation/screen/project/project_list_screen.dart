@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_application/config/route/route_manager.dart';
 import 'package:chat_application/config/theme/app_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -22,9 +21,9 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
     _scaffoldKey.currentState!.openDrawer();
   }
 
-  void _closeDrawer() {
+  /*void _closeDrawer() {
     Navigator.of(context).pop();
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +85,6 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
             ),
             Expanded(
               child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: 100,
                   itemBuilder: (context, index) {
                     return Card(
@@ -95,7 +93,7 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                       ),
                       clipBehavior: Clip.hardEdge,
                       child: ListTile(
-                        onTap: (){
+                        onTap: () {
                           Navigator.pushNamed(context, Routes.groupListScreen);
                         },
                         tileColor: Colors.white,

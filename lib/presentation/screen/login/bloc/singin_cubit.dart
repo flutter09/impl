@@ -10,7 +10,6 @@ import '../../../../domain/model/request/req_login.dart';
 import '../../../../domain/model/response/res_user_model.dart';
 import '../../../../domain/repository/user_repository.dart';
 
-
 class SignInCubit extends BaseCubit<BaseState, String> {
   final UserRepository _userRepository;
   final PreferenceRepository _preferenceRepository;
@@ -28,10 +27,9 @@ class SignInCubit extends BaseCubit<BaseState, String> {
   }
 
   bool checkLogin() {
-    var token =  _preferenceRepository.getAccessToken();
+    var token = _preferenceRepository.getAccessToken();
     return token.isNotEmpty;
   }
-
 
   Future<void> login(String email, String password) async {
     if (isBusy) return;
@@ -39,8 +37,8 @@ class SignInCubit extends BaseCubit<BaseState, String> {
     await run(() async {
       emit(LoadingState());
       try {
-        final response =
-            await _userRepository.login(ReqLogin(email:email , password: password));
+        final response = await _userRepository
+            .login(ReqLogin(email: email, password: password));
 
         if (response is Success) {
           final token = ((response as Success).data as ResUserModel).token;
@@ -60,9 +58,7 @@ class SignInCubit extends BaseCubit<BaseState, String> {
       emit(LoadingState());
       try {
         final response =
-        await _userRepository.uploadFile(file! ,{
-          "name" : "hi"
-        });
+            await _userRepository.uploadFile(file!, {"name": "hi"});
 
         if (response is Success) {
           emit(ErrorState(errorMessage: (response as Success).data.toString()));

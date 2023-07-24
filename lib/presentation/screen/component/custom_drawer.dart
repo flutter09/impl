@@ -1,4 +1,5 @@
 import 'package:chat_application/presentation/screen/component/show_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../config/route/route_manager.dart';
@@ -15,11 +16,12 @@ class CustomDrawer extends StatefulWidget {
 }
 
 class _CustomDrawerState extends State<CustomDrawer> {
-  Widget getDrawerTile(String name, IconData iconData) {
+  Widget getDrawerTile(String name, IconData iconData, VoidCallback onTap) {
     return Padding(
       padding: EdgeInsets.symmetric(
           horizontal: MediaQuery.of(context).size.width * 0.04),
       child: ListTile(
+        onTap: onTap,
         leading: Icon(
           iconData,
           color: Colors.black,
@@ -45,50 +47,62 @@ class _CustomDrawerState extends State<CustomDrawer> {
           Container(
             height: MediaQuery.of(context).size.height * 0.3,
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 5 , vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
             alignment: Alignment.bottomLeft,
-            color: Colors.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  clipBehavior: Clip.hardEdge,
-                  child: Image(
-                    image: const AssetImage('assets/images/group_icon.png'),
-                    fit: BoxFit.fill,
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    width: MediaQuery.of(context).size.height * 0.1,
+            color: colorPrimary300,
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 30,
                   ),
-                ),
-                Text(
-                  "name",
-                  style: theme.textTheme.titleLarge,
-                ),
-                Text(
-                  "(role)",
-                  style: theme.textTheme.bodyMedium,
-                ),
-                const SizedBox(height: 10,),
-                const Divider(
-                  height: 3,
-                )
-              ],
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    clipBehavior: Clip.hardEdge,
+                    child: Image(
+                      image: const AssetImage('assets/images/group_icon.png'),
+                      fit: BoxFit.fill,
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      width: MediaQuery.of(context).size.height * 0.1,
+                    ),
+                  ),
+                  Text(
+                    "name",
+                    style: theme.textTheme.titleLarge,
+                  ),
+                  Text(
+                    "(role)",
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
             ),
           ),
           const SizedBox(
             height: 10,
           ),
-          getDrawerTile("Total order", Icons.library_books),
-          getDrawerTile("Your details", Icons.person),
-          getDrawerTile("Forgot password", Icons.password),
-          getDrawerTile("Add Food", Icons.fastfood_sharp),
-          getDrawerTile("Add User", Icons.person_add),
-          getDrawerTile("Add Table", Icons.table_restaurant_sharp),
+          getDrawerTile("Dashboard".tr(), Icons.dashboard, () {
+            Navigator.pushNamed(context, Routes.dashboardScreen);
+          }),
+          getDrawerTile("Projects", Icons.palette_rounded, () {
+            Navigator.pushNamed(context, Routes.projectListScreen);
+          }),
+          getDrawerTile("Groups", Icons.group_work_outlined, () {
+            Navigator.pushNamed(context, Routes.groupListScreen);
+          }),
+          getDrawerTile("Members", Icons.groups, () {}),
+          getDrawerTile("Profile", Icons.person, () {
+            Navigator.pushNamed(context, Routes.personalInfoScreen);
+          }),
+          getDrawerTile("Forgot Password", Icons.password, () {
+            Navigator.pushNamed(context, Routes.forgotPasswordRoute);
+          }),
+          getDrawerTile("About", Icons.info, () {}),
           // Expanded(child: Container()),
           SizedBox(
             width: double.infinity,

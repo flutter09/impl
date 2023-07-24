@@ -22,26 +22,26 @@ class _CreateGroupNewScreenState extends State<CreateGroupNewScreen> {
   File? file;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  var formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   void _openDrawer() {
     _scaffoldKey.currentState!.openDrawer();
   }
 
-  void _closeDrawer() {
+  /*void _closeDrawer() {
     Navigator.of(context).pop();
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
+    /*var theme = Theme.of(context);
     final List<String> options = [
       'Option 1',
       'Option 2',
       'Option 3',
       'Option 4',
       'Option 5',
-    ];
+    ];*/
     return Scaffold(
       key: _scaffoldKey,
       appBar: CustomAppBar(
@@ -64,7 +64,7 @@ class _CreateGroupNewScreenState extends State<CreateGroupNewScreen> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Form(
-            key: formKey,
+            key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +90,7 @@ class _CreateGroupNewScreenState extends State<CreateGroupNewScreen> {
                   hintText: 'Your Description'.tr(),
                   maxLine: 5,
                   contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 ),
                 const SizedBox(height: 20),
                 LabelTextField(
@@ -104,7 +104,8 @@ class _CreateGroupNewScreenState extends State<CreateGroupNewScreen> {
                   hintText: "choose file".tr(),
                   onTap: () async {
                     file = await pickImageFromGallery(context);
-                    imageController.text = file?.path.split('/').last ?? "No file chosen";
+                    imageController.text =
+                        file?.path.split('/').last ?? "No file chosen";
                   },
                   controller: imageController,
                   readOnly: true,

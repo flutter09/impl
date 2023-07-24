@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:chat_application/utils/resources/api_message.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -17,8 +18,7 @@ void showSnackBar({required BuildContext context, required String content}) {
 Future<File?> pickImageFromGallery(BuildContext context) async {
   File? image;
   try {
-    final pickedImage =
-    await ImagePicker().pickMedia();
+    final pickedImage = await ImagePicker().pickMedia();
 
     if (pickedImage != null) {
       image = File(pickedImage.path);
@@ -33,7 +33,7 @@ Future<File?> pickVideoFromGallery(BuildContext context) async {
   File? video;
   try {
     final pickedVideo =
-    await ImagePicker().pickVideo(source: ImageSource.gallery);
+        await ImagePicker().pickVideo(source: ImageSource.gallery);
 
     if (pickedVideo != null) {
       video = File(pickedVideo.path);
@@ -56,7 +56,6 @@ Future<GiphyGif?> pickGIF(BuildContext context) async {
   }
   return gif;
 }
-
 
 String dateToDDMMMYYYY(String date) {
   DateFormat originalDateFormat = DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
@@ -87,7 +86,8 @@ bool validateEmailPattern(String email) {
 }
 
 bool validatePasswordPattern(String password) {
-  RegExp passwordRegExp = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*(),.?":{}|<>]).{8,}$');
+  RegExp passwordRegExp = RegExp(
+      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*(),.?":{}|<>]).{8,}$');
   return passwordRegExp.hasMatch(password);
 }
 
@@ -128,6 +128,17 @@ String? validateEmail(String email) {
   }
 }
 
+String? validateEmailPhone(String value) {
+  if (value.trim().isEmpty) {
+    return "this field is required.";
+  } else if (!validateEmailPattern(value) &&
+      !validatePhoneNumberPattern(value)) {
+    return "Invalid value";
+  } else {
+    return null;
+  }
+}
+
 String? validatePassword(String password) {
   if (password.length < 8) {
     return "Password must be at least 8 characters long.";
@@ -161,9 +172,8 @@ String? validateConfirmPassword(String password, String confirmPassword) {
 }
 
 String? validateMobileNumber(String mobileNumber) {
-
-  if (validatePhoneNumberPattern(mobileNumber)) {
-    return "Valid mobile number.";
+  if (!validatePhoneNumberPattern(mobileNumber)) {
+    return "Invalid mobile number.";
   }
   return null;
 }
@@ -202,7 +212,7 @@ String extractUserID(String message) {
   return '';
 }*/
 
-Future<FormData> fileToFormData(String fileKey , File file) async {
+Future<FormData> fileToFormData(String fileKey, File file) async {
   // we need file path in this method but i pass file object just for batter understanding
   FormData formData = FormData();
 
@@ -218,9 +228,10 @@ Future<FormData> fileToFormData(String fileKey , File file) async {
   return formData;
 }
 
-Future<FormData> addFileToFormData(String fileKey , File file , FormData formData) async {
+Future<FormData> addFileToFormData(
+    String fileKey, File file, FormData formData) async {
   // we need file path in this method but i pass file object just for batter understanding
-    // Add the image file to be uploaded
+  // Add the image file to be uploaded
   formData.files.add(MapEntry(
     fileKey,
     await MultipartFile.fromFile(
@@ -232,8 +243,7 @@ Future<FormData> addFileToFormData(String fileKey , File file , FormData formDat
   return formData;
 }
 
-
-FormData jsonToFormData(Map<String, dynamic> json , FormData formData){
+FormData jsonToFormData(Map<String, dynamic> json, FormData formData) {
   json.forEach((key, value) {
     formData.fields.add(MapEntry(key, value));
   });

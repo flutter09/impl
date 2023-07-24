@@ -5,11 +5,18 @@ import '../../../config/theme/app_theme.dart';
 
 class MultipleChipDropdown extends StatefulWidget {
   const MultipleChipDropdown(
-      {super.key, this.onSave, this.options, this.hintText});
+      {super.key,
+      this.onSave,
+      this.options,
+      this.hintText,
+      this.errorText,
+      this.selectedValues});
 
   final Function(List<String>)? onSave;
   final List<String>? options;
   final String? hintText;
+  final String? errorText;
+  final List<String>? selectedValues;
 
   @override
   State<MultipleChipDropdown> createState() => _MultipleChipDropdown();
@@ -19,15 +26,28 @@ class _MultipleChipDropdown extends State<MultipleChipDropdown> {
   final List<String> _selectedValues = [];
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _selectedValues.clear();
+    _selectedValues.addAll(widget.selectedValues ?? []);
+  }
+
+  void onSave() {
+    if (widget.onSave != null) {
+      widget.onSave!(_selectedValues);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
       onSaved: (string) {
-        if (widget.onSave != null) {
-          widget.onSave!(_selectedValues);
-        }
+        onSave();
       },
       decoration: InputDecoration(
         hintText: widget.hintText,
+        errorText: widget.errorText,
         border: const OutlineInputBorder(),
         contentPadding: const EdgeInsets.all(0.0),
         prefixIcon: Padding(
@@ -45,6 +65,7 @@ class _MultipleChipDropdown extends State<MultipleChipDropdown> {
                   onDeleted: () {
                     setState(() {
                       _selectedValues.remove(value);
+                      onSave();
                     });
                   },
                 );
@@ -64,6 +85,7 @@ class _MultipleChipDropdown extends State<MultipleChipDropdown> {
         setState(() {
           if (!_selectedValues.contains(selectedValue)) {
             _selectedValues.add(selectedValue!);
+            onSave();
           }
         });
       },
@@ -72,20 +94,25 @@ class _MultipleChipDropdown extends State<MultipleChipDropdown> {
 }
 
 class LabelMultipleChipDropDown extends StatefulWidget {
-  const LabelMultipleChipDropDown({
-    super.key,
-    this.label,
-    this.onSave,
-    this.options, this.hintText,
-  });
+  const LabelMultipleChipDropDown(
+      {super.key,
+      this.label,
+      this.onSave,
+      this.options,
+      this.hintText,
+      this.errorText,
+      this.selectedValues});
 
   final String? label;
   final Function(List<String>)? onSave;
   final List<String>? options;
   final String? hintText;
+  final String? errorText;
+  final List<String>? selectedValues;
 
   @override
-  State<LabelMultipleChipDropDown> createState() => _LabelMultipleChipDropDownState();
+  State<LabelMultipleChipDropDown> createState() =>
+      _LabelMultipleChipDropDownState();
 }
 
 class _LabelMultipleChipDropDownState extends State<LabelMultipleChipDropDown> {
@@ -106,6 +133,8 @@ class _LabelMultipleChipDropDownState extends State<LabelMultipleChipDropDown> {
           onSave: widget.onSave,
           options: widget.options,
           hintText: widget.hintText,
+          errorText: widget.errorText,
+          selectedValues: widget.selectedValues,
         )
       ],
     );
@@ -113,7 +142,7 @@ class _LabelMultipleChipDropDownState extends State<LabelMultipleChipDropDown> {
 }
 
 class LabelDropDown extends StatefulWidget {
-  LabelDropDown({
+  const LabelDropDown({
     super.key,
     this.label,
     this.validate,
@@ -124,9 +153,9 @@ class LabelDropDown extends StatefulWidget {
   });
 
   final String? label;
-  FormFieldValidator? validate;
-  ValueChanged<String>? onChanged;
-  ValueChanged<String?>? onSave;
+  final FormFieldValidator? validate;
+  final ValueChanged<String>? onChanged;
+  final ValueChanged<String?>? onSave;
   final List<String>? options;
   final String? selectedOption;
 

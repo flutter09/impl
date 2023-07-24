@@ -1,16 +1,13 @@
 import 'dart:io';
 
 import 'package:chat_application/domain/model/request/req_check_otp.dart';
-
 import 'package:chat_application/domain/model/request/req_forgot_password.dart';
-
 import 'package:chat_application/domain/model/request/req_send_otp.dart';
-
 import 'package:chat_application/domain/model/request/req_user_register.dart';
 import 'package:dio/dio.dart';
 
-import '../../base/result.dart';
 import '../../base/api_response.dart';
+import '../../base/result.dart';
 import '../../domain/model/request/req_login.dart';
 import '../../domain/model/response/error_response.dart';
 import '../../domain/model/response/res_user_model.dart';
@@ -44,16 +41,15 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Result<ResUserModel>> forgotPassword(ReqForgotPassword reqForgotPassword) async {
+  Future<Result<ResUserModel>> forgotPassword(
+      ReqForgotPassword reqForgotPassword) async {
     var response = await apiService.post<ResUserModel>(
-        DioApiConstants.forgotPassword,
-        ResUserModel.fromJson,
-        data: reqForgotPassword.toJson()
-    );
+        DioApiConstants.forgotPassword, ResUserModel.fromJson,
+        data: reqForgotPassword.toJson());
 
     if (response is Success) {
       var result = (response as Success).data as ApiResponse;
-      print(result.data);
+      print("data : ${result.data}");
       if (result.success ?? false) {
         return Success(result.data);
       } else {
@@ -66,23 +62,21 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Result<ResUserModel>> registerUser(ReqUserRegister reqUserRegister , File? image) async {
-
+  Future<Result<ResUserModel>> registerUser(
+      ReqUserRegister reqUserRegister, File? image) async {
     var formData = jsonToFormData(
         reqUserRegister.toJson(),
-        image != null ? // if file is not null than only add to form data other wise we pass init form data object
-        await addFileToFormData("image", image, FormData()) // key , file , base form data instance
-            : FormData()
-    );
+        image != null
+            ? // if file is not null than only add to form data other wise we pass init form data object
+            await addFileToFormData("image", image,
+                FormData()) // key , file , base form data instance
+            : FormData());
 
     var response = await apiService.postFile<ResUserModel>(
-        DioApiConstants.userRegister,
-        ResUserModel.fromJson,
-        data: formData
-    );
+        DioApiConstants.userRegister, ResUserModel.fromJson,
+        data: formData);
 
     if (response is Success) {
-
       var result = (response as Success).data as ApiResponse;
 
       if (result.success ?? false) {
@@ -109,18 +103,15 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Result<String>> uploadFile(File file , Map<String , dynamic> fields) async {
-
-    var data = await fileToFormData("file",file);
+  Future<Result<String>> uploadFile(
+      File file, Map<String, dynamic> fields) async {
+    var data = await fileToFormData("file", file);
     fields.forEach((key, value) {
       data.fields.add(MapEntry(key, value));
     });
 
-    var response = await apiService.postFile<String>(
-        DioApiConstants.uploadFile,
-        null,
-        data: data
-    );
+    var response = await apiService
+        .postFile<String>(DioApiConstants.uploadFile, null, data: data);
 
     if (response is Success) {
       var result = (response as Success).data as ApiResponse;

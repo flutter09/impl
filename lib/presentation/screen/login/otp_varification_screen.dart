@@ -11,109 +11,135 @@ import '../component/component.dart';
 import '../component/custom_textfield.dart';
 import 'bloc/forgot_password_cubit.dart';
 
+enum OtpType { registerUser, forgotPassword }
+
 class OtpVerificationScreen extends StatelessWidget {
-  OtpVerificationScreen({super.key});
-  
+  final String email;
+  final OtpType type;
+
+  OtpVerificationScreen({super.key, required this.email, required this.type});
+
   final _forgotPasswordCubit = di.di<ForgotPasswordCubit>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    final formKey = GlobalKey<FormState>();
-
+    print("$email , $type");
     return BlocConsumer<ForgotPasswordCubit, BaseState>(
       bloc: _forgotPasswordCubit,
-  listener: (context, state) {
-    if (state is OtpVerifiedState) {
-      Navigator.pushNamed(context, Routes.generatePasswordScreen , arguments: {ArgConstant.eMail : _forgotPasswordCubit.mailController.text});
-    } else if (state is ErrorState && (state.errorMessage ?? "").isNotEmpty) {
-      final snackBar = SnackBar(
-        content: Text(state.errorMessage ?? "error invalid"),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
-  },
-  builder: (context, state) {
-    if (state is LoadingState) {
-      return const Center(child: CircularProgressIndicator());
-    }
-    return Scaffold(
-        backgroundColor: Colors.white,
-        body: Center(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Align(alignment: Alignment.center , child: Image.asset("assets/images/impm_logo.png",width: 200 , height: 100 , fit: BoxFit.fill,),),
-                    const SizedBox(height: 50,),
-                    Text(
-                      'Verify OTP',
-                      style: theme.textTheme.headlineLarge,
-                    ).tr(),
-                    Text(
-                      'If you forgot your password, well, then we\'ll email you instructions to reset password.'
-                          .tr(),
-                      style: theme.textTheme.bodyMedium,
-                    ).tr(),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    LabelTextField(
-                        controller: _forgotPasswordCubit.otpController,
-                        label: "OTP",
-                        type: TextInputType.emailAddress,
-                        validate: (value) {
-                          if(value.toString().isEmpty){
-                            return "Otp must not be empty";
-                          }
-                          return null;
-                        }),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            _forgotPasswordCubit.verifyOtp();
-                          }
-                        },
-                        child: const Text(
-                          'Verify OTP',
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ).tr(),
-                      ),
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: defaultTextButton(
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w400, color: colorPrimary),
-                          function: () {
-                            Navigator.pushNamedAndRemoveUntil(context, Routes.signInRoute, (route) => false);
-                          },
-                          text: 'Return to login',
+      listener: (context, state) {
+        if (state is OtpVerifiedState) {
+          if (type == OtpType.forgotPassword) {
+            Navigator.pushNamed(context, Routes.generatePasswordScreen,
+                arguments: {
+                  ArgConstant.eMail: _forgotPasswordCubit.mailController.text
+                });
+          } else {
+            Navigator.pushNamedAndRemoveUntil(
+                context, Routes.chatListRoute, (route) => false);
+          }
+        } else if (state is ErrorState &&
+            (state.errorMessage ?? "").isNotEmpty) {
+          final snackBar = SnackBar(
+            content: Text(state.errorMessage ?? "error invalid"),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+      },
+      builder: (context, state) {
+        if (state is LoadingState) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return Scaffold(
+            backgroundColor: Colors.white,
+            body: Center(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: Image.asset(
+                            "assets/images/impm_logo.png",
+                            width: 200,
+                            height: 100,
+                            fit: BoxFit.fill,
+                          ),
                         ),
-                      ),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        Text(
+                          'Verify OTP',
+                          style: theme.textTheme.headlineLarge,
+                        ).tr(),
+                        Text(
+                          'If you forgot your password, well, then we\'ll email you instructions to reset password.'
+                              .tr(),
+                          style: theme.textTheme.bodyMedium,
+                        ).tr(),
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        LabelTextField(
+                            controller: _forgotPasswordCubit.otpController,
+                            label: "OTP",
+                            type: TextInputType.emailAddress,
+                            validate: (value) {
+                              if (value.toString().isEmpty) {
+                                return "Otp must not be empty";
+                              }
+                              return null;
+                            }),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                _forgotPasswordCubit.verifyOtp(email);
+                              }
+                            },
+                            child: const Text(
+                              'Verify OTP',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ).tr(),
+                          ),
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: defaultTextButton(
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  color: colorPrimary),
+                              function: () {
+                                Navigator.pushNamedAndRemoveUntil(context,
+                                    Routes.signInRoute, (route) => false);
+                              },
+                              text: 'Return to login',
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-        )
+            ));
+      },
     );
-  },
-);
   }
 }

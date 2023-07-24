@@ -36,15 +36,14 @@ abstract class AppTheme {
             titleSmall: TextStyle(
                 fontSize: 18, color: colorGray, fontWeight: FontWeight.normal),
             labelMedium: TextStyle(
-              color: colorGray,
-              fontSize: 20,fontWeight: FontWeight.w300
-            ),
+                color: colorGray, fontSize: 20, fontWeight: FontWeight.w300),
             bodyMedium: TextStyle(fontSize: 16, color: colorDes),
             bodySmall: TextStyle(fontSize: 14, color: colorDes)));
   }
 }
 
 const Color colorPrimary = Color(0xff854fff);
+const Color colorPrimary300 = Color(0x33854fff);
 const Color colorPrimaryDark = Color(0xff6c2aff);
 const Color colorGray = Color(0xff344357);
 const Color colorHeader = Color(0xff364a63);

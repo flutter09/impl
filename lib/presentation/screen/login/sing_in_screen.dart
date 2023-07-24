@@ -7,13 +7,12 @@ import '../../../base/base_state.dart';
 import '../../../config/theme/app_theme.dart';
 import '../../../injection_conatainer.dart' as di;
 import '../../../utils/utils.dart';
-import 'bloc/singin_cubit.dart';
-import 'bloc/singin_state.dart';
 import '../component/component.dart';
 import '../component/custom_textfield.dart';
+import 'bloc/singin_cubit.dart';
+import 'bloc/singin_state.dart';
 
 class SignInScreen extends StatefulWidget {
-
   SignInScreen({super.key});
 
   @override
@@ -25,6 +24,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   final _passwordController = TextEditingController();
   final loginCubit = di.di<SignInCubit>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -36,7 +36,6 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var formKey = GlobalKey<FormState>();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -46,8 +45,10 @@ class _SignInScreenState extends State<SignInScreen> {
           bloc: loginCubit,
           listener: (context, state) {
             if (state is SignInState) {
-              Navigator.pushNamedAndRemoveUntil(context, Routes.projectListScreen,(Route<dynamic> route) => false);
-            } else if (state is ErrorState && (state.errorMessage ?? "").isNotEmpty) {
+              Navigator.pushNamedAndRemoveUntil(context, Routes.dashboardScreen,
+                  (Route<dynamic> route) => false);
+            } else if (state is ErrorState &&
+                (state.errorMessage ?? "").isNotEmpty) {
               final snackBar = SnackBar(
                 content: Text(state.errorMessage ?? "error invalid"),
               );
@@ -69,8 +70,18 @@ class _SignInScreenState extends State<SignInScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Align(alignment: Alignment.center , child: Image.asset("assets/images/impm_logo.png",width: 200 , height: 100 , fit: BoxFit.fill,),),
-                        const SizedBox(height: 70,),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Image.asset(
+                            "assets/images/impm_logo.png",
+                            width: 200,
+                            height: 100,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 70,
+                        ),
                         Text(
                           'Sign-In',
                           style: theme.textTheme.headlineLarge,
@@ -84,12 +95,11 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                         LabelTextField(
                             controller: _controller,
-                            label: "Email or Username",
+                            label: "Email or Username or phone",
                             type: TextInputType.emailAddress,
                             validate: (value) {
-                              return validateEmail(value);
-                            }
-                            ),
+                              return validateEmailPhone(value);
+                            }),
                         const SizedBox(
                           height: 20,
                         ),
@@ -102,7 +112,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             return validatePassword(value);
                           },
                           onFieldSubmitted: (value) {
-                            if (formKey.currentState!.validate()) {}
+                            // if (_formKey.currentState!.validate()) {}
                           },
                         ),
                         SizedBox(
@@ -114,7 +124,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                   fontWeight: FontWeight.w400,
                                   color: colorPrimary),
                               function: () {
-                                Navigator.pushNamed(context, Routes.forgotPasswordRoute);
+                                Navigator.pushNamed(
+                                    context, Routes.forgotPasswordRoute);
                               },
                               text: 'Forgot Password'.tr(),
                             ),

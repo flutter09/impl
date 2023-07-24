@@ -1,15 +1,12 @@
-import 'dart:io';
-
-import 'package:chat_application/presentation/screen/component/custom_dropdown.dart';
-import 'package:chat_application/utils/utils.dart';
+import 'package:chat_application/config/route/route_manager.dart';
+import 'package:chat_application/domain/model/request/custom_user.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../config/theme/app_theme.dart';
 import '../component/custom_appbar.dart';
 import '../component/custom_drawer.dart';
 import '../component/custom_textfield.dart';
-import '../component/date_picker.dart';
 
 class CreateProjectScreen extends StatefulWidget {
   const CreateProjectScreen({super.key});
@@ -29,26 +26,50 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
   final imageController = TextEditingController();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  var formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
+  final List<CustomUser> selectedUser = [
+    /*CustomUser(
+        name: "name1",
+        customName: "customName1",
+        roles: ['developer', 'PM', 'TL']),
+    CustomUser(
+        name: "name2",
+        customName: "customName2",
+        roles: ['developer', 'PM', 'TL']),*/
+  ];
 
   void _openDrawer() {
     _scaffoldKey.currentState!.openDrawer();
   }
 
-  void _closeDrawer() {
+  /*void _closeDrawer() {
     Navigator.of(context).pop();
+  }*/
+
+  void selectUser() async {
+    List<CustomUser>? resultList = await Navigator.pushNamed(
+            context, Routes.selectCustomUser, arguments: selectedUser)
+        as List<CustomUser>?;
+
+    // Handle the selected data
+    if (resultList != null) {
+      setState(() {
+        selectedUser.clear();
+        selectedUser.addAll(resultList);
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    final List<String> options = [
+   /* final List<String> options = [
       'Option 1',
       'Option 2',
       'Option 3',
       'Option 4',
       'Option 5',
-    ];
+    ];*/
     return Scaffold(
       key: _scaffoldKey,
       appBar: CustomAppBar(
@@ -71,7 +92,7 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Form(
-            key: formKey,
+            key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,7 +122,7 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
                     return null;
                   },
                   onFieldSubmitted: (value) {
-                    if (formKey.currentState!.validate()) {}
+                    if (_formKey.currentState!.validate()) {}
                   },
                 ),
                 const SizedBox(
@@ -117,7 +138,7 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
                     return null;
                   },
                   onFieldSubmitted: (value) {
-                    if (formKey.currentState!.validate()) {}
+                    if (_formKey.currentState!.validate()) {}
                   },
                 ),
                 const SizedBox(
@@ -127,7 +148,7 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
                   controller: projectDescController,
                   label: "Project Description",
                   hintText: 'Your Description'.tr(),
-                  maxLine: 5,
+                  maxLine: 4,
                   contentPadding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 ),
@@ -142,7 +163,7 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
                     return null;
                   },
                   onFieldSubmitted: (value) {
-                    if (formKey.currentState!.validate()) {}
+                    if (_formKey.currentState!.validate()) {}
                   },
                 ),
                 const SizedBox(height: 20),
@@ -160,7 +181,7 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
                   options: options,
                   label: 'Members',
                 ),
-                const SizedBox(height: 20),*/
+                const SizedBox(height: 20),
                 LabelTextField(
                   label: 'Image',
                   validate: (value) {
@@ -177,7 +198,77 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
                   controller: imageController,
                   readOnly: true,
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 20),*/
+                Row(
+                  children: [
+                    Expanded(
+                      child: const Text(
+                        "Members",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: colorGray),
+                      ).tr(),
+                    ),
+                    GestureDetector(
+                      onTap: selectUser,
+                      child: const Text(
+                        "+ Add Member",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: colorPrimary),
+                      ).tr(),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  height: 300,
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(5)),
+                    border: Border.all(width: 1, color: Colors.grey),
+                  ),
+                  child: selectedUser.isEmpty
+                      ? const Center(
+                          child: Text('No user selected for this project'))
+                      : ListView.separated(
+                          itemCount: selectedUser.length,
+                          separatorBuilder: (context, index) => const Divider(
+                                height: 1,
+                                color: Colors.grey,
+                              ),
+                          itemBuilder: (context, index) {
+                            var user = selectedUser[index];
+                            return ListTile(
+                              title: Text(
+                                user.customName,
+                                style: theme.textTheme.bodyLarge,
+                              ),
+                              subtitle: Text(
+                                user.roles.join(', '),
+                                style: theme.textTheme.bodySmall,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              trailing: IconButton(
+                                icon: const Icon(
+                                  Icons.delete,
+                                ),
+                                onPressed: () {
+                                  deleteUser(user);
+                                },
+                              ),
+                            );
+                          }),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -213,5 +304,11 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
         ),
       ),
     );
+  }
+
+  void deleteUser(CustomUser user) {
+    setState(() {
+      selectedUser.remove(user);
+    });
   }
 }

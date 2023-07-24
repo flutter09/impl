@@ -12,7 +12,7 @@ class AddUserScreen extends StatelessWidget {
   final _emailController = TextEditingController();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  var formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class AddUserScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Form(
-            key: formKey,
+            key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +41,7 @@ class AddUserScreen extends StatelessWidget {
                       child: LabelTextField(
                         label: 'Email or User Name',
                         validate: (value) {
-                          validateEmail(value);
+                          return validateEmail(value);
                         },
                         controller: _emailController,
                       ),
@@ -52,7 +52,9 @@ class AddUserScreen extends StatelessWidget {
                     Container(
                       width: 50,
                       height: 50,
-                      decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(6)),color: colorPrimary),
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(6)),
+                          color: colorPrimary),
                       child: IconButton(
                         onPressed: () {},
                         icon: const Icon(
@@ -69,27 +71,41 @@ class AddUserScreen extends StatelessWidget {
                 Visibility(
                   visible: true,
                   child: Container(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(6),
-                        border: Border.all(color: colorPrimary,width: 1)),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(color: colorPrimary, width: 1)),
                     padding: const EdgeInsets.all(4),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(6),
-                              border: Border.all(color: colorPrimary,width: 1),color: colorPrimary),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(color: colorPrimary, width: 1),
+                              color: colorPrimary),
                           width: 100,
                           height: 100,
                         ),
-                        const SizedBox(width: 10,),
+                        const SizedBox(
+                          width: 10,
+                        ),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Abc Abc",style:theme.textTheme.titleLarge,),
-                              Text("E-mail id: abc@mail.com",style: theme.textTheme.bodyMedium,),
-                              Text("Phone: 9999999999",style: theme.textTheme.bodyMedium,),
+                              Text(
+                                "Abc Abc",
+                                style: theme.textTheme.titleLarge,
+                              ),
+                              Text(
+                                "E-mail id: abc@mail.com",
+                                style: theme.textTheme.bodyMedium,
+                              ),
+                              Text(
+                                "Phone: 9999999999",
+                                style: theme.textTheme.bodyMedium,
+                              ),
                             ],
                           ),
                         )

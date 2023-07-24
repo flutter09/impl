@@ -9,10 +9,11 @@ import '../../../config/route/route_manager.dart';
 import '../../../config/theme/app_theme.dart';
 import '../../../injection_conatainer.dart' as di;
 import '../../../utils/utils.dart';
-import 'bloc/signup_cubit.dart';
-import 'bloc/singin_state.dart';
 import '../component/component.dart';
 import '../component/custom_textfield.dart';
+import 'bloc/signup_cubit.dart';
+import 'bloc/singin_state.dart';
+import 'otp_varification_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
   final _nameController = TextEditingController();
@@ -20,15 +21,16 @@ class SignUpScreen extends StatelessWidget {
   final _passwordController = TextEditingController();
   final _mobileController = TextEditingController();
   final imageController = TextEditingController();
-  File? file;
+  final File? file = null;
+
+  final _formKey = GlobalKey<FormState>();
+  final signUpCubit = di.di<SignUpCubit>();
 
   SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final signUpCubit = di.di<SignUpCubit>();
     var theme = Theme.of(context);
-    var formKey = GlobalKey<FormState>();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -38,10 +40,14 @@ class SignUpScreen extends StatelessWidget {
           bloc: signUpCubit,
           listener: (context, state) {
             if (state is SignUpState) {
-              print("Login is success");
-              Navigator.pushNamedAndRemoveUntil(context, Routes.projectListScreen,(Route<dynamic> route) => false);
+              // print("Login is success");
+              Navigator.pushNamed(context, Routes.otpVerificationRoute,
+                  arguments: {
+                    ArgConstant.eMail: _emailController.text,
+                    ArgConstant.otpType: OtpType.registerUser
+                  });
             } else if (state is ErrorState) {
-              print(state.errorMessage);
+              // print(state.errorMessage);
             }
           },
           builder: (context, state) {
@@ -53,14 +59,24 @@ class SignUpScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Form(
-                    key: formKey,
+                    key: _formKey,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Align(alignment: Alignment.center , child: Image.asset("assets/images/impm_logo.png",width: 200 , height: 100 , fit: BoxFit.fill,),),
-                        const SizedBox(height: 50,),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Image.asset(
+                            "assets/images/impm_logo.png",
+                            width: 200,
+                            height: 100,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 50,
+                        ),
                         Text(
                           'Register',
                           style: theme.textTheme.headlineLarge,
@@ -98,7 +114,7 @@ class SignUpScreen extends StatelessWidget {
                             return validatePassword(value);
                           },
                           onFieldSubmitted: (value) {
-                            if (formKey.currentState!.validate()) {}
+                            // if (_formKey.currentState!.validate()) {}
                           },
                         ),
                         const SizedBox(
@@ -112,7 +128,7 @@ class SignUpScreen extends StatelessWidget {
                             return validateMobileNumber(value);
                           },
                           onFieldSubmitted: (value) {
-                            if (formKey.currentState!.validate()) {}
+                            // if (_formKey.currentState!.validate()) {}
                           },
                         ),
                         const SizedBox(height: 20),
@@ -138,14 +154,13 @@ class SignUpScreen extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: () {
                               //register a user
-                              if (formKey.currentState!.validate()) {
+                              if (_formKey.currentState!.validate()) {
                                 signUpCubit.registerUser(
-                                  _nameController.text,
-                                  _emailController.text,
-                                  _mobileController.text,
-                                  _passwordController.text,
-                                  file
-                                );
+                                    _nameController.text,
+                                    _emailController.text,
+                                    _mobileController.text,
+                                    _passwordController.text,
+                                    file);
                               }
                             },
                             child: const Text(

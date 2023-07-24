@@ -46,8 +46,8 @@ class _CreateGroupNewScreenState extends State<CreateGroupNewScreen> {
       key: _scaffoldKey,
       appBar: CustomAppBar(
         title: 'Create Group'.tr(),
-        isDrawerIcon: true,
-        onLeadPress: () => _openDrawer(),
+        isDrawerIcon: false,
+        /*onLeadPress: () => _openDrawer(),*/
         actions: <Widget>[
           AppBarAction(icon: Icons.settings, onPress: () {}),
           const SizedBox(

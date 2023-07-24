@@ -52,7 +52,7 @@ class _GroupListScreenState extends State<GroupListScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Project Name".tr(),
+                      "Groups".tr(),
                       style: theme.textTheme.headlineLarge,
                     ),
                     Text(

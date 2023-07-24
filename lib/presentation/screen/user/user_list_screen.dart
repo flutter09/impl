@@ -4,17 +4,35 @@ import 'package:flutter/material.dart';
 
 import '../../../config/theme/app_theme.dart';
 import '../component/custom_appbar.dart';
+import '../component/custom_drawer.dart';
 
-class UserListScreen extends StatelessWidget {
+class UserListScreen extends StatefulWidget {
   const UserListScreen({super.key});
+
+  @override
+  State<UserListScreen> createState() => _UserListScreenState();
+}
+
+class _UserListScreenState extends State<UserListScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _openDrawer() {
+    _scaffoldKey.currentState!.openDrawer();
+  }
+
+  void _closeDrawer() {
+    Navigator.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return Scaffold(
+      key: _scaffoldKey,
       appBar: CustomAppBar(
         title: 'User List'.tr(),
-        isDrawerIcon: false,
+        isDrawerIcon: true,
+        onLeadPress: () => _openDrawer(),
         actions: [
           IconButton(
               onPressed: () {
@@ -26,6 +44,7 @@ class UserListScreen extends StatelessWidget {
               ))
         ],
       ),
+      drawer: const CustomDrawer(),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         color: backgroundGray,

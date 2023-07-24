@@ -74,8 +74,8 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
       key: _scaffoldKey,
       appBar: CustomAppBar(
         title: 'Create Project'.tr(),
-        isDrawerIcon: true,
-        onLeadPress: () => _openDrawer(),
+        isDrawerIcon: false,
+        /*onLeadPress: () => _openDrawer(),*/
         actions: <Widget>[
           AppBarAction(icon: Icons.settings, onPress: () {}),
           const SizedBox(

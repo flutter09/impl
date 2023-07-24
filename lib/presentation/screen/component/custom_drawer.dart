@@ -95,7 +95,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
           getDrawerTile("Groups", Icons.group_work_outlined, () {
             Navigator.pushNamed(context, Routes.groupListScreen);
           }),
-          getDrawerTile("Members", Icons.groups, () {}),
+          getDrawerTile("Members", Icons.groups, () {
+            Navigator.pushNamed(context, Routes.userListScreen);
+          }),
           getDrawerTile("Profile", Icons.person, () {
             Navigator.pushNamed(context, Routes.personalInfoScreen);
           }),

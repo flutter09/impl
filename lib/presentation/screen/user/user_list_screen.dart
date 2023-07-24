@@ -16,24 +16,53 @@ class UserListScreen extends StatelessWidget {
         title: 'User List'.tr(),
         isDrawerIcon: false,
         actions: [
-          IconButton(onPressed: (){
-            Navigator.of(context).pushNamed(Routes.addUserScreen);
-          }, icon: const Icon(Icons.person_add_alt_1_sharp, color: colorGray ,))
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(Routes.addUserScreen);
+              },
+              icon: const Icon(
+                Icons.person_add_alt_1_sharp,
+                color: colorGray,
+              ))
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
+      body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        color: backgroundGray,
         child: ListView.builder(
           itemCount: 100, // Replace with the actual number of items you have
           itemBuilder: (context, index) {
-            return ListTile(
-              leading: const CircleAvatar(
-                backgroundImage: NetworkImage("https://randomuser.me/api/portraits/men/5.jpg"),
-                maxRadius: 20,
+            return Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
               ),
-              title:const Text("Abc Abc",),
-              subtitle: const Text("abc abc "),
-              trailing: IconButton(onPressed: (){},icon: const Icon(Icons.person_off),),
+              clipBehavior: Clip.hardEdge,
+              child: ListTile(
+                leading: const CircleAvatar(
+                  backgroundImage: NetworkImage(
+                      "https://randomuser.me/api/portraits/men/5.jpg"),
+                  maxRadius: 20,
+                ),
+                title: const Text(
+                  "Abc Abc",
+                ),
+                subtitle: const Text("abc abc "),
+                trailing: SizedBox(
+                  width: 100,
+                  child: Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.info),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.person_off),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             );
           },
         ),

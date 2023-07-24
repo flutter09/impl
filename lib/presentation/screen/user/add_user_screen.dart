@@ -1,18 +1,62 @@
 import 'package:chat_application/config/theme/app_theme.dart';
-import 'package:chat_application/utils/utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../../../domain/model/request/custom_user.dart';
 import '../component/custom_appbar.dart';
+import '../component/custom_dropdown.dart';
 import '../component/custom_textfield.dart';
 
-class AddUserScreen extends StatelessWidget {
-  AddUserScreen({super.key});
+class AddUserScreen extends StatefulWidget {
+  const AddUserScreen({super.key});
 
+  @override
+  State<AddUserScreen> createState() => _AddUserScreenState();
+}
+
+class _AddUserScreenState extends State<AddUserScreen> {
   final _emailController = TextEditingController();
+  final _customNameController = TextEditingController();
+  String? roleError;
+  List<String> roles = [];
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   final _formKey = GlobalKey<FormState>();
+
+  final List<String> options = [
+    'Option 1',
+    'Option 2',
+    'Option 3',
+    'Option 4',
+    'Option 5',
+  ];
+
+  void addToRole(List<String> list) {
+    print("add to role : $list");
+    setState(() {
+      roles.clear();
+      roles.addAll(list);
+      roleError = list.isEmpty ? 'role must not be empty' : null;
+    });
+  }
+
+  void onSave() {
+    print(roles);
+    if (_formKey.currentState!.validate() && roles.isNotEmpty) {
+      var customUser = CustomUser(
+          name: _emailController.text,
+          customName: _customNameController.text,
+          roles:
+              roles); //todo : change email with username which is getting from search api
+      // todo make api call to add user and navigate pop
+      print(customUser);
+    } else if (roles.isEmpty) {
+      setState(() {
+        roleError = 'role must not be empty';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +83,9 @@ class AddUserScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: LabelTextField(
-                        label: 'Email or User Name',
+                        label: 'Email/Phone or User Name',
                         validate: (value) {
-                          return validateEmail(value);
+                          return null;
                         },
                         controller: _emailController,
                       ),
@@ -75,40 +119,78 @@ class AddUserScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(6),
                         border: Border.all(color: colorPrimary, width: 1)),
                     padding: const EdgeInsets.all(4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    child: Column(
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
-                              border: Border.all(color: colorPrimary, width: 1),
-                              color: colorPrimary),
-                          width: 100,
-                          height: 100,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6),
+                                  border:
+                                      Border.all(color: colorPrimary, width: 1),
+                                  color: colorPrimary),
+                              width: 100,
+                              height: 100,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Abc Abc",
+                                    style: theme.textTheme.titleLarge,
+                                  ),
+                                  Text(
+                                    "E-mail id: abc@mail.com",
+                                    style: theme.textTheme.bodyMedium,
+                                  ),
+                                  Text(
+                                    "Phone: 9999999999",
+                                    style: theme.textTheme.bodyMedium,
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
                             children: [
-                              Text(
-                                "Abc Abc",
-                                style: theme.textTheme.titleLarge,
+                              LabelTextField(
+                                controller: _customNameController,
+                                label: "Custom name",
+                                validate: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Text Field 1 is required';
+                                  }
+                                  return null;
+                                },
                               ),
-                              Text(
-                                "E-mail id: abc@mail.com",
-                                style: theme.textTheme.bodyMedium,
+                              const SizedBox(
+                                height: 10,
                               ),
-                              Text(
-                                "Phone: 9999999999",
-                                style: theme.textTheme.bodyMedium,
+                              LabelMultipleChipDropDown(
+                                options: options,
+                                label: 'Members',
+                                onSave: addToRole,
+                                errorText: roleError,
+                                selectedValues: roles,
+                              ),
+                              const SizedBox(
+                                height: 10,
                               ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -116,9 +198,7 @@ class AddUserScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                      //todo create project
-                    },
+                    onPressed: onSave,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,

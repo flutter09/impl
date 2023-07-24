@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         onGenerateRoute: RouteGenerator.getRoute,
         initialRoute: Routes
-            .createProjectRoute /*di.di<SignInCubit>().checkLogin() ? Routes.dashboardScreen : Routes.signInRoute*/,
+            .userListScreen /*di.di<SignInCubit>().checkLogin() ? Routes.dashboardScreen : Routes.signInRoute*/,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,

@@ -283,11 +283,29 @@ Future<String> pickDate(BuildContext context) async {
 Future<String?> showPopupMenu(
     {required BuildContext context,
     required List<String> menuOption,
-    String? initSelected}) async {
+    String? initSelected,
+    required Offset tapPosition}) async {
   // Show the popup menu and wait for user selection
+  final RenderBox overlay =
+      Overlay.of(context).context.findRenderObject() as RenderBox;
+
   String? selectedValue = await showMenu<String>(
     context: context,
-    position: const RelativeRect.fromLTRB(0, 50.0, 0, 0),
+    position: RelativeRect.fromLTRB(
+      tapPosition.dx,
+
+      overlay.size.height - tapPosition.dy,
+      overlay.size.width - tapPosition.dx,
+
+      tapPosition.dy,
+    ),
+
+    /*const RelativeRect.fromLTRB(
+        0,
+        50.0,
+        0,
+        0
+    ),*/
     // Position of the popup menu relative to the button
     items: menuOption
         .map((e) => PopupMenuItem(

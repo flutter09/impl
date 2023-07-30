@@ -16,9 +16,11 @@ class MessageWidget extends StatefulWidget {
         this.onLeftSwipe,
         this.isEdit,
         this.onEdit,
-        this.onEditCancel});
+        this.onEditCancel, this.onPress,
+      });
 
   final VoidCallback? onLongPress;
+  final VoidCallback? onPress;
   final VoidCallback? onLeftSwipe;
   final ChatMessage messages;
   final bool? isReply;
@@ -47,6 +49,7 @@ class _MessageWidgetState extends State<MessageWidget> {
     return SwipeTo(
       onLeftSwipe: widget.onLeftSwipe,
       child: GestureDetector(
+        onTap: widget.onPress,
         onLongPress: widget.onLongPress,
         child: Container(
           padding:
@@ -347,6 +350,22 @@ class _MessageWidgetState extends State<MessageWidget> {
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                  Visibility(
+                    visible: !(widget.isReply ?? false) && widget.messages.messageType != "receiver",
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 2.0),
+                      child: (widget.messages.isRead ?? false) ? const Stack(
+                        children: [
+                          Icon(Icons.check , color: colorPrimary,size: 15,),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Icon(Icons.check , color: colorPrimary,size: 15,),
+                          ),
+                        ],
+                      ) : const Icon(Icons.check,size: 15,),
                     ),
                   ),
                 ],

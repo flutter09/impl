@@ -13,5 +13,6 @@ class ChatMessage{
   String? imgUrl;
   File? file;
   MessageEnum? messageEnum;
-  ChatMessage({this.messageContent, required this.messageType, this.senderName ,this.time, this.type,this.imgUrl , this.reply, this.file, this.messageEnum});
+  bool? isRead;
+  ChatMessage({this.messageContent, required this.messageType, this.senderName ,this.time, this.type,this.imgUrl , this.reply, this.file, this.messageEnum , this.isRead});
 }

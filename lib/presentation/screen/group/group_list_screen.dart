@@ -98,6 +98,9 @@ class _GroupListScreenState extends State<GroupListScreen> {
                         "https://randomuser.me/api/portraits/men/5.jpg",
                         "https://randomuser.me/api/portraits/men/5.jpg"
                       ],
+                      onTap: (){
+                        Navigator.pushNamed(context, Routes.chatDetailsRoute);
+                      },
                     );
                   }),
             )

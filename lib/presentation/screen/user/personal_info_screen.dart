@@ -32,6 +32,9 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _countryController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _technologyController = TextEditingController();
 
   @override
   void initState() {
@@ -177,9 +180,33 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                         ),
                         getSpacer(),
                         LabeledEditableText(
+                          label: "Technology",
+                          value: 'abc abc',
+                          controller: _technologyController,
+                          isEditing: isInfoEdit,
+                          readOnly: true,
+                        ),
+                        getSpacer(),
+                        LabeledEditableText(
                           label: "Address",
                           value: 'abc abc',
                           controller: _addressController,
+                          isEditing: isInfoEdit,
+                          maxLine: 5,
+                        ),
+                        getSpacer(),
+                        LabeledEditableText(
+                          label: "City",
+                          value: 'abc abc',
+                          controller: _cityController,
+                          isEditing: isInfoEdit,
+                          maxLine: 5,
+                        ),
+                        getSpacer(),
+                        LabeledEditableText(
+                          label: "Country",
+                          value: 'abc abc',
+                          controller: _countryController,
                           isEditing: isInfoEdit,
                           maxLine: 5,
                         ),

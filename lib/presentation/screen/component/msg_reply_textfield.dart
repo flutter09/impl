@@ -1,33 +1,30 @@
 import 'dart:io';
 
-import 'package:chat_application/config/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
-import '../../../domain/model/response/chat_model.dart';
-import '../../../utils/message_enum.dart';
-import '../../../utils/utils.dart';
-import '../component/message_reply.dart';
 
-class MessageReplyField extends StatefulWidget {
-  final ChatMessage? reply;
-  final Function(ChatMessage)? sendMessage;
-  final VoidCallback? removeReply;
+class MsgReplyField extends StatefulWidget {
 
-  const MessageReplyField(
-      {super.key, this.sendMessage, this.reply, this.removeReply});
+  const MsgReplyField(
+      {super.key});
 
   @override
-  State<MessageReplyField> createState() => _MessageReplyFieldState();
+  State<MsgReplyField> createState() => _MsgReplyFieldState();
 }
 
-class _MessageReplyFieldState extends State<MessageReplyField> {
-  File? file;
-  MessageEnum messageEnum = MessageEnum.text;
+class _MsgReplyFieldState extends State<MsgReplyField> {
+  ///new text is text with tagged person name
+  ///extract from msg text which is formatted text
   String newText = "";
+
+  ///is option display or not
   bool expandOption = false;
 
   var messageController = TextEditingController();
+
+  ///filtered person from all person , use for search functionality
   List<String> mentionedPerson = [];
+
   var person = [
     'aperson 1',
     'bperson 1',
@@ -39,6 +36,62 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
     'hperson 1',
   ];
 
+  ///Table of tagged user names and their ids
+  late final Map<String, String> _taggedUsers = {};
+
+  ///Formatted text where tagged user names are replaced in this format:
+  ///```dart
+  ///"@Lucky Ebere"
+  ///```
+  ///becomes
+  ///
+  ///```dart
+  ///"@6zo22531b866ce0016f9e5tt#Lucky Ebere#"
+  ///```
+  ///assuming that `Lucky Ebere`'s id is `6zo22531b866ce0016f9e5tt`
+  String get _formattedText {
+    String text = messageController.text;
+
+    for (var name in _taggedUsers.keys) {
+      if (text.contains(name)) {
+        final userName = name.replaceAll("@", ""); // format text to identify tagged person
+        text = text.replaceAll(name, "@${_taggedUsers[name]}#$userName#");
+      }
+    }
+    return text;
+  }
+
+  ///Whether to not execute the [_tagListener] logic
+  bool _defer = false;
+
+  ///Current tagged user selected in TextField
+  String _selectedTag = "";
+
+  ///Whether a tagged user is selected in the TextField
+  bool _isTagSelected = false;
+
+  ///Start offset for selection in the TextField
+  int? _startOffset;
+
+  ///End offset for selection in the TextField
+  int? _endOffset;
+
+  ///Text from the TextField in it's previous state before a new update
+  ///(new text input from keyboard or deletion).
+  ///
+  ///This is necessary to compare and see if changes have occured and to restore
+  ///the text field content when user attempts to remove a tagged user
+  ///so the tagged user can be selected and with further action, be removed.
+  String _lastCachedText = "";
+
+  ///Whether to initiate a user search
+  bool _shouldSearch = false;
+
+  ///Regex to match allowed search characters.
+  ///Non-conforming characters terminate the search context.
+  late final _regExp = RegExp(r'^[a-zA-Z-]*$');
+
+  ///filter the person list and add all matching person in mention person list
   search(String query) async {
     if (query.isEmpty) return;
 
@@ -101,39 +154,9 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
     newText = formattedText;
   }
 
-  ///Table of tagged user names and their ids
-  late final Map<String, String> _taggedUsers = {};
-
-  ///Formatted text where tagged user names are replaced in this format:
-  ///```dart
-  ///"@Lucky Ebere"
-  ///```
-  ///becomes
-  ///
-  ///```dart
-  ///"@6zo22531b866ce0016f9e5tt#Lucky Ebere#"
-  ///```
-  ///assuming that `Lucky Ebere`'s id is `6zo22531b866ce0016f9e5tt`
-  String get _formattedText {
-    String text = messageController.text;
-
-    for (var name in _taggedUsers.keys) {
-      if (text.contains(name)) {
-        final userName = name.replaceAll("@", "");
-        text = text.replaceAll(name, "@${_taggedUsers[name]}#$userName#");
-      }
-    }
-    return text;
-  }
-
-  ///Whether to not execute the [_tagListener] logic
-  bool _defer = false;
-
-  ///Current tagged user selected in TextField
-  String _selectedTag = "";
-
+  /// this function is used for both adding text and deleting text
   void _tagListener() {
-    if (_defer) {
+    if (_defer) { // use to stop executing whole function
       _defer = false;
       return;
     }
@@ -141,32 +164,43 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
     final text = messageController.text;
 
     if (text.isEmpty && _selectedTag.isNotEmpty) {
+      ///remove the selected text , when user selected
+      ///The _selectedTag variable holds the name of the currently selected tagged user in the TextField.
       _removeSelection();
     }
 
-    //When a previously selected tag is unselected without removing
-    //reset tag selection values
-    if (_startOffset != null &&
-        messageController.selection.base.offset != _startOffset) {
+    ///When a previously selected tag is unselected without removing
+    ///reset tag selection values
+    ///messageController.selection.base.offset gives current cursor position
+    if (_startOffset != null && messageController.selection.base.offset != _startOffset) {
+      /// if start offset of selection is not equal to current cursor then we assume the tagged person is not removing , it's just unselect
       _selectedTag = "";
       _startOffset = null;
       _endOffset = null;
       _isTagSelected = false;
     }
 
+    /// current cursor position
     late final position = messageController.selection.base.offset - 1;
 
+    /// if position is not a last position and if text contain '@' then extract a tagged user and search
+    /// if position is at end and the last value is '@' then it will execute search , so that we check for last position
     if (_shouldSearch && position != text.length - 1 && text.contains("@")) {
       _extractAndSearch(text, position);
       return;
     }
 
+    /// If _lastCachedText is equal to the current text, it means there is no change in the text,
+    /// so the _taggedUsers are updated, and the cursor position is shifted for the tagged user if needed.
     if (_lastCachedText == text) {
       _shiftCursorForTaggedUser();
       onFormattedTextChanged(_formattedText);
       return;
     }
 
+    ///If _lastCachedText is longer than the current text (trimmed to remove leading and trailing whitespaces),
+    ///it means the user has deleted some content. In such cases,
+    ///the function checks if any tagged users are removed or edited and then updates the cursor position and performs a search.
     if (_lastCachedText.trim().length > text.trim().length) {
       if (_removeEditedTags()) {
         /*_shouldHideOverlay(true);*/
@@ -180,18 +214,23 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
       onFormattedTextChanged(_formattedText);
       return;
     }
+
+    /// update the last text if there is no any deletion
     _lastCachedText = text;
 
+    /// start search if cursor position at '@'
     if (text[position] == "@") {
       _shouldSearch = true;
       onFormattedTextChanged(_formattedText);
       return;
     }
 
+    ///if there is no any match , then we not have to search
     if (!_regExp.hasMatch(text[position])) {
       _shouldSearch = false;
     }
 
+    ///search or close person list
     if (_shouldSearch) {
       _extractAndSearch(text, position);
     } else {
@@ -217,6 +256,7 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
     name = "@${name.trim()}";
     id = id.trim();
 
+    ///if person is already tagged then it is found in taggedUsers List , so not have to re tag that person
     if (_taggedUsers[name] != null) {
       //user has already been tagged
       //show error
@@ -224,14 +264,17 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
     }
 
     final text = messageController.text;
+    /// current cursor position
     late final position = messageController.selection.base.offset - 1;
     int index = 0;
     if (position != text.length - 1) {
+      /// if cursor is not at end of text , then we have to tag person in between text
       index = text.substring(0, position).lastIndexOf("@");
     } else {
       index = text.lastIndexOf("@");
     }
     if (index >= 0) {
+      /// replace text from index to current cursor position with person name
       final tag = text.substring(index, position + 1);
       _defer = true;
       _taggedUsers[name] = id;
@@ -240,6 +283,7 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
       messageController.text = newText;
       _defer = true;
 
+      ///we change the text so we have to change the current cursor position too
       int offset = newText.indexOf(name) + name.length + 1;
       if (offset > newText.length) offset -= 1;
 
@@ -269,17 +313,23 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
     try {
       final text = messageController.text;
       if (text.isEmpty) {
+        /// if main text is empty then no user is mentioned so we clear below param
         _taggedUsers.clear();
         _lastCachedText = text;
         return false;
       }
+      /// current cursor position
       final position = messageController.selection.base.offset - 1;
       if (text[position] == "@") {
+        ///if our cursor is at '@' then we search
         _shouldSearch = true;
         return false;
       }
 
       for (var tag in _taggedUsers.keys) {
+        /// check for all person which is mentioned in text
+        /// if selected tag is not empty then automatically removeSelection called from tagListener so it is removed from tagged user list
+        /// so if tagged user not found in tagged user list then we have to remove or select tagged person
         if (!text.contains(tag)) {
           if (_isTagSelected) {
             _removeSelection();
@@ -305,6 +355,8 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
   ///Otherwise, returns `false`.
   bool _backtrackAndSelect(String tag) {
     String text = messageController.text;
+
+    ///if text not have '@' then no tagged person so we have to stop execution
     if (!text.contains("@")) return false;
 
     final length = messageController.selection.base.offset;
@@ -318,11 +370,16 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
 
     late String temp = "";
 
+    ///reverse tracking from cursor position to '@'
     for (int i = length; i >= 0; i--) {
+
+      ///if cursor at '@' and i == length then no need to go inside loop , we know '@' is a last
       if (i == length && text[i] == "@") return false;
 
+      /// add to temp string to track record
       temp = text[i] + temp;
       if (text[i] == "@" && temp.length > 1 && temp == tag) {
+        /// when we found '@' and temp == tag then we set below params and select Tagged person in text field
         _selectedTag = tag;
         _isTagSelected = true;
         _startOffset = i;
@@ -351,29 +408,7 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
     onFormattedTextChanged(_formattedText);
   }
 
-  ///Whether a tagged user is selected in the TextField
-  bool _isTagSelected = false;
 
-  ///Start offset for selection in the TextField
-  int? _startOffset;
-
-  ///End offset for selection in the TextField
-  int? _endOffset;
-
-  ///Text from the TextField in it's previous state before a new update
-  ///(new text input from keyboard or deletion).
-  ///
-  ///This is necessary to compare and see if changes have occured and to restore
-  ///the text field content when user attempts to remove a tagged user
-  ///so the tagged user can be selected and with further action, be removed.
-  String _lastCachedText = "";
-
-  ///Whether to initiate a user search
-  bool _shouldSearch = false;
-
-  ///Regex to match allowed search characters.
-  ///Non-conforming characters terminate the search context.
-  late final _regExp = RegExp(r'^[a-zA-Z-]*$');
 
   ///This is triggered when deleting text from TextField that isn't
   ///a tagged user. Useful for continuing search without having to
@@ -410,10 +445,13 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
     late String temp = "";
 
     for (int i = length; i >= 0; i--) {
+
       if (i == length && text[i] == "@") return true;
 
+      /// check is it character or not
       if (!_regExp.hasMatch(text[i]) && text[i] != "@") return true;
 
+      /// start search
       temp = text[i] + temp;
       if (text[i] == "@" && temp.length > 1) {
         _shouldSearch = true;
@@ -435,6 +473,8 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
   ///of the tagged user.
   void _shiftCursorForTaggedUser() {
     String text = messageController.text;
+
+    /// if text not contain '@' then we not execute this method
     if (!text.contains("@")) return;
 
     final length = messageController.selection.base.offset - 1;
@@ -477,22 +517,6 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
     }
   }
 
-  void selectImage() async {
-    file = await pickImageFromGallery(context);
-    messageEnum = MessageEnum.image;
-    /* if (image != null) {
-      sendFileMessage(image, MessageEnum.image);
-    }*/
-  }
-
-  void selectVideo() async {
-    file = await pickVideoFromGallery(context);
-    messageEnum = MessageEnum.video;
-    /*if (video != null) {
-      sendFileMessage(video, MessageEnum.video);
-    }*/
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -508,99 +532,18 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
                   users: mentionedPerson,
                 )
               : const SizedBox(),
-          widget.reply != null
-              ? MessageReply(
-                  reply: widget.reply!,
-                  onCancel: widget.removeReply,
-                )
-              : const SizedBox(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: Row(
               children: <Widget>[
-                GestureDetector(
-                  onTap: showOption,
-                  child: Container(
-                    height: 24,
-                    width: 24,
-                    decoration: BoxDecoration(
-                      color: colorPrimary,
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    child: Icon(
-                      expandOption ? Icons.close : Icons.add,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 15,
-                ),
-                expandOption
-                    ? Expanded(
-                        child: Row(
-                          children: [
-                            IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.image,
-                                  color: colorPrimary,
-                                )),
-                            IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.camera,
-                                  color: colorPrimary,
-                                )),
-                            IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.attach_file,
-                                  color: colorPrimary,
-                                )),
-                            IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.mic,
-                                  color: colorPrimary,
-                                )),
-                          ],
-                        ),
-                      )
-                    : Expanded(
-                        child: TextField(
-                          controller: messageController,
-                          decoration: const InputDecoration(
-                              hintText: "Write message...",
-                              hintStyle: TextStyle(color: Colors.black54),
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none),
-                        ),
-                      ),
-                const SizedBox(
-                  width: 15,
-                ),
-                SizedBox(
-                  width: 50,
-                  height: 50,
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      widget.sendMessage?.call(ChatMessage(
-                          messageType: "sender",
-                          messageContent: messageController.text,
-                          file: file,
-                          messageEnum: messageEnum,
-                          reply: widget.reply));
-                      messageController.clear();
-                    }, //todo send msg
-                    backgroundColor: colorPrimary,
-                    elevation: 0,
-                    child: const Icon(
-                      Icons.send,
-                      color: Colors.white,
-                      size: 18,
-                    ),
+                Expanded(
+                  child: TextField(
+                    controller: messageController,
+                    decoration: const InputDecoration(
+                        hintText: "Write message...",
+                        hintStyle: TextStyle(color: Colors.black54),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none),
                   ),
                 ),
               ],
@@ -633,7 +576,7 @@ class _UserListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 2 , vertical: 2),
+      padding: const EdgeInsets.symmetric(horizontal: 2),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -646,12 +589,18 @@ class _UserListView extends StatelessWidget {
       ),
       child: Material(
         color: Colors.transparent,
-        child: Stack(
+        child: Column(
           children: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: IconButton(
+                onPressed: onClose,
+                icon: const Icon(Icons.close),
+              ),
+            ),
             Container(
-              width: double.infinity,
               constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.15),
+                  maxHeight: MediaQuery.of(context).size.height * 0.1),
               child: ListView.builder(
                 padding: EdgeInsets.zero,
                 itemCount: users.length,
@@ -659,9 +608,8 @@ class _UserListView extends StatelessWidget {
                   final user = users[index];
                   return InkWell(
                     child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-                        decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(5)),color: backgroundGray),
-                        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 3),
                         child: Text(
                           user,
                           maxLines: 1,
@@ -672,21 +620,6 @@ class _UserListView extends StatelessWidget {
                     },
                   );
                 },
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                /*height: 16,
-                width: 16,*/
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: colorPrimary),
-                child: IconButton(
-                  onPressed: onClose,
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                  icon: const Icon(Icons.close),
-                  color: Colors.white,
-                ),
               ),
             ),
           ],

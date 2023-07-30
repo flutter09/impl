@@ -10,6 +10,7 @@ import 'package:chat_application/presentation/screen/login/generate_password_scr
 import 'package:chat_application/presentation/screen/login/otp_varification_screen.dart';
 import 'package:chat_application/presentation/screen/login/sing_in_screen.dart';
 import 'package:chat_application/presentation/screen/login/sing_up_screen.dart';
+import 'package:chat_application/presentation/screen/media/media_viewer.dart';
 import 'package:chat_application/presentation/screen/project/create_project_screen.dart';
 import 'package:chat_application/presentation/screen/project/project_list_screen.dart';
 import 'package:chat_application/presentation/screen/user/add_user_screen.dart';
@@ -47,6 +48,7 @@ class Routes {
   static const String personalInfoScreen = "/personal_info_screen";
   static const String dashboardScreen = "/dashboard_screen";
   static const String selectCustomUser = "/selectCustomUser";
+  static const String mediaViewerScreen = '/mediaViewerScreen';
 //static const String registerRoute = "/register";
 //static const String forgotPasswordRoute = "/forgotPassword";
 //static const String mainRoute = "/main";
@@ -105,6 +107,9 @@ class RouteGenerator {
             routeSettings.arguments as List<CustomUser>?;
         return MaterialPageRoute(
             builder: (_) => SelectUserScreen(selectedContact: selectedUser));
+      case Routes.mediaViewerScreen:
+        String url = routeSettings.arguments as String;
+        return MaterialPageRoute(builder: (_)=> MediaViewer(resource: url));
       default:
         return unDefinedRoute();
     }

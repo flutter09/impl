@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../base/network_interceptor.dart';
 import '../../base/result.dart';
@@ -125,6 +127,25 @@ class ApiServiceImpl implements ApiService {
     } else {
       return Error(ErrorResponse(
           errorMessage: response?.statusMessage ?? "null response found"));
+    }
+
+  }
+
+  @override
+  Future<Result<ApiResponse<String>>?> getFile(String fileUrl,) async {
+
+    final appDir = await getApplicationDocumentsDirectory();
+    final fileName = fileUrl.split('/').last;
+    final savePath = '${appDir.path}/$fileName';
+
+    try {
+      await dio!.download(
+        fileUrl,
+        savePath,
+      );
+      return Success(ApiResponse(success: true, message: 0, data:  'Downloading at $savePath' ));
+    } catch (e) {
+      return Error(ErrorResponse(errorMessage: e.toString()));
     }
 
   }

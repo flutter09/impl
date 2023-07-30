@@ -16,6 +16,7 @@ abstract class UserRepository{
   Future<Result<ResUserModel>> verifyOtp(ReqCheckOtp reqCheckOtp );
   Future<Result<ResUserModel>> sendOtp(ReqSendOtp reqSendOtp);
   Future<Result<String>> uploadFile(File file , Map<String , dynamic> fields);
+  Future<Result<String>> downloadFile(String fileUrl , Map<String , dynamic> fields);
 
 // Future<dynamic> getAllWallets(int page,String? searchText);
 // Future<dynamic> addWallet(String userKey,String walletId,String? publicKey);

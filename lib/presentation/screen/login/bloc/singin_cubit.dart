@@ -68,4 +68,22 @@ class SignInCubit extends BaseCubit<BaseState, String> {
       }
     });
   }
+
+  Future<void> downloadFile(String url) async {
+    if (isBusy) return;
+
+    await run(() async {
+      emit(LoadingState());
+      try {
+        final response =
+        await _userRepository.downloadFile(url, {});
+
+        if (response is Success) {
+          emit(ErrorState(errorMessage: (response as Success).data.toString()));
+        }
+      } catch (e) {
+        emit(ErrorState(errorMessage: e.toString()));
+      }
+    });
+  }
 }

@@ -125,4 +125,22 @@ class UserRepositoryImpl implements UserRepository {
       throw Exception((response as Error).errorResponse.errorMessage);
     }
   }
+
+  @override
+  Future<Result<String>> downloadFile(String fileUrl, Map<String, dynamic> fields) async {
+    var response = await apiService
+        .getFile(fileUrl);
+
+    if (response is Success) {
+      var result = (response as Success).data as ApiResponse;
+      if (result.success ?? false) {
+        return Success(result.data);
+      } else {
+        throw Exception(
+            ErrorResponse.fromCode(result.message ?? 0).errorMessage);
+      }
+    } else {
+      throw Exception((response as Error).errorResponse.errorMessage);
+    }
+  }
 }

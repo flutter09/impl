@@ -318,3 +318,10 @@ Future<String?> showPopupMenu(
   // Update the selected option if a value was selected
   return selectedValue;
 }
+
+SnackBar getSnackBar(String message) {
+  final snackBar = SnackBar(
+    content: Text(message),
+  );
+  return snackBar;
+}

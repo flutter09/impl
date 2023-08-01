@@ -16,13 +16,13 @@ class ForgotPasswordCubit extends BaseCubit<BaseState, String> {
   final mailController = TextEditingController();
   final otpController = TextEditingController();
 
-  Future<void> sendOtp() async {
+  Future<void> sendOtp(String mail) async {
     if (isBusy) return;
 
     try {
       emit(LoadingState());
       final response =
-          await _userRepository.sendOtp(ReqSendOtp(email: mailController.text));
+          await _userRepository.sendOtp(ReqSendOtp(email: mail));
       if (response is Success) {
         emit(ForgotPasswordState());
       }

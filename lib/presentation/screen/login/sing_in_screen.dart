@@ -47,12 +47,8 @@ class _SignInScreenState extends State<SignInScreen> {
             if (state is SignInState) {
               Navigator.pushNamedAndRemoveUntil(context, Routes.dashboardScreen,
                   (Route<dynamic> route) => false);
-            } else if (state is ErrorState &&
-                (state.errorMessage ?? "").isNotEmpty) {
-              final snackBar = SnackBar(
-                content: Text(state.errorMessage ?? "error invalid"),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            } else if (state is ErrorState) {
+              ScaffoldMessenger.of(context).showSnackBar(getSnackBar(state.errorMessage ?? "error invalid"));
             }
           },
           builder: (context, state) {

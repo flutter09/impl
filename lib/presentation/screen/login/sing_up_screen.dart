@@ -48,6 +48,7 @@ class SignUpScreen extends StatelessWidget {
                   });
             } else if (state is ErrorState) {
               // print(state.errorMessage);
+              ScaffoldMessenger.of(context).showSnackBar(getSnackBar(state.errorMessage ?? "error invalid"));
             }
           },
           builder: (context, state) {

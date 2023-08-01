@@ -23,7 +23,7 @@ class ResUserModel {
   final String? image;
 
   @JsonKey(name: 'jwt')
-  final String? jwt;
+  final String? accessToken;
 
   @JsonKey(name: 'token')
   final String? token;
@@ -38,7 +38,7 @@ class ResUserModel {
   final int? referredCredit;
 
   @JsonKey(name: 'userSave_id')
-  final List<dynamic>? userSaveId;
+  final List<String>? userSaveId;
 
   @JsonKey(name: 'createdAt')
   final String? createdAt;
@@ -49,26 +49,32 @@ class ResUserModel {
   @JsonKey(name: 'unique_id')
   final int? uniqueId;
 
+  @JsonKey(name: '__v')
+  final int? version;
+
+  @JsonKey(name: 'tokens')
+  final List<String>? tokens;
+
   ResUserModel({
-     this.id,
-     this.name,
-     this.email,
-     this.phone,
-     this.password,
-     this.image,
-     this.jwt,
-     this.token,
-     this.referralCode,
-     this.referredBy,
-     this.referredCredit,
-     this.userSaveId,
-     this.createdAt,
-     this.updatedAt,
-     this.uniqueId,
+    this.id,
+    this.name,
+    this.email,
+    this.phone,
+    this.password,
+    this.image,
+    this.accessToken,
+    this.token,
+    this.referralCode,
+    this.referredBy,
+    this.referredCredit,
+    this.userSaveId,
+    this.createdAt,
+    this.updatedAt,
+    this.uniqueId,
+    this.version,
+    this.tokens,
   });
 
-  factory ResUserModel.fromJson(Map<String, dynamic> json) =>
-      _$ResUserModelFromJson(json);
-
+  factory ResUserModel.fromJson(Map<String, dynamic> json) => _$ResUserModelFromJson(json);
   Map<String, dynamic> toJson() => _$ResUserModelToJson(this);
 }

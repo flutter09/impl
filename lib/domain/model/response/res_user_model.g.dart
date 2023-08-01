@@ -13,15 +13,20 @@ ResUserModel _$ResUserModelFromJson(Map<String, dynamic> json) => ResUserModel(
       phone: json['phone'] as String?,
       password: json['password'] as String?,
       image: json['image'] as String?,
-      jwt: json['jwt'] as String?,
+      accessToken: json['jwt'] as String?,
       token: json['token'] as String?,
       referralCode: json['referral_code'] as String?,
       referredBy: json['referred_by'] as String?,
       referredCredit: json['referred_credit'] as int?,
-      userSaveId: json['userSave_id'] as List<dynamic>?,
+      userSaveId: (json['userSave_id'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       createdAt: json['createdAt'] as String?,
       updatedAt: json['updatedAt'] as String?,
       uniqueId: json['unique_id'] as int?,
+      version: json['__v'] as int?,
+      tokens:
+          (json['tokens'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$ResUserModelToJson(ResUserModel instance) =>
@@ -32,7 +37,7 @@ Map<String, dynamic> _$ResUserModelToJson(ResUserModel instance) =>
       'phone': instance.phone,
       'password': instance.password,
       'image': instance.image,
-      'jwt': instance.jwt,
+      'jwt': instance.accessToken,
       'token': instance.token,
       'referral_code': instance.referralCode,
       'referred_by': instance.referredBy,
@@ -41,4 +46,6 @@ Map<String, dynamic> _$ResUserModelToJson(ResUserModel instance) =>
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,
       'unique_id': instance.uniqueId,
+      '__v': instance.version,
+      'tokens': instance.tokens,
     };

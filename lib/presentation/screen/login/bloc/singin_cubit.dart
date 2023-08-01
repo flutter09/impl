@@ -28,6 +28,7 @@ class SignInCubit extends BaseCubit<BaseState, String> {
 
   bool checkLogin() {
     var token = _preferenceRepository.getAccessToken();
+    print('check token $token');
     return token.isNotEmpty;
   }
 
@@ -41,9 +42,11 @@ class SignInCubit extends BaseCubit<BaseState, String> {
             .login(ReqLogin(email: email, password: password));
 
         if (response is Success) {
-          final token = ((response as Success).data as ResUserModel).token;
-          _preferenceRepository.setAccessToken(token ?? "");
-          emit(SignInState(token: token ?? ""));
+          final user = ((response as Success).data as ResUserModel);
+          _preferenceRepository.setAccessToken(user.tokens?.last ?? "");
+          _preferenceRepository.setUserId(user.id ?? "");
+          print('set token ${user.token}');
+          emit(SignInState(token: user.token ?? ""));
         }
       } catch (e) {
         emit(ErrorState(errorMessage: e.toString()));

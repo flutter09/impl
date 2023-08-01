@@ -7,44 +7,56 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../config/theme/app_theme.dart';
 import '../../../injection_conatainer.dart' as di;
+import '../../../utils/utils.dart';
 import '../component/component.dart';
 import '../component/custom_textfield.dart';
 import 'bloc/forgot_password_cubit.dart';
 
 enum OtpType { registerUser, forgotPassword }
 
-class OtpVerificationScreen extends StatelessWidget {
+class OtpVerificationScreen extends StatefulWidget {
   final String email;
   final OtpType type;
 
   OtpVerificationScreen({super.key, required this.email, required this.type});
 
+  @override
+  State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
+}
+
+class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final _forgotPasswordCubit = di.di<ForgotPasswordCubit>();
+
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.type == OtpType.registerUser) {
+      _forgotPasswordCubit.sendOtp(widget.email);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    print("$email , $type");
+    print("${widget.email} , ${widget.type}");
     return BlocConsumer<ForgotPasswordCubit, BaseState>(
       bloc: _forgotPasswordCubit,
       listener: (context, state) {
         if (state is OtpVerifiedState) {
-          if (type == OtpType.forgotPassword) {
+          if (widget.type == OtpType.forgotPassword) {
             Navigator.pushNamed(context, Routes.generatePasswordScreen,
                 arguments: {
                   ArgConstant.eMail: _forgotPasswordCubit.mailController.text
                 });
           } else {
             Navigator.pushNamedAndRemoveUntil(
-                context, Routes.chatListRoute, (route) => false);
+                context, Routes.dashboardScreen, (route) => false);
           }
-        } else if (state is ErrorState &&
-            (state.errorMessage ?? "").isNotEmpty) {
-          final snackBar = SnackBar(
-            content: Text(state.errorMessage ?? "error invalid"),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if (state is ErrorState) {
+          ScaffoldMessenger.of(context).showSnackBar(getSnackBar(state.errorMessage ?? "error invalid"));
         }
       },
       builder: (context, state) {
@@ -106,7 +118,7 @@ class OtpVerificationScreen extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                _forgotPasswordCubit.verifyOtp(email);
+                                _forgotPasswordCubit.verifyOtp(widget.email);
                               }
                             },
                             child: const Text(

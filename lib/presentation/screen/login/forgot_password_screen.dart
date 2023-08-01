@@ -96,7 +96,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 // to call api to verify email and send otp
-                                _forgotPasswordCubit.sendOtp();
+                                _forgotPasswordCubit.sendOtp(_forgotPasswordCubit.mailController.text);
                               }
                             },
                             child: const Text(

@@ -41,7 +41,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    print("${widget.email} , ${widget.type}");
     return BlocConsumer<ForgotPasswordCubit, BaseState>(
       bloc: _forgotPasswordCubit,
       listener: (context, state) {
@@ -49,7 +48,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           if (widget.type == OtpType.forgotPassword) {
             Navigator.pushNamed(context, Routes.generatePasswordScreen,
                 arguments: {
-                  ArgConstant.eMail: _forgotPasswordCubit.mailController.text
+                  ArgConstant.eMail: widget.email
                 });
           } else {
             Navigator.pushNamedAndRemoveUntil(

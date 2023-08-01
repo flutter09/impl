@@ -1,4 +1,4 @@
-const Map<int , String> ApiMessage = {
+const Map<int , String?> ApiMessage = {
   //error code
   /*0 : "Error Invalid",
   1: 'INVALID_OTP',
@@ -73,7 +73,7 @@ const Map<int , String> ApiMessage = {
   30004: 'GET_DETAIL_SUCCESSFULLY',
   30005: 'DELETE_SUCCESSFULLY',*/
 
-
+  -1:null,
   0: 'Invalid Error',
   1: 'Invalid OTP',
   2: 'Invalid Server Token',

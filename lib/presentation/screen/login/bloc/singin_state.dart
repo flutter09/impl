@@ -25,4 +25,9 @@ class ForgotPasswordState extends BaseState {}
 
 class OtpVerifiedState extends BaseState {}
 
-class GeneratePasswordState extends BaseState {}
+class GeneratePasswordState extends BaseState {
+  final String  message;
+  const GeneratePasswordState({
+    required this.message
+});
+}

@@ -24,7 +24,7 @@ class GeneratePasswordCubit extends BaseCubit<BaseState, String> {
         final response = await _userRepository.forgotPassword(
             ReqForgotPassword(email: email, password: password));
         if (response is Success) {
-          emit(GeneratePasswordState());
+          emit(GeneratePasswordState( message: (response as Success).data,));
         }
       } catch (e) {
         emit(ErrorState(errorMessage: e.toString()));

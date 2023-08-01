@@ -80,7 +80,7 @@ String convertDate(String date, String originalFormat, String newFormat) {
   return newDateFormat.format(parsedDate);
 }
 
-String? getApiMessage(int code) => ApiMessage[code];
+String? getApiMessage(int? code) => ApiMessage[code];
 
 bool validateEmailPattern(String email) {
   RegExp emailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');

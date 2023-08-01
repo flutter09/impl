@@ -95,7 +95,7 @@ class ApiServiceImpl implements ApiService {
 
   @override
   Future<Result<ApiResponse<T>>?> post<T>(
-      String url, T Function(Map<String, dynamic> json) fromJsonT,
+      String url, T Function(Map<String, dynamic> json)? fromJsonT,
       {Map<dynamic, dynamic>? data}) async {
     var response = await dio?.post(DioApiConstants.baseUrl + url, data: data);
     if (response?.statusCode == 200) {

@@ -12,11 +12,13 @@ import '../model/response/res_user_model.dart';
 abstract class UserRepository{
   Future<Result<ResUserModel>> login(ReqLogin request);
   Future<Result<ResUserModel>> registerUser(ReqUserRegister reqUserRegister , File? file);
-  Future<Result<ResUserModel>> forgotPassword(ReqForgotPassword reqForgotPassword);
+  Future<Result<String>> forgotPassword(ReqForgotPassword reqForgotPassword);
   Future<Result<ResUserModel>> verifyOtp(ReqCheckOtp reqCheckOtp );
-  Future<Result<ResUserModel>> sendOtp(ReqSendOtp reqSendOtp);
+  Future<Result<String>> sendOtp(ReqSendOtp reqSendOtp);
   Future<Result<String>> uploadFile(File file , Map<String , dynamic> fields);
   Future<Result<String>> downloadFile(String fileUrl , Map<String , dynamic> fields);
+
+
 
 // Future<dynamic> getAllWallets(int page,String? searchText);
 // Future<dynamic> addWallet(String userKey,String walletId,String? publicKey);

@@ -41,17 +41,16 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Result<ResUserModel>> forgotPassword(
+  Future<Result<String>> forgotPassword(
       ReqForgotPassword reqForgotPassword) async {
-    var response = await apiService.post<ResUserModel>(
-        DioApiConstants.forgotPassword, ResUserModel.fromJson,
+    var response = await apiService.post<String>(
+        DioApiConstants.forgotPassword, null,
         data: reqForgotPassword.toJson());
 
     if (response is Success) {
       var result = (response as Success).data as ApiResponse;
-      print("data : ${result.data}");
       if (result.success ?? false) {
-        return Success(result.data);
+        return Success(getApiMessage(result.message) ?? 'password update successfully');
       } else {
         throw Exception(
             ErrorResponse.fromCode(result.message ?? 0).errorMessage);
@@ -91,15 +90,40 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Result<ResUserModel>> sendOtp(ReqSendOtp reqSendOtp) {
-    // TODO: implement sendOtp
-    throw UnimplementedError();
+  Future<Result<String>> sendOtp(ReqSendOtp reqSendOtp) async {
+    var response = await apiService.post<String>(
+        DioApiConstants.sendOtp, null ,
+        data: reqSendOtp.toJson());
+
+    if (response is Success) {
+      var result = (response as Success).data as ApiResponse;
+      if (result.success ?? false) {
+        return Success(getApiMessage(result.message ?? -1) ?? "OTP sent on your mail");
+      } else {
+        throw Exception(
+            ErrorResponse.fromCode(result.message ?? 0).errorMessage);
+      }
+    } else {
+      throw Exception((response as Error).errorResponse.errorMessage);
+    }
   }
 
   @override
-  Future<Result<ResUserModel>> verifyOtp(ReqCheckOtp reqCheckOtp) {
-    // TODO: implement verifyOtp
-    throw UnimplementedError();
+  Future<Result<ResUserModel>> verifyOtp(ReqCheckOtp reqCheckOtp) async {
+    var response = await apiService.post<ResUserModel>(
+        DioApiConstants.checkOtp, ResUserModel.fromJson,
+        data: reqCheckOtp.toJson());
+    if (response is Success) {
+      var result = (response as Success).data as ApiResponse;
+      if (result.success ?? false) {
+        return Success(result.data);
+      } else {
+        throw Exception(
+            ErrorResponse.fromCode(result.message ?? 0).errorMessage);
+      }
+    } else {
+      throw Exception((response as Error).errorResponse.errorMessage);
+    }
   }
 
   @override

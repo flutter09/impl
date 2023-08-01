@@ -29,15 +29,13 @@ class GeneratePasswordScreen extends StatelessWidget {
       bloc: generatePasswordCubit,
       listener: (context, state) {
         if (state is GeneratePasswordState) {
+          ScaffoldMessenger.of(context).showSnackBar(getSnackBar(state.message));
           Navigator.pushNamedAndRemoveUntil(
-              context, Routes.signInRoute, (route) => false,
+              context, Routes.dashboardScreen, (route) => false,
               arguments: {});
         } else if (state is ErrorState &&
             (state.errorMessage ?? "").isNotEmpty) {
-          final snackBar = SnackBar(
-            content: Text(state.errorMessage ?? "error invalid"),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          ScaffoldMessenger.of(context).showSnackBar(getSnackBar(state.errorMessage ?? "error invalid"));
         }
       },
       builder: (context, state) {

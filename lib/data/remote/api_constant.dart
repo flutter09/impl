@@ -8,7 +8,7 @@ class DioApiConstants {
   static const String forgotPassword = "user/forgot_password";
   static const String checkOtp = "user/check_otp";
   static const String sendOtp = "user/send_otp";
-  static const String getUserDetails = "user/get_user_details";
+  static const String getUserDetails = "user/get_user";
   static const String projectRegister = "user/project_register";
   static const String projectUpdate = "user/project_update";
   static const String projectDetails = "user/project_details";

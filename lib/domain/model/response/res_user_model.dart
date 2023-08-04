@@ -4,75 +4,99 @@ part 'res_user_model.g.dart';
 
 @JsonSerializable()
 class ResUserModel {
-  @JsonKey(name: '_id')
-  final String? id;
-
   @JsonKey(name: 'name')
-  final String? name;
+  String? name;
 
   @JsonKey(name: 'email')
-  final String? email;
+  String? email;
 
   @JsonKey(name: 'phone')
-  final String? phone;
+  String? phone;
 
   @JsonKey(name: 'password')
-  final String? password;
+  String? password;
 
   @JsonKey(name: 'image')
-  final String? image;
+  String? image;
+
+  @JsonKey(name: 'unique_name')
+  String? uniqueName;
+
+  @JsonKey(name: 'Date_of_Birth')
+  String? dateOfBirth;
+
+  @JsonKey(name: 'address')
+  String? address;
+
+  @JsonKey(name: 'city')
+  String? city;
+
+  @JsonKey(name: 'country')
+  String? country;
+
+  @JsonKey(name: 'technology')
+  String? technology;
 
   @JsonKey(name: 'jwt')
-  final String? accessToken;
-
-  @JsonKey(name: 'token')
-  final String? token;
-
-  @JsonKey(name: 'referral_code')
-  final String? referralCode;
-
-  @JsonKey(name: 'referred_by')
-  final String? referredBy;
-
-  @JsonKey(name: 'referred_credit')
-  final int? referredCredit;
-
-  @JsonKey(name: 'userSave_id')
-  final List<String>? userSaveId;
-
-  @JsonKey(name: 'createdAt')
-  final String? createdAt;
-
-  @JsonKey(name: 'updatedAt')
-  final String? updatedAt;
-
-  @JsonKey(name: 'unique_id')
-  final int? uniqueId;
-
-  @JsonKey(name: '__v')
-  final int? version;
+  String? jwt;
 
   @JsonKey(name: 'tokens')
-  final List<String>? tokens;
+  List<String>? tokens;
+
+  @JsonKey(name: 'referral_code')
+  String? referralCode;
+
+  @JsonKey(name: 'referred_by')
+  String? referredBy;
+
+  @JsonKey(name: 'referred_credit')
+  int? referredCredit;
+
+  @JsonKey(name: 'userSave_id')
+  List<String>? userSaveId;
+
+  @JsonKey(name: 'is_email_verify')
+  bool? isEmailVerify;
+
+  @JsonKey(name: '_id')
+  String? id;
+
+  @JsonKey(name: 'createdAt')
+  String? createdAt;
+
+  @JsonKey(name: 'updatedAt')
+  String? updatedAt;
+
+  @JsonKey(name: 'unique_id')
+  int? uniqueId;
+
+  @JsonKey(name: '__v')
+  int? version;
 
   ResUserModel({
-    this.id,
     this.name,
     this.email,
     this.phone,
     this.password,
     this.image,
-    this.accessToken,
-    this.token,
+    this.uniqueName,
+    this.dateOfBirth,
+    this.address,
+    this.city,
+    this.country,
+    this.technology,
+    this.jwt,
+    this.tokens,
     this.referralCode,
     this.referredBy,
     this.referredCredit,
     this.userSaveId,
+    this.isEmailVerify,
+    this.id,
     this.createdAt,
     this.updatedAt,
     this.uniqueId,
     this.version,
-    this.tokens,
   });
 
   factory ResUserModel.fromJson(Map<String, dynamic> json) => _$ResUserModelFromJson(json);

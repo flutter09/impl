@@ -45,8 +45,8 @@ class SignInCubit extends BaseCubit<BaseState, String> {
           final user = ((response as Success).data as ResUserModel);
           _preferenceRepository.setAccessToken(user.tokens?.last ?? "");
           _preferenceRepository.setUserId(user.id ?? "");
-          print('set token ${user.token}');
-          emit(SignInState(token: user.token ?? ""));
+          print('set token ${user.tokens?.last}');
+          emit(SignInState(token: user.tokens?.last ?? ""));
         }
       } catch (e) {
         emit(ErrorState(errorMessage: e.toString()));

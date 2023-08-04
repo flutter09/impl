@@ -1,9 +1,11 @@
+import 'package:chat_application/data/local/preference_repository.dart';
 import 'package:chat_application/presentation/screen/component/show_dialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../config/route/route_manager.dart';
 import '../../../config/theme/app_theme.dart';
+import '../../../injection_conatainer.dart' as di;
 import 'component.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -87,21 +89,27 @@ class _CustomDrawerState extends State<CustomDrawer> {
             height: 10,
           ),
           getDrawerTile("Dashboard".tr(), Icons.dashboard, () {
+            Navigator.of(context).pop();
             Navigator.pushNamed(context, Routes.dashboardScreen);
           }),
           getDrawerTile("Projects", Icons.palette_rounded, () {
+            Navigator.of(context).pop();
             Navigator.pushNamed(context, Routes.projectListScreen);
           }),
           getDrawerTile("Groups", Icons.group_work_outlined, () {
+            Navigator.of(context).pop();
             Navigator.pushNamed(context, Routes.groupListScreen);
           }),
           getDrawerTile("Members", Icons.groups, () {
+            Navigator.of(context).pop();
             Navigator.pushNamed(context, Routes.userListScreen);
           }),
           getDrawerTile("Profile", Icons.person, () {
+            Navigator.of(context).pop();
             Navigator.pushNamed(context, Routes.personalInfoScreen);
           }),
           getDrawerTile("Forgot Password", Icons.password, () {
+            Navigator.of(context).pop();
             Navigator.pushNamed(context, Routes.forgotPasswordRoute);
           }),
           getDrawerTile("About", Icons.info, () {}),
@@ -120,6 +128,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       Navigator.pop(context);
                     },
                     onSubmit: () {
+                      di.di<PreferenceRepository>().clearPreference();
+                      Navigator.of(context).pop();
                       Navigator.pushNamedAndRemoveUntil(
                           context, Routes.signInRoute, (route) => false);
                     });

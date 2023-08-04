@@ -18,7 +18,7 @@ void showAlertDialog({
             IconButton(
                 onPressed: onCancel,
                 icon: const Icon(
-                  Icons.cancel,
+                  Icons.close,
                   color: Colors.red,
                 )),
             IconButton(

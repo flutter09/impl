@@ -1,6 +1,11 @@
+import 'package:chat_application/base/base_state.dart';
+import 'package:chat_application/presentation/screen/user/bloc/personal_info_cubit.dart';
+import 'package:chat_application/presentation/screen/user/bloc/user_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../config/theme/app_theme.dart';
+import '../../../injection_conatainer.dart' as di;
 import '../../../utils/utils.dart';
 import '../component/custom_appbar.dart';
 import '../component/custom_drawer.dart';
@@ -21,25 +26,17 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   bool isPrefEdit = false;
   String selectedLanguage = 'English';
 
+  PersonalInfoCubit personalInfoCubit = di.di<PersonalInfoCubit>();
+
   final List<String> languageOptions = [
     'English',
     'Hindi',
   ];
 
-  final TextEditingController _fullNameController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _phoneNumberController = TextEditingController();
-  final TextEditingController _dobController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _countryController = TextEditingController();
-  final TextEditingController _cityController = TextEditingController();
-  final TextEditingController _technologyController = TextEditingController();
-
   @override
   void initState() {
     // TODO: implement initState
-
+    personalInfoCubit.getUserDetails();
     super.initState();
   }
 
@@ -76,6 +73,20 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
       );
     }
 
+    return BlocConsumer<PersonalInfoCubit, BaseState>(
+      bloc: personalInfoCubit,
+  listener: (context, state) {
+    if (state is UserUpdateState) {
+      ScaffoldMessenger.of(context).showSnackBar(getSnackBar(state.message));
+      setInfoEdit(false);
+    }else if (state is ErrorState) {
+      ScaffoldMessenger.of(context).showSnackBar(getSnackBar(state.errorMessage ?? "error invalid"));
+    }
+  },
+  builder: (context, state) {
+    if (state is LoadingState) {
+      return const Center(child: CircularProgressIndicator());
+    }
     return Scaffold(
       key: _scaffoldKey,
       appBar: CustomAppBar(
@@ -112,7 +123,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                     visible: isInfoEdit,
                     child: IconButton(
                         onPressed: () {
-                          setInfoEdit(false);
+                          personalInfoCubit.updateUserDetails();
                         },
                         icon: const Icon(Icons.check)),
                   ),
@@ -120,6 +131,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                     visible: isInfoEdit,
                     child: IconButton(
                         onPressed: () {
+                          personalInfoCubit.setController();
                           setInfoEdit(false);
                         },
                         icon: const Icon(Icons.close)),
@@ -139,42 +151,37 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                       children: [
                         LabeledEditableText(
                             label: "Full Name",
-                            value: 'abc abc',
-                            controller: _fullNameController,
+                            controller: personalInfoCubit.fullNameController,
                             isEditing: isInfoEdit),
                         getSpacer(),
                         LabeledEditableText(
                             label: "Display Name",
-                            value: 'abc abc',
-                            controller: _nameController,
+                            controller: personalInfoCubit.nameController,
                             isEditing: isInfoEdit),
                         getSpacer(),
                         LabeledEditableText(
                           label: "Email",
-                          value: 'abc abc',
-                          controller: _emailController,
+                          controller: personalInfoCubit.emailController,
                           isEditing: isInfoEdit,
                           readOnly: true,
                         ),
                         getSpacer(),
                         LabeledEditableText(
                             label: "Phone Number",
-                            value: 'abc abc',
-                            controller: _phoneNumberController,
+                            controller: personalInfoCubit.phoneNumberController,
                             isEditing: isInfoEdit),
                         getSpacer(),
                         LabeledEditableText(
                           label: "Date of Birth",
-                          value: 'abc abc',
-                          controller: _dobController,
+                          controller: personalInfoCubit.dobController,
                           isEditing: isInfoEdit,
                           readOnly: true,
                           onTap: () async {
                             FocusScope.of(context).requestFocus(FocusNode());
                             String date = await pickDate(context);
-                            if (date.toString() != _dobController.text) {
+                            if (date.toString() != personalInfoCubit.dobController.text) {
                               setState(() {
-                                _dobController.text = dateToDDMMMYYYY(date);
+                                personalInfoCubit.dobController.text = dateToDDMMMYYYY(date);
                               });
                             }
                           },
@@ -182,32 +189,28 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                         getSpacer(),
                         LabeledEditableText(
                           label: "Technology",
-                          value: 'abc abc',
-                          controller: _technologyController,
+                          controller: personalInfoCubit.technologyController,
                           isEditing: isInfoEdit,
                           readOnly: true,
                         ),
                         getSpacer(),
                         LabeledEditableText(
                           label: "Address",
-                          value: 'abc abc',
-                          controller: _addressController,
+                          controller: personalInfoCubit.addressController,
                           isEditing: isInfoEdit,
                           maxLine: 5,
                         ),
                         getSpacer(),
                         LabeledEditableText(
                           label: "City",
-                          value: 'abc abc',
-                          controller: _cityController,
+                          controller: personalInfoCubit.cityController,
                           isEditing: isInfoEdit,
                           maxLine: 5,
                         ),
                         getSpacer(),
                         LabeledEditableText(
                           label: "Country",
-                          value: 'abc abc',
-                          controller: _countryController,
+                          controller: personalInfoCubit.countryController,
                           isEditing: isInfoEdit,
                           maxLine: 5,
                         ),
@@ -282,5 +285,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
         ),
       ),
     );
+  },
+);
   }
 }

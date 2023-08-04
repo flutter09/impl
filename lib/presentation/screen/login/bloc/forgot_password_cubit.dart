@@ -6,12 +6,15 @@ import 'package:chat_application/domain/model/request/req_send_otp.dart';
 import 'package:chat_application/presentation/screen/login/bloc/singin_state.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../../../data/local/preference_repository.dart';
+import '../../../../domain/model/response/res_user_model.dart';
 import '../../../../domain/repository/user_repository.dart';
 
 class ForgotPasswordCubit extends BaseCubit<BaseState, String> {
   final UserRepository _userRepository;
+  final PreferenceRepository _preferenceRepository;
 
-  ForgotPasswordCubit(this._userRepository) : super(BaseInitState(), "");
+  ForgotPasswordCubit(this._userRepository , this._preferenceRepository) : super(BaseInitState(), "");
 
   final mailController = TextEditingController();
   final otpController = TextEditingController();
@@ -39,6 +42,10 @@ class ForgotPasswordCubit extends BaseCubit<BaseState, String> {
       final response = await _userRepository
           .verifyOtp(ReqCheckOtp(email: mail, emailOtp: otpController.text));
       if (response is Success) {
+        final user = ((response as Success).data as ResUserModel);
+        _preferenceRepository.setAccessToken(user.tokens?.last ?? "");
+        _preferenceRepository.setUserId(user.id ?? "");
+        print('set token ${user.tokens?.last}');
         emit(OtpVerifiedState());
       }
     } catch (e) {

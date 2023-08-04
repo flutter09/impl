@@ -34,7 +34,15 @@ class NetworkInterceptor extends Interceptor {
       handler.resolve(
           await retryInterceptor.scheduleRetryRequest(err.requestOptions));
     } else {
-      handler.resolve(err.response!);
+      try{handler.resolve(err.response!);}catch (e){
+        final customError = DioError(
+          error: 'Server Error',
+          type: err.type,
+          requestOptions: err.requestOptions,
+          response: err.response,
+        );
+        handler.next(customError);
+      }
     }
   }
 

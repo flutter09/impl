@@ -5,7 +5,7 @@ import '../../../config/theme/app_theme.dart';
 
 class LabeledEditableText extends StatefulWidget {
   final String? label;
-  final String? value;
+  // final String? value;
   final TextEditingController? controller;
   final bool? isEditing;
   final String? errorText;
@@ -25,7 +25,7 @@ class LabeledEditableText extends StatefulWidget {
   const LabeledEditableText(
       {super.key,
       this.label,
-      this.value,
+      // this.value,
       this.controller,
       this.isEditing,
       this.errorText,
@@ -53,7 +53,7 @@ class _LabeledEditableText extends State<LabeledEditableText> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.controller?.text = widget.value ?? "";
+    // widget.controller?.text = widget.value ?? "";
   }
 
   @override
@@ -108,7 +108,7 @@ class _LabeledEditableText extends State<LabeledEditableText> {
                   obscureText: passwordVisible,
                 )
               : Text(
-                  widget.value ?? "",
+                  /*widget.value*/ widget.controller?.text ?? "",
                   style: Theme.of(context).textTheme.titleMedium,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

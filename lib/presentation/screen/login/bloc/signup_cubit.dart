@@ -29,8 +29,9 @@ class SignUpCubit extends BaseCubit<BaseState, String> {
                 name: name, email: email, phone: phone, password: password),
             file);
         if (response is Success) {
-          final token = ((response as Success).data as ResUserModel).token;
-          _preferenceRepository.setAccessToken(token ?? "");
+          print("success response");
+          final userId = ((response as Success).data as ResUserModel).id ?? "";
+          _preferenceRepository.setUserId(userId ?? "");
           emit(const SignUpState(register: true));
         }
       } catch (e) {

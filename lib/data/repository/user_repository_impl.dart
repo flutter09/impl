@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:chat_application/domain/model/request/req_check_otp.dart';
 import 'package:chat_application/domain/model/request/req_forgot_password.dart';
 import 'package:chat_application/domain/model/request/req_send_otp.dart';
+import 'package:chat_application/domain/model/request/req_user_detail.dart';
 import 'package:chat_application/domain/model/request/req_user_register.dart';
 import 'package:dio/dio.dart';
 
@@ -33,7 +34,9 @@ class UserRepositoryImpl implements UserRepository {
         return Success(result.data);
       } else {
         throw Exception(
-            ErrorResponse.fromCode(result.message ?? 0).errorMessage);
+            ErrorResponse
+                .fromCode(result.message ?? 0)
+                .errorMessage);
       }
     } else {
       throw Exception((response as Error).errorResponse.errorMessage);
@@ -50,10 +53,13 @@ class UserRepositoryImpl implements UserRepository {
     if (response is Success) {
       var result = (response as Success).data as ApiResponse;
       if (result.success ?? false) {
-        return Success(getApiMessage(result.message) ?? 'password update successfully');
+        return Success(
+            getApiMessage(result.message) ?? 'password update successfully');
       } else {
         throw Exception(
-            ErrorResponse.fromCode(result.message ?? 0).errorMessage);
+            ErrorResponse
+                .fromCode(result.message ?? 0)
+                .errorMessage);
       }
     } else {
       throw Exception((response as Error).errorResponse.errorMessage);
@@ -61,14 +67,14 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Result<ResUserModel>> registerUser(
-      ReqUserRegister reqUserRegister, File? image) async {
+  Future<Result<ResUserModel>> registerUser(ReqUserRegister reqUserRegister,
+      File? image) async {
     var formData = jsonToFormData(
         reqUserRegister.toJson(),
         image != null
             ? // if file is not null than only add to form data other wise we pass init form data object
-            await addFileToFormData("image", image,
-                FormData()) // key , file , base form data instance
+        await addFileToFormData("image", image,
+            FormData()) // key , file , base form data instance
             : FormData());
 
     var response = await apiService.postFile<ResUserModel>(
@@ -82,7 +88,9 @@ class UserRepositoryImpl implements UserRepository {
         return Success(result.data);
       } else {
         throw Exception(
-            ErrorResponse.fromCode(result.message ?? 0).errorMessage);
+            ErrorResponse
+                .fromCode(result.message ?? 0)
+                .errorMessage);
       }
     } else {
       throw Exception((response as Error).errorResponse.errorMessage);
@@ -92,16 +100,19 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<Result<String>> sendOtp(ReqSendOtp reqSendOtp) async {
     var response = await apiService.post<String>(
-        DioApiConstants.sendOtp, null ,
+        DioApiConstants.sendOtp, null,
         data: reqSendOtp.toJson());
 
     if (response is Success) {
       var result = (response as Success).data as ApiResponse;
       if (result.success ?? false) {
-        return Success(getApiMessage(result.message ?? -1) ?? "OTP sent on your mail");
+        return Success(
+            getApiMessage(result.message ?? -1) ?? "OTP sent on your mail");
       } else {
         throw Exception(
-            ErrorResponse.fromCode(result.message ?? 0).errorMessage);
+            ErrorResponse
+                .fromCode(result.message ?? 0)
+                .errorMessage);
       }
     } else {
       throw Exception((response as Error).errorResponse.errorMessage);
@@ -119,7 +130,9 @@ class UserRepositoryImpl implements UserRepository {
         return Success(result.data);
       } else {
         throw Exception(
-            ErrorResponse.fromCode(result.message ?? 0).errorMessage);
+            ErrorResponse
+                .fromCode(result.message ?? 0)
+                .errorMessage);
       }
     } else {
       throw Exception((response as Error).errorResponse.errorMessage);
@@ -127,8 +140,8 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Result<String>> uploadFile(
-      File file, Map<String, dynamic> fields) async {
+  Future<Result<String>> uploadFile(File file,
+      Map<String, dynamic> fields) async {
     var data = await fileToFormData("file", file);
     fields.forEach((key, value) {
       data.fields.add(MapEntry(key, value));
@@ -143,7 +156,9 @@ class UserRepositoryImpl implements UserRepository {
         return Success(result.data);
       } else {
         throw Exception(
-            ErrorResponse.fromCode(result.message ?? 0).errorMessage);
+            ErrorResponse
+                .fromCode(result.message ?? 0)
+                .errorMessage);
       }
     } else {
       throw Exception((response as Error).errorResponse.errorMessage);
@@ -151,7 +166,8 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Result<String>> downloadFile(String fileUrl, Map<String, dynamic> fields) async {
+  Future<Result<String>> downloadFile(String fileUrl,
+      Map<String, dynamic> fields) async {
     var response = await apiService
         .getFile(fileUrl);
 
@@ -161,10 +177,57 @@ class UserRepositoryImpl implements UserRepository {
         return Success(result.data);
       } else {
         throw Exception(
-            ErrorResponse.fromCode(result.message ?? 0).errorMessage);
+            ErrorResponse
+                .fromCode(result.message ?? 0)
+                .errorMessage);
       }
     } else {
       throw Exception((response as Error).errorResponse.errorMessage);
     }
+  }
+
+  @override
+  Future<Result<ResUserModel>> getUserDetails() async {
+    var response = await apiService.post<ResUserModel>(
+        DioApiConstants.getUserDetails, ResUserModel.fromJson);
+
+    if (response is Success) {
+      var result = (response as Success).data as ApiResponse;
+
+      if (result.success ?? false) {
+        return Success(result.data);
+      } else {
+        throw Exception(ErrorResponse
+            .fromCode(result.message ?? 0)
+            .errorMessage);
+      }
+    } else {
+      print("user repo ${(response as Error).errorResponse.errorMessage}");
+      throw Exception((response as Error).errorResponse.errorMessage);
+    }
+  }
+
+  @override
+  Future<Result<String>> updateUserDetails(ReqUserDetail reqUserDetail, File? image) async {
+    var formData = jsonToFormData(
+        reqUserDetail.toJson(),
+        image != null
+            ? // if file is not null than only add to form data other wise we pass init form data object
+        await addFileToFormData("image", image, FormData()) // key , file , base form data instance
+            : FormData());
+
+    var response = await apiService.postFile<ResUserModel>(DioApiConstants.updateUser, ResUserModel.fromJson, data: formData);
+
+    if (response is Success) {
+      var result = (response as Success).data as ApiResponse;
+      if (result.success ?? false) {
+        return Success(getApiMessage(result.message ?? -1) ?? "User details updated");
+      } else {
+        throw Exception(ErrorResponse.fromCode(result.message ?? 0).errorMessage);
+      }
+    } else {
+      throw Exception((response as Error).errorResponse.errorMessage);
+    }
+
   }
 }

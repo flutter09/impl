@@ -107,6 +107,7 @@ class ApiServiceImpl implements ApiService {
         return Error(ErrorResponse(errorMessage: e.toString()));
       }
     } else {
+      print("api service ${response?.statusMessage}");
       return Error(ErrorResponse(
           errorMessage: response?.statusMessage ?? "null response found"));
     }

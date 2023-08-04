@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:chat_application/domain/model/request/req_check_otp.dart';
 import 'package:chat_application/domain/model/request/req_forgot_password.dart';
 import 'package:chat_application/domain/model/request/req_send_otp.dart';
+import 'package:chat_application/domain/model/request/req_user_detail.dart';
 import 'package:chat_application/domain/model/request/req_user_register.dart';
 
 import '../../base/result.dart';
@@ -18,6 +19,8 @@ abstract class UserRepository{
   Future<Result<String>> uploadFile(File file , Map<String , dynamic> fields);
   Future<Result<String>> downloadFile(String fileUrl , Map<String , dynamic> fields);
 
+  Future<Result<ResUserModel>> getUserDetails();
+  Future<Result<String>> updateUserDetails(ReqUserDetail reqUserDetail , File? file);
 
 
 // Future<dynamic> getAllWallets(int page,String? searchText);

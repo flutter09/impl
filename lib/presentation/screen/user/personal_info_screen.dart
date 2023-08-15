@@ -198,21 +198,18 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                           label: "Address",
                           controller: personalInfoCubit.addressController,
                           isEditing: isInfoEdit,
-                          maxLine: 5,
                         ),
                         getSpacer(),
                         LabeledEditableText(
                           label: "City",
                           controller: personalInfoCubit.cityController,
                           isEditing: isInfoEdit,
-                          maxLine: 5,
                         ),
                         getSpacer(),
                         LabeledEditableText(
                           label: "Country",
                           controller: personalInfoCubit.countryController,
                           isEditing: isInfoEdit,
-                          maxLine: 5,
                         ),
                       ],
                     ),
@@ -265,7 +262,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                     child: Column(
                       children: [
                         LabelTextDropDown(
-                          label: "Date of Birth",
+                          label: "Language",
                           selectedOption: selectedLanguage,
                           isEditing: isPrefEdit,
                           options: languageOptions,
@@ -280,6 +277,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                   ),
                 ),
               ),
+              const SizedBox(height: 10,)
             ],
           ),
         ),

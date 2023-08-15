@@ -7,6 +7,7 @@ part of 'res_user_model.dart';
 // **************************************************************************
 
 ResUserModel _$ResUserModelFromJson(Map<String, dynamic> json) => ResUserModel(
+      id: json['_id'] as String?,
       name: json['name'] as String?,
       email: json['email'] as String?,
       phone: json['phone'] as String?,
@@ -20,23 +21,27 @@ ResUserModel _$ResUserModelFromJson(Map<String, dynamic> json) => ResUserModel(
       technology: json['technology'] as String?,
       jwt: json['jwt'] as String?,
       tokens:
-          (json['tokens'] as List<dynamic>?)?.map((e) => e as String).toList(),
+          (json['tokens'] as List<dynamic>?)?.map((e) => e as String?).toList(),
       referralCode: json['referral_code'] as String?,
       referredBy: json['referred_by'] as String?,
       referredCredit: json['referred_credit'] as int?,
       userSaveId: (json['userSave_id'] as List<dynamic>?)
-          ?.map((e) => e as String)
+          ?.map((e) => e == null
+              ? null
+              : UserSaveData.fromJson(e as Map<String, dynamic>))
           .toList(),
       isEmailVerify: json['is_email_verify'] as bool?,
-      id: json['_id'] as String?,
       createdAt: json['createdAt'] as String?,
       updatedAt: json['updatedAt'] as String?,
       uniqueId: json['unique_id'] as int?,
-      version: json['__v'] as int?,
+      v: json['__v'] as int?,
+      roles:
+          (json['roles'] as List<dynamic>?)?.map((e) => e as String?).toList(),
     );
 
 Map<String, dynamic> _$ResUserModelToJson(ResUserModel instance) =>
     <String, dynamic>{
+      '_id': instance.id,
       'name': instance.name,
       'email': instance.email,
       'phone': instance.phone,
@@ -55,9 +60,32 @@ Map<String, dynamic> _$ResUserModelToJson(ResUserModel instance) =>
       'referred_credit': instance.referredCredit,
       'userSave_id': instance.userSaveId,
       'is_email_verify': instance.isEmailVerify,
-      '_id': instance.id,
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,
       'unique_id': instance.uniqueId,
-      '__v': instance.version,
+      '__v': instance.v,
+      'roles': instance.roles,
+    };
+
+UserSaveData _$UserSaveDataFromJson(Map<String, dynamic> json) => UserSaveData(
+      userId: json['user_id'] as String?,
+      userName: json['userName'] as String?,
+      roles: (json['roles'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      name: json['name'] as String?,
+      email: json['email'] as String?,
+      phone: json['phone'] as String?,
+      userSaveId: json['_id'] as String?,
+      image: json['image'] as String?,
+    );
+
+Map<String, dynamic> _$UserSaveDataToJson(UserSaveData instance) =>
+    <String, dynamic>{
+      'user_id': instance.userId,
+      'userName': instance.userName,
+      'roles': instance.roles,
+      'name': instance.name,
+      'email': instance.email,
+      'phone': instance.phone,
+      '_id': instance.userSaveId,
+      'image': instance.image,
     };

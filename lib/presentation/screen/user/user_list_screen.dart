@@ -1,4 +1,6 @@
 import 'package:chat_application/config/route/route_manager.dart';
+import 'package:chat_application/domain/model/response/res_user_model.dart';
+import 'package:chat_application/presentation/screen/user/save_user_editing_dailog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -71,8 +73,24 @@ class _UserListScreenState extends State<UserListScreen> {
                   child: Row(
                     children: [
                       IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.info),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SaveUserEditingDialog(userSaveData: UserSaveData(
+                                userId: "1",
+                                userName: 'klb',
+                                userSaveId: '1',
+                                name: 'klb',
+                                email: 'kl',
+                                phone: 'ass',
+                                image: 'ss',
+                                roles: [2,3],
+                              ));
+                            },
+                          );
+                        },
+                        icon: const Icon(Icons.edit),
                       ),
                       IconButton(
                         onPressed: () {},

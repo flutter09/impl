@@ -10,13 +10,14 @@ class MultipleChipDropdown extends StatefulWidget {
       this.options,
       this.hintText,
       this.errorText,
-      this.selectedValues});
+      this.selectedValues, this.isSingleSelected,});
 
   final Function(List<String>)? onSave;
   final List<String>? options;
   final String? hintText;
   final String? errorText;
   final List<String>? selectedValues;
+  final bool? isSingleSelected;
 
   @override
   State<MultipleChipDropdown> createState() => _MultipleChipDropdown();
@@ -83,6 +84,9 @@ class _MultipleChipDropdown extends State<MultipleChipDropdown> {
       }).toList(),
       onChanged: (selectedValue) {
         setState(() {
+          if(widget.isSingleSelected == true){
+            _selectedValues.clear();
+          }
           if (!_selectedValues.contains(selectedValue)) {
             _selectedValues.add(selectedValue!);
             onSave();
@@ -101,7 +105,7 @@ class LabelMultipleChipDropDown extends StatefulWidget {
       this.options,
       this.hintText,
       this.errorText,
-      this.selectedValues});
+      this.selectedValues, this.isSingleSelected});
 
   final String? label;
   final Function(List<String>)? onSave;
@@ -109,6 +113,7 @@ class LabelMultipleChipDropDown extends StatefulWidget {
   final String? hintText;
   final String? errorText;
   final List<String>? selectedValues;
+  final bool? isSingleSelected;
 
   @override
   State<LabelMultipleChipDropDown> createState() =>
@@ -135,6 +140,7 @@ class _LabelMultipleChipDropDownState extends State<LabelMultipleChipDropDown> {
           hintText: widget.hintText,
           errorText: widget.errorText,
           selectedValues: widget.selectedValues,
+          isSingleSelected : widget.isSingleSelected,
         )
       ],
     );

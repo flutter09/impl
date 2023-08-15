@@ -144,7 +144,7 @@ class ApiServiceImpl implements ApiService {
         fileUrl,
         savePath,
       );
-      return Success(ApiResponse(success: true, message: 0, data:  'Downloading at $savePath' ));
+      return Success(ApiResponse(success: true, message: 0, data:  'Downloading at $savePath', description: 'Downloading at $savePath' ));
     } catch (e) {
       return Error(ErrorResponse(errorMessage: e.toString()));
     }

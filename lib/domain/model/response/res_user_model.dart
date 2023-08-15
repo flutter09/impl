@@ -4,6 +4,9 @@ part 'res_user_model.g.dart';
 
 @JsonSerializable()
 class ResUserModel {
+  @JsonKey(name: '_id')
+  String? id;
+
   @JsonKey(name: 'name')
   String? name;
 
@@ -41,7 +44,7 @@ class ResUserModel {
   String? jwt;
 
   @JsonKey(name: 'tokens')
-  List<String>? tokens;
+  List<String?>? tokens;
 
   @JsonKey(name: 'referral_code')
   String? referralCode;
@@ -53,13 +56,10 @@ class ResUserModel {
   int? referredCredit;
 
   @JsonKey(name: 'userSave_id')
-  List<String>? userSaveId;
+  List<UserSaveData?>? userSaveId;
 
   @JsonKey(name: 'is_email_verify')
   bool? isEmailVerify;
-
-  @JsonKey(name: '_id')
-  String? id;
 
   @JsonKey(name: 'createdAt')
   String? createdAt;
@@ -71,9 +71,13 @@ class ResUserModel {
   int? uniqueId;
 
   @JsonKey(name: '__v')
-  int? version;
+  int? v;
+
+  @JsonKey(name: 'roles')
+  List<String?>? roles;
 
   ResUserModel({
+    this.id,
     this.name,
     this.email,
     this.phone,
@@ -92,13 +96,58 @@ class ResUserModel {
     this.referredCredit,
     this.userSaveId,
     this.isEmailVerify,
-    this.id,
     this.createdAt,
     this.updatedAt,
     this.uniqueId,
-    this.version,
+    this.v,
+    this.roles,
   });
 
-  factory ResUserModel.fromJson(Map<String, dynamic> json) => _$ResUserModelFromJson(json);
+  factory ResUserModel.fromJson(Map<String, dynamic> json) =>
+      _$ResUserModelFromJson(json);
+
   Map<String, dynamic> toJson() => _$ResUserModelToJson(this);
+}
+
+@JsonSerializable()
+class UserSaveData {
+  @JsonKey(name: 'user_id')
+  String? userId;
+
+  @JsonKey(name: 'userName')
+  String? userName;
+
+  @JsonKey(name: 'roles')
+  List<int>? roles;
+
+  @JsonKey(name: 'name')
+  String? name;
+
+  @JsonKey(name: 'email')
+  String? email;
+
+  @JsonKey(name: 'phone')
+  String? phone;
+
+  @JsonKey(name: '_id')
+  String? userSaveId;
+
+  @JsonKey(name: 'image')
+  String? image;
+
+  UserSaveData({
+    this.userId,
+    this.userName,
+    this.roles,
+    this.name,
+    this.email,
+    this.phone,
+    this.userSaveId,
+    this.image,
+  });
+
+  factory UserSaveData.fromJson(Map<String, dynamic> json) =>
+      _$UserSaveDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserSaveDataToJson(this);
 }

@@ -1,5 +1,5 @@
 class DioApiConstants {
-  static const String baseUrl = "http://13.200.27.186/v1/";
+  static const String baseUrl = "https://api.impm.site/v1/";
 
   static const String userLogin = "user/user_login";
   static const String userRegister = "user/user_register";

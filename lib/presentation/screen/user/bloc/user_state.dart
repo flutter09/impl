@@ -31,3 +31,9 @@ class UpdateSaveUserState extends BaseState {
 
   const UpdateSaveUserState({required this.message});
 }
+
+class SaveUserListState extends BaseState {
+  final List<UserSaveData> saveUserList;
+
+  const SaveUserListState({required this.saveUserList});
+}

@@ -95,7 +95,7 @@ class ApiServiceImpl implements ApiService {
 
   @override
   Future<Result<ApiResponse<T>>?> post<T>(
-      String url, T Function(Map<String, dynamic> json)? fromJsonT,
+      String url, dynamic Function(Map<String, dynamic> json)? fromJsonT,
       {Map<dynamic, dynamic>? data}) async {
     var response = await dio?.post(DioApiConstants.baseUrl + url, data: data);
     if (response?.statusCode == 200) {
@@ -148,6 +148,24 @@ class ApiServiceImpl implements ApiService {
     } catch (e) {
       return Error(ErrorResponse(errorMessage: e.toString()));
     }
-
   }
+
+  /*@override
+  Future<Result<ApiResponse<T>>?> postList<T>(
+      String url, T Function(Map<String, dynamic> json)? fromJsonT,
+      {Map<dynamic, dynamic>? data}) async {
+    var response = await dio?.post(DioApiConstants.baseUrl + url, data: data);
+    if (response?.statusCode == 200) {
+      try {
+        print("Response : ${response?.data}");
+        return Success(ApiResponse.fromJson(response?.data, fromJsonT));
+      } catch (e) {
+        print("Error : ${e.toString()}");
+        return Error(ErrorResponse(errorMessage: e.toString()));
+      }
+    } else {
+      return Error(ErrorResponse(
+          errorMessage: response?.statusMessage ?? "null response found"));
+    }
+  }*/
 }

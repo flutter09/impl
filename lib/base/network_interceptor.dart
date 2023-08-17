@@ -15,7 +15,7 @@ class NetworkInterceptor extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     options = RequestOptions(
         path: options.path,
-        receiveTimeout: 1000,
+        receiveTimeout: 2000,
         method: options.method,
         queryParameters: options.queryParameters,
         data: options.data,

@@ -1,10 +1,15 @@
 import 'package:chat_application/config/route/route_manager.dart';
 import 'package:chat_application/domain/model/response/res_user_model.dart';
+import 'package:chat_application/presentation/screen/user/bloc/save_user_list_cubit.dart';
 import 'package:chat_application/presentation/screen/user/save_user_editing_dailog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../base/base_state.dart';
 import '../../../config/theme/app_theme.dart';
+import '../../../injection_conatainer.dart' as di;
+import '../../../utils/utils.dart';
 import '../component/custom_appbar.dart';
 import '../component/custom_drawer.dart';
 
@@ -17,6 +22,7 @@ class UserListScreen extends StatefulWidget {
 
 class _UserListScreenState extends State<UserListScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final SaveUserListCubit saveUserListCubit = di.di<SaveUserListCubit>();
 
   void _openDrawer() {
     _scaffoldKey.currentState!.openDrawer();
@@ -24,6 +30,13 @@ class _UserListScreenState extends State<UserListScreen> {
 
   void _closeDrawer() {
     Navigator.of(context).pop();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    saveUserListCubit.getSaveUserList();
   }
 
   @override
@@ -47,62 +60,81 @@ class _UserListScreenState extends State<UserListScreen> {
         ],
       ),
       drawer: const CustomDrawer(),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        color: backgroundGray,
-        child: ListView.builder(
-          itemCount: 100, // Replace with the actual number of items you have
-          itemBuilder: (context, index) {
-            return Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-              clipBehavior: Clip.hardEdge,
-              child: ListTile(
-                leading: const CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      "https://randomuser.me/api/portraits/men/5.jpg"),
-                  maxRadius: 20,
-                ),
-                title: const Text(
-                  "Abc Abc",
-                ),
-                subtitle: const Text("abc abc "),
-                trailing: SizedBox(
-                  width: 100,
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return SaveUserEditingDialog(userSaveData: UserSaveData(
-                                userId: "1",
-                                userName: 'klb',
-                                userSaveId: '1',
-                                name: 'klb',
-                                email: 'kl',
-                                phone: 'ass',
-                                image: 'ss',
-                                roles: [2,3],
-                              ));
-                            },
-                          );
-                        },
-                        icon: const Icon(Icons.edit),
+      body: BlocConsumer<SaveUserListCubit, BaseState>(
+        bloc: saveUserListCubit,
+        listener: (context, state) {
+          if (state is ErrorState) {
+            ScaffoldMessenger.of(context).showSnackBar(getSnackBar(state.errorMessage ?? "error invalid"));
+          }
+        },
+        builder: (context, state) {
+          return Stack(
+            children: [
+              if(state is LoadingState) const Center(child: CircularProgressIndicator()),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                color: backgroundGray,
+                child: ListView.builder(
+                  itemCount: saveUserListCubit.saveUserList.length,
+                  // Replace with the actual number of items you have
+                  itemBuilder: (context, index) {
+                    UserSaveData saveUser = saveUserListCubit.saveUserList[index];
+                    return Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16.0),
                       ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.person_off),
+                      clipBehavior: Clip.hardEdge,
+                      child: ListTile(
+                        leading: const CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              "https://randomuser.me/api/portraits/men/5.jpg"),
+                          maxRadius: 20,
+                        ),
+                        title: Text(
+                          saveUser.userName ?? '',
+                        ),
+                        subtitle: Text(saveUser.roles.toString()),
+                        trailing: SizedBox(
+                          width: 100,
+                          child: Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return SaveUserEditingDialog(
+                                          userSaveData: saveUser /*UserSaveData(
+                                            userId: "1",
+                                            userName: 'klb',
+                                            userSaveId: '1',
+                                            name: 'klb',
+                                            email: 'kl',
+                                            phone: 'ass',
+                                            image: 'ss',
+                                            roles: [2, 3],
+                                          )*/
+                                      );
+                                    },
+                                  );
+                                },
+                                icon: const Icon(Icons.edit),
+                              ),
+                              IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.person_off),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
               ),
-            );
-          },
-        ),
+            ],
+          );
+        },
       ),
     );
   }

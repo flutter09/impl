@@ -1,5 +1,9 @@
 
 // we can't use @JsonSerializable() because it generate .g.dart file every time and we don't want null value for "Map<String, dynamic> json" so that
+import 'package:chat_application/utils/extensions.dart';
+
+import '../domain/model/response/res_project.dart';
+
 class ApiResponse<T> {
   final bool? success;
 
@@ -18,14 +22,18 @@ class ApiResponse<T> {
 
   factory ApiResponse.fromJson(Map<String, dynamic> json,dynamic Function(Map<String, dynamic> json)? fromJsonT,){
 
-    T data;
-    dynamic jsonData = json['data'];
-    if (jsonData is String) {
-      data = jsonData as T;
-    } else if (jsonData is List) {
-      data = jsonData.map((item) => fromJsonT!(item)).toList() as T;
-    } else {
-      data = fromJsonT!(jsonData) as T;
+    T? data;
+    var jsonData = json['data'];
+    if(jsonData != null) {
+      if (jsonData is String) {
+        data = jsonData as T;
+      } else if (jsonData is List) {
+        if (jsonData.isEmpty) throw Exception("List is Empty");
+        data = jsonData.map((e) => e as Map<String, dynamic>).map((item) =>
+            fromJsonT!(item)).toList() as T;
+      } else {
+        data = fromJsonT!(jsonData) as T;
+      }
     }
 
     return ApiResponse<T>(

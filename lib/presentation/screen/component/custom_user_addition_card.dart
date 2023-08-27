@@ -14,14 +14,17 @@ class CustomUserAdditionCard extends StatefulWidget {
       required this.options,
       this.onSave,
       this.roles,
-      this.customName});
+      this.customName,
+      this.isSingleRole
+      });
 
   final String contact;
   final bool? isSelected;
   final List<String> options;
-  final Function(CustomUser)? onSave;
+  final Function(String, List<String>)? onSave;
   final List<String>? roles;
   final String? customName;
+  final bool? isSingleRole;
 
   @override
   State<CustomUserAdditionCard> createState() => _CustomUserAdditionCardState();
@@ -48,9 +51,8 @@ class _CustomUserAdditionCardState extends State<CustomUserAdditionCard> {
   void onSave() {
     print(roles);
     if (_formKey.currentState!.validate() && roles.isNotEmpty) {
-      var customUser = CustomUser(
-          name: widget.contact, customName: nameController.text, roles: roles);
-      widget.onSave?.call(customUser);
+
+      widget.onSave?.call(nameController.text , roles);
       setExpansion(false);
     } else if (roles.isEmpty) {
       setState(() {
@@ -140,6 +142,7 @@ class _CustomUserAdditionCardState extends State<CustomUserAdditionCard> {
                       onSave: addToRole,
                       errorText: roleError,
                       selectedValues: roles,
+                      isSingleSelected: widget.isSingleRole,
                     ),
                     const SizedBox(
                       height: 10,

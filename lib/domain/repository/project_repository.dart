@@ -1,3 +1,4 @@
+import 'package:chat_application/domain/model/request/req_add_project_member.dart';
 import 'package:chat_application/domain/model/request/req_project_detail.dart';
 import 'package:chat_application/domain/model/request/req_register_project.dart';
 
@@ -9,5 +10,5 @@ abstract class ProjectRepository{
   Future<Result<List<ResProject>>> getProjects();
   Future<Result<ResProject>> getProjectDetail(ReqProjectDetail reqProjectDetail);
   Future<Result<ResProject>> updateProject(ResProject resProject);
-  Future<Result<ResProject>> addProjectMember(ReqProjectMember reqProjectMember);
+  Future<Result<ResProject>> addProjectMember(ReqAddProjectMember reqAddProjectMember);
 }

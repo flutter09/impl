@@ -93,4 +93,19 @@ class PreferenceRepositoryImpl implements PreferenceRepository {
   setUserId(String value) {
     setString(PreferenceConstant.userId, value);
   }
+
+  @override
+  String getUserName() {
+    return getString(PreferenceConstant.userName);
+  }
+
+  @override
+  Future<String> getUserNameF() async {
+    return getStringF(PreferenceConstant.userName);
+  }
+
+  @override
+  setUserName(String value) {
+    setString(PreferenceConstant.userName, value);
+  }
 }

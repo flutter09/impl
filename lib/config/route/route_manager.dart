@@ -19,6 +19,7 @@ import 'package:chat_application/presentation/screen/user/user_list_screen.dart'
 import 'package:flutter/material.dart';
 
 import '../../domain/model/request/custom_user.dart';
+import '../../domain/model/response/res_project.dart';
 import '../../presentation/screen/user/select_custom_user_screen.dart';
 import '../../utils/resources/string_manager.dart';
 
@@ -103,8 +104,8 @@ class RouteGenerator {
       case Routes.dashboardScreen:
         return MaterialPageRoute(builder: (_) => DashBoardScreen());
       case Routes.selectCustomUser:
-        List<CustomUser>? selectedUser =
-            routeSettings.arguments as List<CustomUser>?;
+        List<ResProjectMember>? selectedUser =
+            routeSettings.arguments as List<ResProjectMember>?;
         return MaterialPageRoute(
             builder: (_) => SelectUserScreen(selectedContact: selectedUser));
       case Routes.mediaViewerScreen:

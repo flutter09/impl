@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'req_register_project.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class ReqRegisterProject {
   @JsonKey(name: 'name')
   final String name;
@@ -21,7 +21,11 @@ class ReqRegisterProject {
 
   factory ReqRegisterProject.fromJson(Map<String, dynamic> json) => _$ReqRegisterProjectFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ReqRegisterProjectToJson(this);
+  Map<String, dynamic> toJson() => {
+      'name': name,
+      'description': description,
+      'project_members': projectMembers.map((member) => member.toJson()).toList(),
+  };
 }
 
 @JsonSerializable()
@@ -33,10 +37,10 @@ class ReqProjectMember {
   final String userName;
 
   @JsonKey(name: 'role')
-  final int role;
+  final String role;
 
   @JsonKey(name: 'roles')
-  final int roles;
+  final String roles;
 
   ReqProjectMember({
     required this.userId,

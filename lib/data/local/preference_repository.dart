@@ -25,9 +25,12 @@ abstract class PreferenceRepository {
   Future<String> getLoginData();
 
   setUserId(String value);
-
   Future<String> getUserIdF();
-
   String getUserId();
+
+
+  setUserName(String value);
+  Future<String> getUserNameF();
+  String getUserName();
 
 }

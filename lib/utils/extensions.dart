@@ -14,3 +14,20 @@ extension NonNullListExtension<T> on List<T?>? {
     return [for (var item in this!.where((element) => element != null)) ...[item!]];
   }
 }
+
+extension ListTypeExtension<T> on List<T> {
+  Type get listType {
+    if (isEmpty) {
+      throw ArgumentError('The list is empty.');
+    }
+
+    Type firstType = this.first.runtimeType;
+    bool hasDifferentType = any((element) => element.runtimeType != firstType);
+
+    if (hasDifferentType) {
+      throw ArgumentError('The list contains elements of different types.');
+    }
+
+    return firstType;
+  }
+}

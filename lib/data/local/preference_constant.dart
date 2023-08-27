@@ -5,4 +5,5 @@ class PreferenceConstant {
   static const String language = "language";
   static const String loginData = "loginData";
   static const String userId = "user_id";
+  static const String userName = "user_name";
 }

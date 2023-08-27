@@ -12,6 +12,7 @@ import 'package:chat_application/presentation/screen/project/bloc/project_cubit.
 import 'package:chat_application/presentation/screen/user/bloc/add_user_cubit.dart';
 import 'package:chat_application/presentation/screen/user/bloc/personal_info_cubit.dart';
 import 'package:chat_application/presentation/screen/user/bloc/save_user_list_cubit.dart';
+import 'package:chat_application/presentation/screen/user/bloc/select_custom_user_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 import 'data/remote/api_service.dart';
@@ -30,7 +31,8 @@ Future<void> init() async {
   di.registerFactory(() => PersonalInfoCubit(di.call(),di.call()));
   di.registerFactory(() => AddUserCubit(di.call()));
   di.registerFactory(() => SaveUserListCubit(di.call()));
-  di.registerFactory(() => ProjectCubit(di.call()));
+  di.registerFactory(() => ProjectCubit(di.call() , di.call()));
+  di.registerFactory(() => SelectCustomUserCubit(di.call()));
 
   di.registerLazySingleton<PreferenceRepository>(()=>PreferenceRepositoryImpl());
   di.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(apiService: di.call()));

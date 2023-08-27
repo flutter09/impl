@@ -1,13 +1,21 @@
+import 'package:chat_application/base/base_cubit.dart';
+import 'package:chat_application/base/base_state.dart';
 import 'package:chat_application/domain/model/request/custom_user.dart';
+import 'package:chat_application/presentation/screen/user/bloc/select_custom_user_cubit.dart';
+import 'package:chat_application/presentation/screen/user/bloc/user_state.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../config/theme/app_theme.dart';
+import '../../../domain/model/response/res_project.dart';
+import '../../../injection_conatainer.dart' as di;
+import '../../../utils/utils.dart';
 import '../component/custom_appbar.dart';
 import '../component/custom_user_addition_card.dart';
 
 class SelectUserScreen extends StatefulWidget {
-  final List<CustomUser>? selectedContact;
+  final List<ResProjectMember>? selectedContact;
 
   const SelectUserScreen({super.key, this.selectedContact});
 
@@ -16,54 +24,22 @@ class SelectUserScreen extends StatefulWidget {
 }
 
 class _SelectUserScreenState extends State<SelectUserScreen> {
-  List<CustomUser> selectedContact = [];
-
-  final List<String> contact = [
-    'Option 1',
-    'Option 2',
-    'Option 3',
-    'Option 4',
-    'Option 5',
-    'Option 6',
-    'Option 7',
-    'Option 8',
-    'Option 9',
-    'Option 10',
-  ];
-  final List<String> options = [
-    'Option 1',
-    'Option 2',
-    'Option 3',
-    'Option 4',
-    'Option 5',
-  ];
+  final selectCustomUserCubit = di.di<SelectCustomUserCubit>();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    selectedContact.clear();
-    selectedContact.addAll(widget.selectedContact ?? []);
+    selectCustomUserCubit.initSelectList(widget.selectedContact ?? []);
+    selectCustomUserCubit.getSaveUserList();
   }
 
   @override
   Widget build(BuildContext context) {
     // final TextEditingController groupNameController = TextEditingController();
 
-    void addUser(CustomUser customUser) {
-      setState(() {
-        int index =
-            selectedContact.indexWhere((data) => data.name == customUser.name);
-        if (index != -1) {
-          selectedContact[index] = customUser;
-        } else {
-          selectedContact.add(customUser);
-        }
-      });
-    }
-
     void onCompleteSelection() {
-      Navigator.pop(context, selectedContact);
+      Navigator.pop(context, selectCustomUserCubit.selectedMembers);
     }
 
     return Scaffold(
@@ -74,32 +50,50 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
         },
         title: 'Select User',
       ),
-      body: Column(
-        children: [
-          const SizedBox(height: 10),
-          Expanded(
-            child: Container(
-              color: backgroundGray,
-              padding: const EdgeInsets.all(10.0),
-              child: ListView.builder(
-                  itemCount: contact.length,
-                  itemBuilder: (context, index) {
-                    CustomUser? user = selectedContact.firstWhereOrNull(
-                        (element) => element.name == contact[index]);
-                    return CustomUserAdditionCard(
-                      contact: contact[index],
-                      options: options,
-                      isSelected: selectedContact
-                          .map((e) => e.name)
-                          .contains(contact[index]),
-                      customName: user?.customName,
-                      roles: user?.roles,
-                      onSave: addUser,
-                    );
-                  }),
-            ),
-          ),
-        ],
+      body: BlocConsumer<SelectCustomUserCubit, BaseState>(
+        bloc: selectCustomUserCubit,
+        listener: (context, state) {
+          if (state is RefreshState) {
+            setState(() {
+            });
+          }else if (state is ErrorState) {
+            ScaffoldMessenger.of(context).showSnackBar(getSnackBar(state.errorMessage ?? "error invalid"));
+          }
+        },
+        builder: (context, state) {
+          return Stack(
+            children: [
+              if(state is LoadingState) const Center(child: CircularProgressIndicator()),
+              Column(
+                children: [
+                  const SizedBox(height: 10),
+                  Expanded(
+                    child: Container(
+                      color: backgroundGray,
+                      padding: const EdgeInsets.all(10.0),
+                      child: ListView.builder(
+                          itemCount: selectCustomUserCubit.saveUserList.length,
+                          itemBuilder: (context, index) {
+                            ResProjectMember? user = selectCustomUserCubit.selectedMembers.firstWhereOrNull(
+                                    (element) => element.id == selectCustomUserCubit.saveUserList[index].userSaveId);
+                            return CustomUserAdditionCard(
+                              contact: selectCustomUserCubit.saveUserList[index].name ?? "",
+                              options: selectCustomUserCubit.saveUserList[index].roles?.map((e) => e.toString()).toList() ?? [],
+                              isSelected: user != null,
+                              customName: user?.customName,
+                              roles: [user?.role ?? ''],
+                              onSave: (customName , roles){
+                                selectCustomUserCubit.addUser(selectCustomUserCubit.saveUserList[index] , customName , roles);
+                              },
+                            );
+                          }),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: onCompleteSelection,

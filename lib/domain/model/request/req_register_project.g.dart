@@ -15,19 +15,12 @@ ReqRegisterProject _$ReqRegisterProjectFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$ReqRegisterProjectToJson(ReqRegisterProject instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'description': instance.description,
-      'project_members': instance.projectMembers,
-    };
-
 ReqProjectMember _$ReqProjectMemberFromJson(Map<String, dynamic> json) =>
     ReqProjectMember(
       userId: json['user_id'] as String,
       userName: json['user_name'] as String,
-      role: json['role'] as int,
-      roles: json['roles'] as int,
+      role: json['role'] as String,
+      roles: json['roles'] as String,
     );
 
 Map<String, dynamic> _$ReqProjectMemberToJson(ReqProjectMember instance) =>

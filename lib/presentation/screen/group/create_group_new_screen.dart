@@ -1,15 +1,23 @@
 import 'dart:io';
 
+import 'package:chat_application/presentation/screen/group/bloc/group_state.dart';
+import 'package:chat_application/presentation/screen/project/bloc/project_state.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../base/base_state.dart';
+import '../../../domain/model/response/res_project.dart';
+import '../../../injection_conatainer.dart' as di;
 import '../../../utils/utils.dart';
 import '../component/custom_appbar.dart';
 import '../component/custom_drawer.dart';
 import '../component/custom_textfield.dart';
+import 'bloc/group_cubit.dart';
 
 class CreateGroupNewScreen extends StatefulWidget {
-  const CreateGroupNewScreen({super.key});
+  final ResProject? currentProject;
+  const CreateGroupNewScreen({super.key, this.currentProject});
 
   @override
   State<CreateGroupNewScreen> createState() => _CreateGroupNewScreenState();
@@ -20,6 +28,8 @@ class _CreateGroupNewScreenState extends State<CreateGroupNewScreen> {
   final groupDescController = TextEditingController();
   final imageController = TextEditingController();
   File? file;
+
+  final groupCubit = di.di<GroupCubit>();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
@@ -60,90 +70,112 @@ class _CreateGroupNewScreenState extends State<CreateGroupNewScreen> {
         ],
       ),
       drawer: const CustomDrawer(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                LabelTextField(
-                  label: 'Group Name',
-                  hintText: 'Enter Title'.tr(),
-                  validate: (value) {
-                    if (value.isEmpty) {
-                      return 'Name must not be Empty !!';
-                    }
-                    return null;
-                  },
-                  controller: groupNameController,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                LabelTextField(
-                  controller: groupDescController,
-                  label: "Group Description",
-                  hintText: 'Your Description'.tr(),
-                  maxLine: 5,
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                ),
-                const SizedBox(height: 20),
-                LabelTextField(
-                  label: 'Image',
-                  validate: (value) {
-                    if (value.isEmpty) {
-                      return 'Image must not be Empty !!';
-                    }
-                    return null;
-                  },
-                  hintText: "choose file".tr(),
-                  onTap: () async {
-                    file = await pickImageFromGallery(context);
-                    imageController.text =
-                        file?.path.split('/').last ?? "No file chosen";
-                  },
-                  controller: imageController,
-                  readOnly: true,
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      //todo create project
-                    },
-                    child: Row(
+      body: BlocConsumer<GroupCubit, BaseState>(
+        listener: (context, state) {
+          if (state is ErrorState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+                getSnackBar(state.errorMessage ?? "error invalid"));
+          }else if(state is RegisterGroupState){
+            ScaffoldMessenger.of(context).showSnackBar(
+                getSnackBar(state.msg ?? "Group Registered successfully"));
+            Navigator.pop(context);
+          }
+        },
+        builder: (context, state) {
+          return Stack(
+            children: [
+              Visibility(visible: state is LoadingState , child: const Center(child: CircularProgressIndicator()),),
+              SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
                       children: [
-                        const Icon(
-                          Icons.add,
-                          color: Colors.white,
+                        LabelTextField(
+                          label: 'Group Name',
+                          hintText: 'Enter Title'.tr(),
+                          validate: (value) {
+                            if (value.isEmpty) {
+                              return 'Name must not be Empty !!';
+                            }
+                            return null;
+                          },
+                          controller: groupNameController,
                         ),
                         const SizedBox(
-                          width: 10,
+                          height: 20,
                         ),
-                        const Text(
-                          'Create Group',
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ).tr(),
+                        LabelTextField(
+                          controller: groupDescController,
+                          label: "Group Description",
+                          hintText: 'Your Description'.tr(),
+                          maxLine: 5,
+                          contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        ),
+                        const SizedBox(height: 20),
+                        LabelTextField(
+                          label: 'Image',
+                          validate: (value) {
+                            if (value.isEmpty) {
+                              return 'Image must not be Empty !!';
+                            }
+                            return null;
+                          },
+                          hintText: "choose file".tr(),
+                          onTap: () async {
+                            file = await pickImageFromGallery(context);
+                            imageController.text =
+                                file?.path
+                                    .split('/')
+                                    .last ?? "No file chosen";
+                          },
+                          controller: imageController,
+                          readOnly: true,
+                        ),
+                        const SizedBox(height: 20),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // groupCubit.registerGroup()
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                const Text(
+                                  'Create Group',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ).tr(),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
                       ],
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-              ],
-            ),
-          ),
-        ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

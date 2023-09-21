@@ -103,7 +103,7 @@ class ApiServiceImpl implements ApiService {
         print("Response : ${response?.data}");
         return Success(ApiResponse.fromJson(response?.data, fromJsonT));
       } catch (e) {
-        print("Error : ${e.toString()}");
+        print("Error : API SERVICE IMPL / ${e.toString()}");
         return Error(ErrorResponse(errorMessage: e.toString()));
       }
     } else {

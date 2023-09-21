@@ -325,3 +325,6 @@ SnackBar getSnackBar(String message) {
   );
   return snackBar;
 }
+
+DateTime dateTimeFromJson(String date) => DateTime.parse(date);
+String dateTimeToJson(DateTime date) => date.toIso8601String();

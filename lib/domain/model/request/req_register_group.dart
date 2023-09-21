@@ -5,19 +5,19 @@ part 'req_register_group.g.dart';
 @JsonSerializable()
 class ReqRegisterGroup {
   @JsonKey(name: 'project_id')
-  final String projectId;
+  final String? projectId;
 
   @JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   @JsonKey(name: 'group_id')
-  final String groupId;
+  final String? groupId;
 
   @JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   @JsonKey(name: 'group_members')
-  final List<ReqGroupMember> groupMembers;
+  final List<ReqGroupMember>? groupMembers;
 
   ReqRegisterGroup({
     required this.projectId,
@@ -34,13 +34,13 @@ class ReqRegisterGroup {
 @JsonSerializable()
 class ReqGroupMember {
   @JsonKey(name: 'user_id')
-  final String userId;
+  final String? userId;
 
   @JsonKey(name: 'user_name')
-  final String userName;
+  final String? userName;
 
   @JsonKey(name: 'role')
-  final String role;
+  final String? role;
 
   ReqGroupMember({
     required this.userId,

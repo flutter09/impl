@@ -1,4 +1,5 @@
 import 'package:chat_application/config/route/route_manager.dart';
+import 'package:chat_application/presentation/screen/component/custom_image_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,8 +46,7 @@ class _SignInScreenState extends State<SignInScreen> {
           bloc: loginCubit,
           listener: (context, state) {
             if (state is SignInState) {
-              Navigator.pushNamedAndRemoveUntil(context, Routes.dashboardScreen,
-                  (Route<dynamic> route) => false);
+              Navigator.pushNamedAndRemoveUntil(context, Routes.dashboardScreen, (Route<dynamic> route) => false);
             } else if (state is ErrorState) {
               ScaffoldMessenger.of(context).showSnackBar(getSnackBar(state.errorMessage ?? "error invalid"));
             }
@@ -58,7 +58,7 @@ class _SignInScreenState extends State<SignInScreen> {
             return Center(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(12.0),
                   child: Form(
                     key: formKey,
                     child: Column(
@@ -76,18 +76,18 @@ class _SignInScreenState extends State<SignInScreen> {
                           ),
                         ),
                         const SizedBox(
-                          height: 70,
+                          height: 40,
                         ),
                         Text(
                           'Sign-In',
                           style: theme.textTheme.headlineLarge,
                         ).tr(),
                         Text(
-                          'Access IMPL using your mail and password',
+                          'Access IMPM using your mail and password',
                           style: theme.textTheme.bodyMedium,
                         ).tr(),
                         const SizedBox(
-                          height: 40,
+                          height: 30,
                         ),
                         LabelTextField(
                             controller: _controller,
@@ -171,6 +171,79 @@ class _SignInScreenState extends State<SignInScreen> {
                                     context, Routes.signUpRoute);
                               },
                               text: 'Create an account',
+                            ),
+                          ],
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 40.0 , vertical: 8),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Divider(
+                                  color: colorGray,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Text(
+                                  'OR',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: colorGray,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Divider(
+                                  color: colorGray,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CustomImageButton(assetPath: 'assets/images/ic_google.png', onPressed: (){} , iconColor: Colors.black54 ),
+                            SizedBox(width: 10),
+                            CustomImageButton(assetPath: 'assets/images/ic_linkedin.png', onPressed: (){}),
+                          ]
+                        ),
+                        SizedBox(height: 50),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            defaultTextButton(
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  color: colorPrimary),
+                              function: () {
+                                Navigator.pushNamed(
+                                    context, Routes.signUpRoute);
+                              },
+                              text: 'Terms & Conditions',
+                            ),
+                            defaultTextButton(
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  color: colorPrimary),
+                              function: () {
+                                Navigator.pushNamed(
+                                    context, Routes.signUpRoute);
+                              },
+                              text: 'Privacy policies',
+                            ),
+                            defaultTextButton(
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  color: colorPrimary),
+                              function: () {
+                                Navigator.pushNamed(
+                                    context, Routes.signUpRoute);
+                              },
+                              text: 'Help',
                             ),
                           ],
                         ),

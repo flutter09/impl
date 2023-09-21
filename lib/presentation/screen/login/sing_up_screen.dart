@@ -19,6 +19,7 @@ class SignUpScreen extends StatelessWidget {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   final _mobileController = TextEditingController();
   final imageController = TextEditingController();
   final File? file = null;
@@ -59,7 +60,7 @@ class SignUpScreen extends StatelessWidget {
             return Center(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(12.0),
                   child: Form(
                     key: _formKey,
                     child: Column(
@@ -77,29 +78,29 @@ class SignUpScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(
-                          height: 50,
+                          height: 40,
                         ),
                         Text(
                           'Register',
                           style: theme.textTheme.headlineLarge,
                         ).tr(),
                         Text(
-                          'Create new IMPL account',
+                          'Create new IMPM account',
                           style: theme.textTheme.bodyMedium,
                         ).tr(),
                         const SizedBox(
-                          height: 40,
+                          height: 30,
                         ),
                         LabelTextField(
                           controller: _nameController,
-                          label: "Name",
+                          label: "Username",
                         ),
                         const SizedBox(
                           height: 20,
                         ),
                         LabelTextField(
                             controller: _emailController,
-                            label: "Email or Username",
+                            label: "Email",
                             type: TextInputType.emailAddress,
                             validate: (value) {
                               return validateEmail(value);
@@ -114,6 +115,21 @@ class SignUpScreen extends StatelessWidget {
                           type: TextInputType.visiblePassword,
                           validate: (value) {
                             return validatePassword(value);
+                          },
+                          onFieldSubmitted: (value) {
+                            // if (_formKey.currentState!.validate()) {}
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        LabelTextField(
+                          controller: _confirmPasswordController,
+                          label: "Confirm Password",
+                          isPassword: true,
+                          type: TextInputType.visiblePassword,
+                          validate: (value) {
+                            return validateConfirmPassword(_passwordController.text , value);
                           },
                           onFieldSubmitted: (value) {
                             // if (_formKey.currentState!.validate()) {}
@@ -191,6 +207,42 @@ class SignUpScreen extends StatelessWidget {
                                 Navigator.pop(context);
                               },
                               text: 'Sign in instead',
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 40),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            defaultTextButton(
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  color: colorPrimary),
+                              function: () {
+                                Navigator.pushNamed(
+                                    context, Routes.signUpRoute);
+                              },
+                              text: 'Terms & Conditions',
+                            ),
+                            defaultTextButton(
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  color: colorPrimary),
+                              function: () {
+                                Navigator.pushNamed(
+                                    context, Routes.signUpRoute);
+                              },
+                              text: 'Privacy policies',
+                            ),
+                            defaultTextButton(
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  color: colorPrimary),
+                              function: () {
+                                Navigator.pushNamed(
+                                    context, Routes.signUpRoute);
+                              },
+                              text: 'Help',
                             ),
                           ],
                         ),

@@ -32,7 +32,7 @@ class ApiResponse<T> {
         data = jsonData.map((e) => e as Map<String, dynamic>).map((item) =>
             fromJsonT!(item)).toList() as T;
       } else {
-        data = fromJsonT!(jsonData) as T;
+        data = fromJsonT?.call(jsonData) as T?;
       }
     }
 
@@ -55,7 +55,7 @@ class ApiResponse<T> {
   Map<String, dynamic> toJson(Map<String, dynamic> Function(T value) toJsonT) => <String, dynamic>{
     'success': this.success,
     'message': this.message,
-    'data': T != null ? toJsonT(this.data!) : null,
+    'data': T != null ? toJsonT(this.data as T) : null,
     'description' : this.description,
   };
 }

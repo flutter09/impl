@@ -31,7 +31,6 @@ class AddUserCubit extends BaseCubit<BaseState, String> {
   ];
 
   void clearLocalData(){
-    print('clear data');
     customNameController.text = "";
     roles.clear();
   }

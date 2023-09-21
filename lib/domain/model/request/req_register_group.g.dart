@@ -8,12 +8,12 @@ part of 'req_register_group.dart';
 
 ReqRegisterGroup _$ReqRegisterGroupFromJson(Map<String, dynamic> json) =>
     ReqRegisterGroup(
-      projectId: json['project_id'] as String,
-      name: json['name'] as String,
-      groupId: json['group_id'] as String,
-      description: json['description'] as String,
-      groupMembers: (json['group_members'] as List<dynamic>)
-          .map((e) => ReqGroupMember.fromJson(e as Map<String, dynamic>))
+      projectId: json['project_id'] as String?,
+      name: json['name'] as String?,
+      groupId: json['group_id'] as String?,
+      description: json['description'] as String?,
+      groupMembers: (json['group_members'] as List<dynamic>?)
+          ?.map((e) => ReqGroupMember.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -28,9 +28,9 @@ Map<String, dynamic> _$ReqRegisterGroupToJson(ReqRegisterGroup instance) =>
 
 ReqGroupMember _$ReqGroupMemberFromJson(Map<String, dynamic> json) =>
     ReqGroupMember(
-      userId: json['user_id'] as String,
-      userName: json['user_name'] as String,
-      role: json['role'] as String,
+      userId: json['user_id'] as String?,
+      userName: json['user_name'] as String?,
+      role: json['role'] as String?,
     );
 
 Map<String, dynamic> _$ReqGroupMemberToJson(ReqGroupMember instance) =>

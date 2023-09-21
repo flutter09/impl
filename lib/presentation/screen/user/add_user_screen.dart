@@ -145,7 +145,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                                           color: colorPrimary),
                                       width: 100,
                                       height: 100,
-                                      child: Center(child: Text(saveUser.name[0] , style: theme.textTheme.headlineLarge?.copyWith(color: backgroundGray ),)),
+                                      child: Center(child: Text(saveUser.name.isNotEmpty ? saveUser.name[0] : "/", style: theme.textTheme.headlineLarge?.copyWith(color: backgroundGray ),)),
                                     ),
                                     const SizedBox(
                                       width: 10,

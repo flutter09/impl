@@ -42,9 +42,9 @@ abstract class AppTheme {
   }
 }
 
-const Color colorPrimary = Color(0xff854fff);
-const Color colorPrimary300 = Color(0x33854fff);
-const Color colorPrimaryDark = Color(0xff6c2aff);
+const Color colorPrimary = Color(0xff4885ED);
+const Color colorPrimary300 = Color(0x33004792);
+const Color colorPrimaryDark = Color(0xff004792);
 const Color colorGray = Color(0xff344357);
 const Color colorHeader = Color(0xff364a63);
 const Color colorDes = Color(0xff526484);

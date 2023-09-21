@@ -123,7 +123,7 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                           child: ListTile(
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, Routes.groupListScreen);
+                                  context, Routes.groupListScreen,arguments: project);
                             },
                             tileColor: Colors.white,
                             leading: CircleAvatar(

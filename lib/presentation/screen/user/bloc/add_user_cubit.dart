@@ -1,6 +1,9 @@
+import 'package:chat_application/data/local/preference_constant.dart';
+import 'package:chat_application/data/local/preference_utils.dart';
 import 'package:chat_application/domain/model/request/req_add_save_user.dart';
 import 'package:chat_application/domain/model/request/req_send_otp.dart';
 import 'package:chat_application/domain/model/response/save_user_model.dart';
+import 'package:chat_application/domain/model/response/search_user_model.dart';
 import 'package:chat_application/presentation/screen/user/bloc/user_state.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +20,14 @@ class AddUserCubit extends BaseCubit<BaseState, String> {
   AddUserCubit(this._saveUserRepository) : super(BaseInitState(), "");
 
   final emailController = TextEditingController();
-  final customNameController = TextEditingController();
+  final usernameController = TextEditingController();
+  final clientNameController = TextEditingController();
+  final uniqueNameController = TextEditingController();
+  final phoneController = TextEditingController();
+  final technologyController = TextEditingController();
 
   List<String> roles = [];
-  SaveUserModel? saveUserModel;
+  SearchUserData? saveUserModel;
 
   final List<String> options = [
     'Option 1',
@@ -31,7 +38,7 @@ class AddUserCubit extends BaseCubit<BaseState, String> {
   ];
 
   void clearLocalData(){
-    customNameController.text = "";
+    usernameController.text = "";
     roles.clear();
   }
 
@@ -43,7 +50,7 @@ class AddUserCubit extends BaseCubit<BaseState, String> {
       var response = await _saveUserRepository.getSaveUser(ReqSendOtp(email: emailController.text));
       if (response is Success) {
         saveUserModel = (response as Success).data;
-        emit(SaveUserState(saveUserModel: (response as Success).data));
+        emit(SaveUserState());
       } else {
         emit(ErrorState(
             errorMessage: (response as Error).errorResponse.errorMessage));
@@ -59,13 +66,19 @@ class AddUserCubit extends BaseCubit<BaseState, String> {
     try {
       emit(LoadingState());
       var reqAddSaveUser = ReqAddSaveUser(
-          userId: saveUserModel!.id,
-          userName: customNameController.text,
-          name: saveUserModel!.name,
-          email: saveUserModel!.email,
-          phone: saveUserModel!.phone,
-          image: saveUserModel!.image,
-          roles: getRoleIndexes(roles) //todo get int array from string array;
+        userIdOfAddedUser: saveUserModel?.id ?? "",
+        userSaveId: getString(PreferenceConstant.userId),
+        firstName: usernameController.text,
+        lastName: "",
+        roles: [],
+        defaultName: usernameController.text,
+        email: emailController.text,
+        phone: phoneController.text,
+        image: "",
+        address: "",
+        country: "",
+        city: "",
+        dateOfBirth: null,
       );
       var response = await _saveUserRepository.addSaveUser(reqAddSaveUser);
 

@@ -1,13 +1,12 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
-import 'package:dio/dio.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../../base/api_response.dart';
 import '../../base/network_interceptor.dart';
 import '../../base/result.dart';
 import '../../base/retry_interceptor.dart';
-import '../../base/api_response.dart';
 import '../../domain/model/response/error_response.dart';
 import 'api_constant.dart';
 import 'api_service.dart';
@@ -15,6 +14,7 @@ import 'api_service.dart';
 class ApiServiceImpl implements ApiService {
   Dio? dio;
   Connectivity? connectivity;
+  BaseOptions? options;
 
   ApiServiceImpl._() {
     dio = Dio();
@@ -29,6 +29,8 @@ class ApiServiceImpl implements ApiService {
         error: true,
       ));
     }
+    dio?.options =
+        BaseOptions(connectTimeout: 5 * 60 * 1000, receiveTimeout: 5 * 60 * 1000);
   }
 
   static final ApiServiceImpl apiServiceImpl = ApiServiceImpl._();
@@ -58,7 +60,7 @@ class ApiServiceImpl implements ApiService {
   @override
   Future<Result<ApiResponse<T>>?> get<T>(String url,
       {Map<String, dynamic>? queryParameters,
-        required T Function(Map<String, dynamic> json) fromJsonT}) async {
+      required T Function(Map<String, dynamic> json) fromJsonT}) async {
     var response = await dio?.get(DioApiConstants.baseUrl + url,
         queryParameters: queryParameters);
     if (response?.statusCode == 200) {
@@ -114,9 +116,16 @@ class ApiServiceImpl implements ApiService {
   }
 
   @override
-  Future<Result<ApiResponse<T>>?> postFile<T>(String url, T Function(Map<String, dynamic> json)? fromJsonT, {data}) async {
-
-    var response = await dio?.post(DioApiConstants.baseUrl + url, data: data, options: Options(contentType: 'multipart/form-data'));
+  Future<Result<ApiResponse<T>>?> postFile<T>(
+      String url, T Function(Map<String, dynamic> json)? fromJsonT,
+      {data}) async {
+    var response = await dio?.post(DioApiConstants.baseUrl + url,
+        data: data,
+        options: Options(
+            contentType: 'multipart/form-data',
+            sendTimeout: 5 * 60 * 1000,
+            // 60 seconds
+            receiveTimeout: 5 * 60 * 1000));
     if (response?.statusCode == 200) {
       try {
         print("Response : ${response?.data}");
@@ -129,12 +138,12 @@ class ApiServiceImpl implements ApiService {
       return Error(ErrorResponse(
           errorMessage: response?.statusMessage ?? "null response found"));
     }
-
   }
 
   @override
-  Future<Result<ApiResponse<String>>?> getFile(String fileUrl,) async {
-
+  Future<Result<ApiResponse<String>>?> getFile(
+    String fileUrl,
+  ) async {
     final appDir = await getApplicationDocumentsDirectory();
     final fileName = fileUrl.split('/').last;
     final savePath = '${appDir.path}/$fileName';
@@ -144,13 +153,17 @@ class ApiServiceImpl implements ApiService {
         fileUrl,
         savePath,
       );
-      return Success(ApiResponse(success: true, message: 0, data:  'Downloading at $savePath', description: 'Downloading at $savePath' ));
+      return Success(ApiResponse(
+          success: true,
+          message: 0,
+          data: 'Downloading at $savePath',
+          description: 'Downloading at $savePath'));
     } catch (e) {
       return Error(ErrorResponse(errorMessage: e.toString()));
     }
   }
 
-  /*@override
+/*@override
   Future<Result<ApiResponse<T>>?> postList<T>(
       String url, T Function(Map<String, dynamic> json)? fromJsonT,
       {Map<dynamic, dynamic>? data}) async {

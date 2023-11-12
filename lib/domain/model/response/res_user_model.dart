@@ -7,8 +7,11 @@ class ResUserModel {
   @JsonKey(name: '_id')
   String? id;
 
-  @JsonKey(name: 'name')
-  String? name;
+  @JsonKey(name: 'first_name')
+  String? firstName;
+
+  @JsonKey(name: 'last_name')
+  String? lastName;
 
   @JsonKey(name: 'email')
   String? email;
@@ -25,6 +28,9 @@ class ResUserModel {
   @JsonKey(name: 'unique_name')
   String? uniqueName;
 
+  @JsonKey(name: 'default_name')
+  String? defaultName;
+
   @JsonKey(name: 'Date_of_Birth')
   String? dateOfBirth;
 
@@ -37,8 +43,8 @@ class ResUserModel {
   @JsonKey(name: 'country')
   String? country;
 
-  @JsonKey(name: 'technology')
-  String? technology;
+  @JsonKey(name: 'roles')
+  List<String?>? roles;
 
   @JsonKey(name: 'jwt')
   String? jwt;
@@ -73,12 +79,10 @@ class ResUserModel {
   @JsonKey(name: '__v')
   int? v;
 
-  @JsonKey(name: 'roles')
-  List<String?>? roles;
-
   ResUserModel({
     this.id,
-    this.name,
+    this.firstName,
+    this.lastName,
     this.email,
     this.phone,
     this.password,
@@ -88,7 +92,7 @@ class ResUserModel {
     this.address,
     this.city,
     this.country,
-    this.technology,
+    this.roles,
     this.jwt,
     this.tokens,
     this.referralCode,
@@ -100,7 +104,6 @@ class ResUserModel {
     this.updatedAt,
     this.uniqueId,
     this.v,
-    this.roles,
   });
 
   factory ResUserModel.fromJson(Map<String, dynamic> json) =>

@@ -1,3 +1,5 @@
+import '../../domain/model/response/res_user_model.dart';
+
 abstract class PreferenceRepository {
   initPreference();
 
@@ -32,5 +34,17 @@ abstract class PreferenceRepository {
   setUserName(String value);
   Future<String> getUserNameF();
   String getUserName();
+
+  setUserMail(String value);
+  Future<String> getUserMailF();
+  String getUserMail();
+
+  setUserPhone(String value);
+  Future<String> getUserPhoneF();
+  String getUserPhone();
+
+  setUser(ResUserModel user);
+  Future<ResUserModel> getUserF();
+  ResUserModel getUser();
 
 }

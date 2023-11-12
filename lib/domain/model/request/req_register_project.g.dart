@@ -20,7 +20,6 @@ ReqProjectMember _$ReqProjectMemberFromJson(Map<String, dynamic> json) =>
       userId: json['user_id'] as String,
       userName: json['user_name'] as String,
       role: json['role'] as String,
-      roles: json['roles'] as String,
     );
 
 Map<String, dynamic> _$ReqProjectMemberToJson(ReqProjectMember instance) =>
@@ -28,5 +27,4 @@ Map<String, dynamic> _$ReqProjectMemberToJson(ReqProjectMember instance) =>
       'user_id': instance.userId,
       'user_name': instance.userName,
       'role': instance.role,
-      'roles': instance.roles,
     };

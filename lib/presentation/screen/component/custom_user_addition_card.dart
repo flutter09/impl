@@ -125,7 +125,7 @@ class _CustomUserAdditionCardState extends State<CustomUserAdditionCard> {
                   children: [
                     LabelTextField(
                       controller: nameController,
-                      label: "Custom name",
+                      label: "Display name",
                       validate: (value) {
                         if (value.isEmpty) {
                           return 'Text Field 1 is required';
@@ -138,7 +138,7 @@ class _CustomUserAdditionCardState extends State<CustomUserAdditionCard> {
                     ),
                     LabelMultipleChipDropDown(
                       options: widget.options,
-                      label: 'Members',
+                      label: 'Role',
                       onSave: addToRole,
                       errorText: roleError,
                       selectedValues: roles,

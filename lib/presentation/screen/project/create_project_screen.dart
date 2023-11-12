@@ -13,6 +13,7 @@ import '../../../injection_conatainer.dart' as di;
 import '../../../utils/utils.dart';
 import '../component/custom_appbar.dart';
 import '../component/custom_drawer.dart';
+import '../component/custom_dropdown.dart';
 import '../component/custom_textfield.dart';
 
 class CreateProjectScreen extends StatefulWidget {
@@ -50,13 +51,13 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    /* final List<String> options = [
+     final List<String> options = [
       'Option 1',
       'Option 2',
       'Option 3',
       'Option 4',
       'Option 5',
-    ];*/
+    ];
     return Scaffold(
       key: _scaffoldKey,
       appBar: CustomAppBar(
@@ -84,7 +85,7 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
           }else if (state is RegisterProjectState) {
             ScaffoldMessenger.of(context).showSnackBar(
                 getSnackBar(state.msg ?? "Project register successfully"));
-            Navigator.pop(context);
+            Navigator.pop(context,true);
           }
         },
         builder: (context, state) {
@@ -102,7 +103,7 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         LabelTextField(
-                          label: 'Project Name',
+                          label: 'Title',
                           hintText: 'Enter Title'.tr(),
                           validate: (value) {
                             if (value.isEmpty) {
@@ -149,7 +150,7 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
                     ),*/
                         LabelTextField(
                           controller: projectCubit.projectDescController,
-                          label: "Project Description",
+                          label: "Description",
                           hintText: 'Your Description'.tr(),
                           maxLine: 4,
                           contentPadding:
@@ -179,12 +180,13 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
                       label: 'Category',
                       options: options,
                     ),
-                    const SizedBox(height: 20),
-                    LabelMultipleChipDropDown(
+                    const SizedBox(height: 20),*/
+                    /*LabelMultipleChipDropDown(
                       options: options,
                       label: 'Members',
-                    ),
-                    const SizedBox(height: 20),
+                      isSingleSelected: true,
+                    ),*/
+                    /*const SizedBox(height: 20),
                     LabelTextField(
                       label: 'Image',
                       validate: (value) {
@@ -202,6 +204,7 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
                       readOnly: true,
                     ),
                     const SizedBox(height: 20),*/
+                        //todo member selection
                         Row(
                           children: [
                             Expanded(
@@ -251,11 +254,11 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
                                 var user = projectCubit.selectedMembers[index];
                                 return ListTile(
                                   title: Text(
-                                    user.userId??'',
+                                    user.customName??'',
                                     style: theme.textTheme.bodyLarge,
                                   ),
                                   subtitle: Text(
-                                    user.role??'' /*.join(', ')*/,
+                                    user.customRole??'',
                                     style: theme.textTheme.bodySmall,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,

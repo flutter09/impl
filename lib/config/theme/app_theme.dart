@@ -22,6 +22,10 @@ abstract class AppTheme {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
+              textStyle: MaterialStatePropertyAll(TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.normal),),
           backgroundColor: MaterialStateProperty.all(colorPrimary),
         )),
         textTheme: const TextTheme(
@@ -51,3 +55,4 @@ const Color colorDes = Color(0xff526484);
 const Color lightGray = Color.fromRGBO(195, 195, 195, 1);
 const Color darkGray = Color.fromRGBO(51, 51, 51, 1);
 const Color backgroundGray = Color.fromRGBO(239, 239, 239, 1.0);
+const Color colorPurple = Color(0xffbb86fc);

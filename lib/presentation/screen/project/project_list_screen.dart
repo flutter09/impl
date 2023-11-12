@@ -96,14 +96,19 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                         )
                       ],
                     )),
-                    defaultTextButton(
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w400, color: colorPrimary),
-                      function: () {
-                        Navigator.of(context)
+                    IconButton(
+                      onPressed: () async {
+                        var result = await Navigator.of(context)
                             .pushNamed(Routes.createProjectRoute);
+                        if(result!= null && result == true){
+                          projectCubit.getProjects();
+                        }
                       },
-                      text: 'Add Project',
+                      iconSize: 30,
+                      icon: const Icon(
+                        Icons.add_circle_outline_sharp,
+                        color: colorGray,
+                      ),
                     ),
                   ],
                 ),
@@ -122,8 +127,8 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                           clipBehavior: Clip.hardEdge,
                           child: ListTile(
                             onTap: () {
-                              Navigator.pushNamed(
-                                  context, Routes.groupListScreen,arguments: project);
+                              /*Navigator.pushNamed(
+                                  context, Routes.groupListScreen,arguments: project);*/
                             },
                             tileColor: Colors.white,
                             leading: CircleAvatar(

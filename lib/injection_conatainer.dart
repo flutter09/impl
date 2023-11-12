@@ -6,6 +6,7 @@ import 'package:chat_application/data/repository/save_user_repository_impl.dart'
 import 'package:chat_application/domain/repository/group_repository.dart';
 import 'package:chat_application/domain/repository/project_repository.dart';
 import 'package:chat_application/domain/repository/save_user_repository.dart';
+import 'package:chat_application/presentation/screen/component/component_bloc_cubit.dart';
 import 'package:chat_application/presentation/screen/group/bloc/group_cubit.dart';
 import 'package:chat_application/presentation/screen/login/bloc/forgot_password_cubit.dart';
 import 'package:chat_application/presentation/screen/login/bloc/generate_password_cubit.dart';
@@ -37,6 +38,8 @@ Future<void> init() async {
   di.registerFactory(() => ProjectCubit(di.call() , di.call()));
   di.registerFactory(() => SelectCustomUserCubit(di.call()));
   di.registerFactory(() => GroupCubit(di.call(),di.call()));
+  di.registerFactory(() => ComponentBlocCubit(di.call()));
+
 
   di.registerLazySingleton<PreferenceRepository>(()=>PreferenceRepositoryImpl());
   di.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(apiService: di.call()));

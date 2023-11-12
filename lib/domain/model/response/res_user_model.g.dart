@@ -8,7 +8,8 @@ part of 'res_user_model.dart';
 
 ResUserModel _$ResUserModelFromJson(Map<String, dynamic> json) => ResUserModel(
       id: json['_id'] as String?,
-      name: json['name'] as String?,
+      firstName: json['first_name'] as String?,
+      lastName: json['last_name'] as String?,
       email: json['email'] as String?,
       phone: json['phone'] as String?,
       password: json['password'] as String?,
@@ -18,7 +19,8 @@ ResUserModel _$ResUserModelFromJson(Map<String, dynamic> json) => ResUserModel(
       address: json['address'] as String?,
       city: json['city'] as String?,
       country: json['country'] as String?,
-      technology: json['technology'] as String?,
+      roles:
+          (json['roles'] as List<dynamic>?)?.map((e) => e as String?).toList(),
       jwt: json['jwt'] as String?,
       tokens:
           (json['tokens'] as List<dynamic>?)?.map((e) => e as String?).toList(),
@@ -35,24 +37,24 @@ ResUserModel _$ResUserModelFromJson(Map<String, dynamic> json) => ResUserModel(
       updatedAt: json['updatedAt'] as String?,
       uniqueId: json['unique_id'] as int?,
       v: json['__v'] as int?,
-      roles:
-          (json['roles'] as List<dynamic>?)?.map((e) => e as String?).toList(),
-    );
+    )..defaultName = json['default_name'] as String?;
 
 Map<String, dynamic> _$ResUserModelToJson(ResUserModel instance) =>
     <String, dynamic>{
       '_id': instance.id,
-      'name': instance.name,
+      'first_name': instance.firstName,
+      'last_name': instance.lastName,
       'email': instance.email,
       'phone': instance.phone,
       'password': instance.password,
       'image': instance.image,
       'unique_name': instance.uniqueName,
+      'default_name': instance.defaultName,
       'Date_of_Birth': instance.dateOfBirth,
       'address': instance.address,
       'city': instance.city,
       'country': instance.country,
-      'technology': instance.technology,
+      'roles': instance.roles,
       'jwt': instance.jwt,
       'tokens': instance.tokens,
       'referral_code': instance.referralCode,
@@ -64,7 +66,6 @@ Map<String, dynamic> _$ResUserModelToJson(ResUserModel instance) =>
       'updatedAt': instance.updatedAt,
       'unique_id': instance.uniqueId,
       '__v': instance.v,
-      'roles': instance.roles,
     };
 
 UserSaveData _$UserSaveDataFromJson(Map<String, dynamic> json) => UserSaveData(

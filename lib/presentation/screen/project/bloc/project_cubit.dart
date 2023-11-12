@@ -60,10 +60,10 @@ class ProjectCubit extends BaseCubit<BaseState, String> {
           .map((e) => ReqProjectMember(
           userId: e.userId ??'',
           userName: e.customName ?? "",
-          role: e.customRole ?? "",
-          roles: e.role ?? '')).toList();
+          role: e.customRole ?? "")
+      ).toList();
       projectMembers.add(
-        ReqProjectMember(userId: preferenceRepository.getUserId(), userName: preferenceRepository.getUserName(), role: '1', roles: '2')
+        ReqProjectMember(userId: preferenceRepository.getUserId(), userName: preferenceRepository.getUserName(), role: '1',)
       );
       
       var response = await projectRepository.registerProject(ReqRegisterProject(
@@ -90,6 +90,7 @@ class ProjectCubit extends BaseCubit<BaseState, String> {
       var response = await projectRepository.getProjects();
       if (response is Success) {
         print('cubit sucess');
+        projectList.clear();
         projectList.addAll((response as Success).data);
         emit(GetProjects());
       } else {

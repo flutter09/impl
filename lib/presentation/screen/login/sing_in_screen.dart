@@ -92,6 +92,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         LabelTextField(
                             controller: _controller,
                             label: "Email or Username or phone",
+                            hintText: "Enter Email or username or phone",
                             type: TextInputType.emailAddress,
                             validate: (value) {
                               return validateEmailPhone(value);
@@ -102,10 +103,11 @@ class _SignInScreenState extends State<SignInScreen> {
                         LabelTextField(
                           controller: _passwordController,
                           label: "Password",
+                          hintText: "Enter your password",
                           isPassword: true,
                           type: TextInputType.visiblePassword,
                           validate: (value) {
-                            return validatePassword(value);
+                            // return validatePassword(value); // todo : password validation
                           },
                           onFieldSubmitted: (value) {
                             // if (_formKey.currentState!.validate()) {}
@@ -127,7 +129,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 8),
                         BlocBuilder<SignInCubit, BaseState>(
                           builder: (context, state) {
                             return SizedBox(
@@ -144,9 +146,9 @@ class _SignInScreenState extends State<SignInScreen> {
                                 },
                                 child: const Text(
                                   'Sign in',
-                                  style: TextStyle(
+                                  /*style: TextStyle(
                                       color: Colors.white,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.bold),*/
                                 ).tr(),
                               ),
                             );
@@ -208,7 +210,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           children: [
                             CustomImageButton(assetPath: 'assets/images/ic_google.png', onPressed: (){} , iconColor: Colors.black54 ),
                             SizedBox(width: 10),
-                            CustomImageButton(assetPath: 'assets/images/ic_linkedin.png', onPressed: (){}),
+                            CustomImageButton(assetPath: 'assets/images/ic_linkedin.png', onPressed: (){}, iconColor: Colors.black54),
                           ]
                         ),
                         SizedBox(height: 50),

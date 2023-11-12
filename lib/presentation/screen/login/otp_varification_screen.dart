@@ -59,12 +59,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         }
       },
       builder: (context, state) {
-        if (state is LoadingState) {
-          return const Center(child: CircularProgressIndicator());
-        }
         return Scaffold(
             backgroundColor: Colors.white,
-            body: Center(
+            body: (state is LoadingState)
+                ? const Center(child: CircularProgressIndicator()) : Center(
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),

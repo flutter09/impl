@@ -52,10 +52,10 @@ class _LabelTextFieldState extends State<LabelTextField> {
         Text(
           widget.label ?? "",
           style: const TextStyle(
-              fontSize: 18, fontWeight: FontWeight.w500, color: colorGray),
+              fontSize: 16, fontWeight: FontWeight.w500, color: colorGray),
         ).tr(),
         const SizedBox(
-          height: 10,
+          height: 8,
         ),
         SizedBox(
           height: widget.height,
@@ -64,11 +64,16 @@ class _LabelTextFieldState extends State<LabelTextField> {
             maxLines: widget.maxLine ?? 1,
             controller: widget.controller,
             readOnly: widget.readOnly ?? false,
+            style: const TextStyle(
+    fontSize: 18, color: Colors.black),
             decoration: InputDecoration(
                 contentPadding: widget.contentPadding ??
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                border: const OutlineInputBorder(),
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
                 hintText: widget.hintText,
+                hintStyle: const TextStyle(color: lightGray),
                 errorText: widget.errorText,
                 suffixIcon: widget.isPassword == true
                     ? IconButton(
@@ -85,7 +90,9 @@ class _LabelTextFieldState extends State<LabelTextField> {
                           );
                         },
                       )
-                    : null),
+                    : widget.readOnly == true ? const Icon(
+                    Icons.lock,
+                    color: colorGray) : null,),
             keyboardType: widget.type,
             onFieldSubmitted: widget.onFieldSubmitted,
             onChanged: widget.onChanged,

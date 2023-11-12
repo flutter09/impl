@@ -39,14 +39,10 @@ class ReqProjectMember {
   @JsonKey(name: 'role')
   final String role;
 
-  @JsonKey(name: 'roles')
-  final String roles;
-
   ReqProjectMember({
     required this.userId,
     required this.userName,
     required this.role,
-    required this.roles,
   });
 
   factory ReqProjectMember.fromJson(Map<String, dynamic> json) => _$ReqProjectMemberFromJson(json);

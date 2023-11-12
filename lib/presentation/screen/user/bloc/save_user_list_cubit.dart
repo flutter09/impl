@@ -6,24 +6,26 @@ import 'package:chat_application/utils/extensions.dart';
 
 import '../../../../base/base_state.dart';
 import '../../../../base/result.dart';
+import '../../../../domain/repository/save_user_repository.dart';
 import '../../../../domain/repository/user_repository.dart';
 
 class SaveUserListCubit extends BaseCubit<BaseState , String>{
-  final UserRepository _userRepository;
+  final SaveUserRepository _saveUserRepository;
 
-  SaveUserListCubit(this._userRepository) : super(BaseInitState(), "");
+  SaveUserListCubit(this._saveUserRepository) : super(BaseInitState(), "");
 
-  List<UserSaveData> saveUserList = [];
+  List<SaveUserData> saveUserList = [];
 
   Future<void> getSaveUserList() async {
     if (isBusy) return;
 
     try{
       emit(LoadingState());
-      var response = await _userRepository.getUserDetails();
+      var response = await _saveUserRepository.getSaveUserList();
       if(response is Success){
-        saveUserList.addAll(((response as Success).data as ResUserModel).userSaveId?.getNonNullList() ?? []);
-        emit(SaveUserListState(saveUserList: ((response as Success).data as ResUserModel).userSaveId?.getNonNullList() ?? [], ));
+        saveUserList.clear();
+        saveUserList.addAll((response as Success).data as List<SaveUserData>);
+        emit(SaveUserListState());
       }else{
         emit(ErrorState(errorMessage: (response as Error).errorResponse.errorMessage));
       }

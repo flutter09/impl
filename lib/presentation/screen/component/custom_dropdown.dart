@@ -49,7 +49,7 @@ class _MultipleChipDropdown extends State<MultipleChipDropdown> {
       decoration: InputDecoration(
         hintText: widget.hintText,
         errorText: widget.errorText,
-        border: const OutlineInputBorder(),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
         contentPadding: const EdgeInsets.all(0.0),
         prefixIcon: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -200,9 +200,9 @@ class _LabelDropDownState extends State<LabelDropDown> {
               });
             }
           },
-          decoration: const InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-            border: OutlineInputBorder(),
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
           ),
         ),
       ],

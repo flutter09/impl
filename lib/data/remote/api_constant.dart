@@ -21,6 +21,7 @@ class DioApiConstants {
   static const String getOtherUserDetail= "user/get_other_user_details";
   static const String addUserSaveList= "user/add_userSave_list";
   static const String editUserSaveList = "user/edit_userSave_list";
+  static const String getSaveUserList ="user/get_userSave_list";
 
   //group
   static const String groupRegister ="user/group_register";

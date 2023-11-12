@@ -6,4 +6,7 @@ class PreferenceConstant {
   static const String loginData = "loginData";
   static const String userId = "user_id";
   static const String userName = "user_name";
+  static const String userMail = "user_mail";
+  static const String userPhone = "user_phone";
+  static const String user = "user";
 }

@@ -40,10 +40,9 @@ class ForgotPasswordScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state is LoadingState) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        return Scaffold(
+
+        return (state is LoadingState)
+            ? const Center(child: CircularProgressIndicator()) : Scaffold(
             backgroundColor: Colors.white,
             body: Center(
               child: SingleChildScrollView(

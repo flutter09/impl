@@ -18,20 +18,27 @@ import 'bloc/add_user_cubit.dart';
 class SaveUserEditingDialog extends StatefulWidget {
   const SaveUserEditingDialog({super.key, required this.userSaveData});
 
-  final UserSaveData userSaveData;
+  final SaveUserData userSaveData;
 
   @override
   _SaveUserEditingDialogState createState() => _SaveUserEditingDialogState();
 }
 
 class _SaveUserEditingDialogState extends State<SaveUserEditingDialog> {
-  TextEditingController customNameController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+
   List<String> roles = [];
   final addUserCubit = di.di<AddUserCubit>();
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
-    customNameController.text = widget.userSaveData.userName ?? "";
+    nameController.text = widget.userSaveData.firstName ?? "";
+    emailController.text = widget.userSaveData.email ?? "";
+    phoneController.text = widget.userSaveData.phone ?? "";
     roles.addAll(
         addUserCubit.getRoleFromIndexes(widget.userSaveData.roles ?? []));
     super.initState();
@@ -49,15 +56,8 @@ class _SaveUserEditingDialogState extends State<SaveUserEditingDialog> {
   }
 
   void onSave() {
-    if (customNameController.text.isNotEmpty && roles.isNotEmpty) {
-      addUserCubit.updateSaveUser(ReqAddSaveUser(
-          userId: widget.userSaveData.userSaveId ?? "",
-          userName: customNameController.text,
-          name: widget.userSaveData.name ?? "",
-          email: widget.userSaveData.email ?? "",
-          phone: widget.userSaveData.phone ?? "",
-          image: widget.userSaveData.image ?? "",
-          roles: widget.userSaveData.roles ?? []));
+    if (_formKey.currentState!.validate() && roles.isNotEmpty) {
+      addUserCubit.updateSaveUser(ReqAddSaveUser()); // add params
     } else if (roles.isEmpty) {
       setState(() {
         roleError = 'role must not be empty';
@@ -68,7 +68,7 @@ class _SaveUserEditingDialogState extends State<SaveUserEditingDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Edit ${widget.userSaveData.email}'),
+      title:const Text("Update user"),
       content: BlocConsumer<AddUserCubit, BaseState>(
         bloc: addUserCubit,
         listener: (context, state) {
@@ -80,35 +80,56 @@ class _SaveUserEditingDialogState extends State<SaveUserEditingDialog> {
           }
         },
         builder: (context, state) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              LabelTextField(
-                controller: customNameController,
-                label: "Custom name",
-                validate: (value) {
-                  if (value.isEmpty) {
-                    return 'Text Field 1 is required';
-                  }
-                  return null;
-                },
+          return Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  LabelTextField(
+                    controller: nameController,
+                    label: "Name",
+                    validate: (value) {
+                      if (value.isEmpty) {
+                        return 'name is required';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  LabelTextField(
+                    controller: emailController,
+                    label: "E-mail",
+                    validate: (value) {
+                      if (value.isEmpty) {
+                        return 'email is required';
+                      }
+                      return validateEmail(value);
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  LabelTextField(
+                    controller: phoneController,
+                    label: "Phone",
+                    validate: (value) {
+                      if (value.isEmpty) {
+                        return 'phone is required';
+                      }
+                      return validateMobileNumber(value);
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ],
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              LabelMultipleChipDropDown(
-                  options: addUserCubit.options,
-                  label: 'Role',
-                  onSave: addToRole,
-                  errorText: roleError,
-                  selectedValues: roles,
-                  isSingleSelected: false),
-              const SizedBox(
-                height: 10,
-              ),
-            ],
+            ),
           );
         },
       ),

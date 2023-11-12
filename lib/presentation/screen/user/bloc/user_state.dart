@@ -15,9 +15,8 @@ class UserUpdateState extends BaseState {
 }
 
 class SaveUserState extends BaseState {
-  final SaveUserModel saveUserModel;
 
-  const SaveUserState({required this.saveUserModel});
+  const SaveUserState();
 }
 
 class AddSaveUserState extends BaseState {
@@ -33,9 +32,7 @@ class UpdateSaveUserState extends BaseState {
 }
 
 class SaveUserListState extends BaseState {
-  final List<UserSaveData> saveUserList;
-
-  const SaveUserListState({required this.saveUserList});
+  const SaveUserListState();
 }
 
 class RefreshState extends BaseState {

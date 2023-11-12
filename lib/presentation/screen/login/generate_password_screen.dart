@@ -39,12 +39,10 @@ class GeneratePasswordScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state is LoadingState) {
-          return const Center(child: CircularProgressIndicator());
-        }
         return Scaffold(
           backgroundColor: Colors.white,
-          body: Center(
+          body:(state is LoadingState)
+              ? const Center(child: CircularProgressIndicator()) : Center(
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

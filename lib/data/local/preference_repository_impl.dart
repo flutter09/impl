@@ -1,7 +1,10 @@
 
+import 'dart:convert';
+
 import 'package:chat_application/data/local/preference_constant.dart';
 import 'package:chat_application/data/local/preference_repository.dart';
 import 'package:chat_application/data/local/preference_utils.dart';
+import 'package:chat_application/domain/model/response/res_user_model.dart';
 
 class PreferenceRepositoryImpl implements PreferenceRepository {
   PreferenceRepositoryImpl._();
@@ -107,5 +110,50 @@ class PreferenceRepositoryImpl implements PreferenceRepository {
   @override
   setUserName(String value) {
     setString(PreferenceConstant.userName, value);
+  }
+
+  @override
+  String getUserMail() {
+    return getString(PreferenceConstant.userMail);
+  }
+
+  @override
+  Future<String> getUserMailF() async {
+    return getStringF(PreferenceConstant.userMail);
+  }
+
+  @override
+  setUserMail(String value) {
+    setString(PreferenceConstant.userMail, value);
+  }
+
+  @override
+  String getUserPhone() {
+    return getString(PreferenceConstant.userPhone);
+  }
+
+  @override
+  Future<String> getUserPhoneF() async {
+    return getStringF(PreferenceConstant.userPhone);
+  }
+
+  @override
+  setUserPhone(String value) {
+    setString(PreferenceConstant.userPhone, value);
+  }
+
+  @override
+  ResUserModel getUser() {
+    return ResUserModel.fromJson(jsonDecode(getString(PreferenceConstant.user)));
+  }
+
+  @override
+  Future<ResUserModel> getUserF() async {
+    return ResUserModel.fromJson(jsonDecode(await getStringF(PreferenceConstant.user)));
+  }
+
+  @override
+  setUser(ResUserModel user) {
+    setString(PreferenceConstant.userPhone, jsonEncode(user.toJson()));
   }
 }

@@ -71,8 +71,8 @@ class PersonalInfoCubit extends BaseCubit<BaseState , String>{
   }
 
   void setController() {
-    print("name : ${resUserModel.name ?? "no value"}");
-    fullNameController.text = resUserModel.name ?? "";
+    // print("name : ${resUserModel.name ?? "no value"}");
+    // fullNameController.text = resUserModel.name ?? "";
     nameController.text = resUserModel.uniqueName ?? "";
     emailController.text = resUserModel.email ?? "";
     phoneNumberController.text = resUserModel.phone ?? "";
@@ -80,11 +80,11 @@ class PersonalInfoCubit extends BaseCubit<BaseState , String>{
     addressController.text = resUserModel.address ?? "";
     countryController.text = resUserModel.country ?? "";
     cityController.text = resUserModel.city ?? "";
-    technologyController.text = resUserModel.technology ?? "";
+    // technologyController.text = resUserModel.technology ?? "";
   }
 
   void setUserModel(){
-    resUserModel.name = fullNameController.text;
+    // resUserModel.name = fullNameController.text;
     resUserModel.uniqueName = nameController.text;
     resUserModel.email = emailController.text;
     resUserModel.phone = phoneNumberController.text;
@@ -92,7 +92,7 @@ class PersonalInfoCubit extends BaseCubit<BaseState , String>{
     resUserModel.address = addressController.text;
     resUserModel.country = countryController.text;
     resUserModel.city = cityController.text;
-    resUserModel.technology = technologyController.text;
+    // resUserModel.technology = technologyController.text;
   }
 
 }

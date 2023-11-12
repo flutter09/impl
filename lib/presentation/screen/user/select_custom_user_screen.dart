@@ -25,6 +25,7 @@ class SelectUserScreen extends StatefulWidget {
 
 class _SelectUserScreenState extends State<SelectUserScreen> {
   final selectCustomUserCubit = di.di<SelectCustomUserCubit>();
+  final List<String> role = ["Project Manager","Team Lead","Developer"];
 
   @override
   void initState() {
@@ -63,7 +64,6 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
         builder: (context, state) {
           return Stack(
             children: [
-              if(state is LoadingState) const Center(child: CircularProgressIndicator()),
               Column(
                 children: [
                   const SizedBox(height: 10),
@@ -75,22 +75,27 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                           itemCount: selectCustomUserCubit.saveUserList.length,
                           itemBuilder: (context, index) {
                             ResProjectMember? user = selectCustomUserCubit.selectedMembers.firstWhereOrNull(
-                                    (element) => element.id == selectCustomUserCubit.saveUserList[index].userSaveId);
+                                    (element) => element.userId == selectCustomUserCubit.saveUserList[index].id);
                             return CustomUserAdditionCard(
-                              contact: selectCustomUserCubit.saveUserList[index].name ?? "",
-                              options: selectCustomUserCubit.saveUserList[index].roles?.map((e) => e.toString()).toList() ?? [],
+                              contact: selectCustomUserCubit.saveUserList[index].firstName ?? "",
+                              options: /*selectCustomUserCubit.saveUserList[index].roles?.map((e) => e.toString()).toList() ?? []*/role,
                               isSelected: user != null,
                               customName: user?.customName,
-                              roles: [user?.role ?? ''],
+                              roles: user?.customRole != null ? [user?.customRole ?? ''] : [],
                               onSave: (customName , roles){
                                 selectCustomUserCubit.addUser(selectCustomUserCubit.saveUserList[index] , customName , roles);
+                                setState(() {
+
+                                });
                               },
+                              isSingleRole: true,
                             );
                           }),
                     ),
                   ),
                 ],
               ),
+              if(state is LoadingState) const Center(child: CircularProgressIndicator()),
             ],
           );
         },

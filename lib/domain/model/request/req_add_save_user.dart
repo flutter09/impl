@@ -1,53 +1,67 @@
-import 'package:chat_application/domain/model/response/res_user_model.dart';
-import 'package:json_annotation/json_annotation.dart';
-
-part 'req_add_save_user.g.dart'; // This is the generated file, don't manually edit it
-
-@JsonSerializable()
 class ReqAddSaveUser {
-  @JsonKey(name: 'user_id')
-  final String userId;
-
-  @JsonKey(name: 'userName')
-  final String userName;
-
-  @JsonKey(name: 'name')
-  final String name;
-
-  @JsonKey(name: 'email')
-  final String email;
-
-  @JsonKey(name: 'phone')
-  final String phone;
-
-  @JsonKey(name: 'image')
-  final String image;
-
-  @JsonKey(name: 'roles')
-  final List<int> roles;
+  String? userIdOfAddedUser;
+  String? userSaveId;
+  String? firstName;
+  String? lastName;
+  List<dynamic>? roles;
+  String? defaultName;
+  String? email;
+  String? phone;
+  String? image;
+  String? address;
+  String? country;
+  String? city;
+  DateTime? dateOfBirth;
 
   ReqAddSaveUser({
-    required this.userId,
-    required this.userName,
-    required this.name,
-    required this.email,
-    required this.phone,
-    required this.image,
-    required this.roles,
+    this.userIdOfAddedUser,
+    this.userSaveId,
+    this.firstName,
+    this.lastName,
+    this.roles,
+    this.defaultName,
+    this.email,
+    this.phone,
+    this.image,
+    this.address,
+    this.country,
+    this.city,
+    this.dateOfBirth,
   });
 
-  factory ReqAddSaveUser.fromJson(Map<String, dynamic> json) =>
-      _$ReqAddSaveUserFromJson(json);
+  ReqAddSaveUser.fromJson(Map<String, dynamic> json) {
 
-  Map<String, dynamic> toJson() => _$ReqAddSaveUserToJson(this);
+      userIdOfAddedUser= json['user_id_of_added_user'];
+      userSaveId= json['user_save_id'];
+      firstName= json['first_name'];
+      lastName= json['last_name'];
+      roles= List<dynamic>.from(json['roles']);
+      defaultName= json['default_name'];
+      email= json['email'];
+      phone= json['phone'];
+      image= json['image'];
+      address= json['address'];
+      country= json['country'];
+      city= json['city'];
+      dateOfBirth= json['Date_of_Birth'] != null ? DateTime.parse(json['Date_of_Birth']) : null;
 
-  UserSaveData toUserSaveData() => UserSaveData(
-     userId : userId,
-     userName : userName,
-     name : name,
-     email : email,
-     phone : phone,
-     image : image,
-     roles : roles,
-  );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'user_id_of_added_user': userIdOfAddedUser,
+      'user_save_id': userSaveId,
+      'first_name': firstName,
+      'last_name': lastName,
+      'roles': roles,
+      'default_name': defaultName,
+      'email': email,
+      'phone': phone,
+      'image': image,
+      'address': address,
+      'country': country,
+      'city': city,
+      'Date_of_Birth': dateOfBirth?.toIso8601String(),
+    };
+  }
 }

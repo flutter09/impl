@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'component.dart';
+
 void showAlertDialog({
   required BuildContext context,
   String? title,
@@ -12,10 +14,25 @@ void showAlertDialog({
       context: context,
       builder: (context) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           title: Text(title ?? ""),
           content: Text(message ?? ""),
           actions: [
-            IconButton(
+            defaultTextButton(
+              style: const TextStyle(
+                  fontWeight: FontWeight.normal, color: Colors.red ),
+              function: (){onCancel?.call();},
+              text: 'Cancel',
+            ),
+            defaultTextButton(
+              style: const TextStyle(
+                  fontWeight: FontWeight.normal, color: Colors.black ),
+              function: (){onSubmit?.call();},
+              text: 'Okay',
+            ),
+            /*IconButton(
                 onPressed: onCancel,
                 icon: const Icon(
                   Icons.close,
@@ -26,7 +43,7 @@ void showAlertDialog({
                 icon: const Icon(
                   Icons.done,
                   color: Colors.green,
-                )),
+                )),*/
           ],
         );
       });

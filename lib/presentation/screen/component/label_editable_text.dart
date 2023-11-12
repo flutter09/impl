@@ -5,6 +5,7 @@ import '../../../config/theme/app_theme.dart';
 
 class LabeledEditableText extends StatefulWidget {
   final String? label;
+
   // final String? value;
   final TextEditingController? controller;
   final bool? isEditing;
@@ -20,6 +21,7 @@ class LabeledEditableText extends StatefulWidget {
   final double? width;
   final int? maxLine;
   final bool? readOnly;
+  final bool? isLock;
   final EdgeInsetsGeometry? contentPadding;
 
   const LabeledEditableText(
@@ -40,7 +42,8 @@ class LabeledEditableText extends StatefulWidget {
       this.width,
       this.maxLine,
       this.readOnly,
-      this.contentPadding});
+      this.contentPadding,
+      this.isLock});
 
   @override
   State<LabeledEditableText> createState() => _LabeledEditableText();
@@ -64,10 +67,10 @@ class _LabeledEditableText extends State<LabeledEditableText> {
         Text(
           widget.label ?? "",
           style: const TextStyle(
-              fontSize: 18, fontWeight: FontWeight.w500, color: colorGray),
+              fontSize: 16, fontWeight: FontWeight.w500, color: colorGray),
         ).tr(),
         const SizedBox(
-          height: 5,
+          height: 8,
         ),
         SizedBox(
           height: widget.height,
@@ -77,29 +80,34 @@ class _LabeledEditableText extends State<LabeledEditableText> {
                   maxLines: widget.maxLine ?? 1,
                   controller: widget.controller,
                   readOnly: widget.readOnly ?? false,
+                  style: const TextStyle(fontSize: 18, color: Colors.black),
                   decoration: InputDecoration(
-                      contentPadding: widget.contentPadding ??
-                          const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 0),
-                      border: const OutlineInputBorder(),
-                      hintText: widget.hintText,
-                      errorText: widget.errorText,
-                      suffixIcon: widget.isPassword == true
-                          ? IconButton(
-                              icon: Icon(
-                                  passwordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: colorGray),
-                              onPressed: () {
-                                setState(
-                                  () {
-                                    passwordVisible = !passwordVisible;
-                                  },
-                                );
-                              },
-                            )
-                          : null),
+                    contentPadding: widget.contentPadding ??
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    hintText: widget.hintText,
+                    errorText: widget.errorText,
+                    suffixIcon: widget.isPassword == true
+                        ? IconButton(
+                            icon: Icon(
+                                passwordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: colorGray),
+                            onPressed: () {
+                              setState(
+                                () {
+                                  passwordVisible = !passwordVisible;
+                                },
+                              );
+                            },
+                          )
+                        : widget.isLock == true
+                            ? const Icon(Icons.lock, color: colorGray)
+                            : null,
+                  ),
                   keyboardType: widget.type,
                   onFieldSubmitted: widget.onFieldSubmitted,
                   onChanged: widget.onChanged,
@@ -108,8 +116,11 @@ class _LabeledEditableText extends State<LabeledEditableText> {
                   obscureText: passwordVisible,
                 )
               : Text(
-                  /*widget.value*/ widget.controller?.text ?? "",
-                  style: Theme.of(context).textTheme.titleMedium,
+                  /*widget.value*/
+                  (widget.controller?.text.isNotEmpty == true)
+                      ? widget.controller?.text ?? "  --"
+                      : "  --",
+                  style: const TextStyle(fontSize: 20, color: Colors.black),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

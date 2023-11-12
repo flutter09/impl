@@ -75,215 +75,234 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
 
     return BlocConsumer<PersonalInfoCubit, BaseState>(
       bloc: personalInfoCubit,
-  listener: (context, state) {
-    if (state is UserUpdateState) {
-      ScaffoldMessenger.of(context).showSnackBar(getSnackBar(state.message));
-      setInfoEdit(false);
-    }else if (state is ErrorState) {
-      ScaffoldMessenger.of(context).showSnackBar(getSnackBar(state.errorMessage ?? "error invalid"));
-    }
-  },
-  builder: (context, state) {
-    if (state is LoadingState) {
-      return const Center(child: CircularProgressIndicator());
-    }
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: CustomAppBar(
-        title: 'Personal Information',
-        isDrawerIcon: true,
-        onLeadPress: () => _openDrawer(),
-      ),
-      drawer: const CustomDrawer(),
-      body: Container(
-        height: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        color: backgroundGray,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      "Information",
-                      style: theme.textTheme.headlineSmall,
-                    ),
-                  ),
-                  Visibility(
-                    visible: !isInfoEdit,
-                    child: IconButton(
-                        onPressed: () {
-                          setInfoEdit(true);
-                        },
-                        icon: const Icon(Icons.edit)),
-                  ),
-                  Visibility(
-                    visible: isInfoEdit,
-                    child: IconButton(
-                        onPressed: () {
-                          personalInfoCubit.updateUserDetails();
-                        },
-                        icon: const Icon(Icons.check)),
-                  ),
-                  Visibility(
-                    visible: isInfoEdit,
-                    child: IconButton(
-                        onPressed: () {
-                          personalInfoCubit.setController();
-                          setInfoEdit(false);
-                        },
-                        icon: const Icon(Icons.close)),
-                  )
-                ],
-              ),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                clipBehavior: Clip.hardEdge,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Form(
-                    key: formInfoKey,
-                    child: Column(
-                      children: [
-                        LabeledEditableText(
-                            label: "Full Name",
-                            controller: personalInfoCubit.fullNameController,
-                            isEditing: isInfoEdit),
-                        getSpacer(),
-                        LabeledEditableText(
-                            label: "Display Name",
-                            controller: personalInfoCubit.nameController,
-                            isEditing: isInfoEdit),
-                        getSpacer(),
-                        LabeledEditableText(
-                          label: "Email",
-                          controller: personalInfoCubit.emailController,
-                          isEditing: isInfoEdit,
-                          readOnly: true,
-                        ),
-                        getSpacer(),
-                        LabeledEditableText(
-                            label: "Phone Number",
-                            controller: personalInfoCubit.phoneNumberController,
-                            isEditing: isInfoEdit),
-                        getSpacer(),
-                        LabeledEditableText(
-                          label: "Date of Birth",
-                          controller: personalInfoCubit.dobController,
-                          isEditing: isInfoEdit,
-                          readOnly: true,
-                          onTap: () async {
-                            FocusScope.of(context).requestFocus(FocusNode());
-                            String date = await pickDate(context);
-                            if (date.toString() != personalInfoCubit.dobController.text) {
-                              setState(() {
-                                personalInfoCubit.dobController.text = dateToDDMMMYYYY(date);
-                              });
-                            }
-                          },
-                        ),
-                        getSpacer(),
-                        LabeledEditableText(
-                          label: "Technology",
-                          controller: personalInfoCubit.technologyController,
-                          isEditing: isInfoEdit,
-                          readOnly: true,
-                        ),
-                        getSpacer(),
-                        LabeledEditableText(
-                          label: "Address",
-                          controller: personalInfoCubit.addressController,
-                          isEditing: isInfoEdit,
-                        ),
-                        getSpacer(),
-                        LabeledEditableText(
-                          label: "City",
-                          controller: personalInfoCubit.cityController,
-                          isEditing: isInfoEdit,
-                        ),
-                        getSpacer(),
-                        LabeledEditableText(
-                          label: "Country",
-                          controller: personalInfoCubit.countryController,
-                          isEditing: isInfoEdit,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      "Preference",
-                      style: theme.textTheme.headlineSmall,
-                    ),
-                  ),
-                  Visibility(
-                    visible: !isPrefEdit,
-                    child: IconButton(
-                        onPressed: () {
-                          setPrefEdit(true);
-                        },
-                        icon: const Icon(Icons.edit)),
-                  ),
-                  Visibility(
-                    visible: isPrefEdit,
-                    child: IconButton(
-                        onPressed: () {
-                          setPrefEdit(false);
-                        },
-                        icon: const Icon(Icons.check)),
-                  ),
-                  Visibility(
-                    visible: isPrefEdit,
-                    child: IconButton(
-                        onPressed: () {
-                          setPrefEdit(false);
-                        },
-                        icon: const Icon(Icons.close)),
-                  )
-                ],
-              ),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                clipBehavior: Clip.hardEdge,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Form(
-                    key: formPrefKey,
-                    child: Column(
-                      children: [
-                        LabelTextDropDown(
-                          label: "Language",
-                          selectedOption: selectedLanguage,
-                          isEditing: isPrefEdit,
-                          options: languageOptions,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedLanguage = value;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10,)
-            ],
+      listener: (context, state) {
+        if (state is UserUpdateState) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(getSnackBar(state.message));
+          setInfoEdit(false);
+        } else if (state is ErrorState) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(getSnackBar(state.errorMessage ?? "error invalid"));
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          key: _scaffoldKey,
+          appBar: CustomAppBar(
+            title: 'Personal Information',
+            isDrawerIcon: true,
+            onLeadPress: () => _openDrawer(),
           ),
-        ),
-      ),
+          drawer: const CustomDrawer(),
+          body: (state is LoadingState)
+              ? const Center(child: CircularProgressIndicator())
+              : Container(
+                  height: double.infinity,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  color: backgroundGray,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                "Information",
+                                style: theme.textTheme.headlineSmall,
+                              ),
+                            ),
+                            Visibility(
+                              visible: !isInfoEdit,
+                              child: IconButton(
+                                  onPressed: () {
+                                    setInfoEdit(true);
+                                  },
+                                  icon: const Icon(Icons.edit)),
+                            ),
+                            Visibility(
+                              visible: isInfoEdit,
+                              child: IconButton(
+                                  onPressed: () {
+                                    personalInfoCubit.updateUserDetails();
+                                  },
+                                  icon: const Icon(Icons.check)),
+                            ),
+                            Visibility(
+                              visible: isInfoEdit,
+                              child: IconButton(
+                                  onPressed: () {
+                                    personalInfoCubit.setController();
+                                    setInfoEdit(false);
+                                  },
+                                  icon: const Icon(Icons.close)),
+                            )
+                          ],
+                        ),
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          clipBehavior: Clip.hardEdge,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Form(
+                              key: formInfoKey,
+                              child: Column(
+                                children: [
+                                  LabeledEditableText(
+                                      label: "Full Name",
+                                      controller:
+                                          personalInfoCubit.fullNameController,
+                                      isEditing: isInfoEdit),
+                                  getSpacer(),
+                                  LabeledEditableText(
+                                      label: "Display Name",
+                                      controller:
+                                          personalInfoCubit.nameController,
+                                      isEditing: isInfoEdit),
+                                  getSpacer(),
+                                  LabeledEditableText(
+                                    label: "Email",
+                                    controller:
+                                        personalInfoCubit.emailController,
+                                    isEditing: isInfoEdit,
+                                    readOnly: true,
+                                    isLock: true,
+                                  ),
+                                  getSpacer(),
+                                  LabeledEditableText(
+                                    label: "Phone Number",
+                                    controller:
+                                        personalInfoCubit.phoneNumberController,
+                                    isEditing: isInfoEdit,
+                                    readOnly: true,
+                                    isLock: true,
+                                  ),
+                                  getSpacer(),
+                                  LabeledEditableText(
+                                    label: "Date of Birth",
+                                    controller: personalInfoCubit.dobController,
+                                    isEditing: isInfoEdit,
+                                    readOnly: true,
+                                    onTap: () async {
+                                      FocusScope.of(context)
+                                          .requestFocus(FocusNode());
+                                      String date = await pickDate(context);
+                                      if (date.toString() !=
+                                          personalInfoCubit
+                                              .dobController.text) {
+                                        setState(() {
+                                          personalInfoCubit.dobController.text =
+                                              dateToDDMMMYYYY(date);
+                                        });
+                                      }
+                                    },
+                                  ),
+                                  getSpacer(),
+                                  /*LabeledEditableText(
+                                    label: "Technology",
+                                    controller:
+                                        personalInfoCubit.technologyController,
+                                    isEditing: isInfoEdit,
+                                    readOnly: true,
+                                  ),
+                                  getSpacer(),*/
+                                  LabeledEditableText(
+                                    label: "Address",
+                                    controller:
+                                        personalInfoCubit.addressController,
+                                    isEditing: isInfoEdit,
+                                  ),
+                                  getSpacer(),
+                                  LabeledEditableText(
+                                    label: "City",
+                                    controller:
+                                        personalInfoCubit.cityController,
+                                    isEditing: isInfoEdit,
+                                  ),
+                                  getSpacer(),
+                                  LabeledEditableText(
+                                    label: "Country",
+                                    controller:
+                                        personalInfoCubit.countryController,
+                                    isEditing: isInfoEdit,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                "Preference",
+                                style: theme.textTheme.headlineSmall,
+                              ),
+                            ),
+                            Visibility(
+                              visible: !isPrefEdit,
+                              child: IconButton(
+                                  onPressed: () {
+                                    setPrefEdit(true);
+                                  },
+                                  icon: const Icon(Icons.edit)),
+                            ),
+                            Visibility(
+                              visible: isPrefEdit,
+                              child: IconButton(
+                                  onPressed: () {
+                                    setPrefEdit(false);
+                                  },
+                                  icon: const Icon(Icons.check)),
+                            ),
+                            Visibility(
+                              visible: isPrefEdit,
+                              child: IconButton(
+                                  onPressed: () {
+                                    setPrefEdit(false);
+                                  },
+                                  icon: const Icon(Icons.close)),
+                            )
+                          ],
+                        ),
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          clipBehavior: Clip.hardEdge,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Form(
+                              key: formPrefKey,
+                              child: Column(
+                                children: [
+                                  LabelTextDropDown(
+                                    label: "Language",
+                                    selectedOption: selectedLanguage,
+                                    isEditing: isPrefEdit,
+                                    options: languageOptions,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selectedLanguage = value;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+        );
+      },
     );
-  },
-);
   }
 }

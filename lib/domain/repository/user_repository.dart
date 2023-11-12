@@ -9,6 +9,7 @@ import 'package:chat_application/domain/model/request/req_user_register.dart';
 import '../../base/result.dart';
 import '../model/request/req_login.dart';
 import '../model/response/res_user_model.dart';
+import '../model/response/save_user_model.dart';
 
 abstract class UserRepository{
   Future<Result<ResUserModel>> login(ReqLogin request);

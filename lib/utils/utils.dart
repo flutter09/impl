@@ -321,7 +321,7 @@ Future<String?> showPopupMenu(
 
 SnackBar getSnackBar(String message) {
   final snackBar = SnackBar(
-    content: Text(message),
+    content: SizedBox(height: 50,child: Text(message)),
   );
   return snackBar;
 }

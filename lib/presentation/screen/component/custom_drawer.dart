@@ -1,7 +1,10 @@
+import 'package:chat_application/base/base_state.dart';
 import 'package:chat_application/data/local/preference_repository.dart';
+import 'package:chat_application/presentation/screen/component/component_bloc_cubit.dart';
 import 'package:chat_application/presentation/screen/component/show_dialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../config/route/route_manager.dart';
 import '../../../config/theme/app_theme.dart';
@@ -18,6 +21,7 @@ class CustomDrawer extends StatefulWidget {
 }
 
 class _CustomDrawerState extends State<CustomDrawer> {
+  final componentCubit = di.di<ComponentBlocCubit>();
   Widget getDrawerTile(String name, IconData iconData, VoidCallback onTap) {
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -40,13 +44,20 @@ class _CustomDrawerState extends State<CustomDrawer> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    componentCubit.getDrawerDetails();
     return Drawer(
       backgroundColor: Colors.white,
       width: MediaQuery.of(context).size.width * 0.8,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
+          BlocConsumer<ComponentBlocCubit, BaseState>(
+            bloc: componentCubit,
+  listener: (context, state) {
+    // TODO: implement listener
+  },
+  builder: (context, state) {
+    return Container(
             height: MediaQuery.of(context).size.height * 0.3,
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
@@ -69,13 +80,15 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       height: MediaQuery.of(context).size.height * 0.1,
                       width: MediaQuery.of(context).size.height * 0.1,
                     ),
+                  ),const SizedBox(
+                    height: 8,
                   ),
                   Text(
-                    "name",
-                    style: theme.textTheme.titleLarge,
+                    componentCubit.userName,
+                    style: theme.textTheme.titleLarge?.copyWith(color: Colors.black),
                   ),
                   Text(
-                    "(role)",
+                    componentCubit.userMail,
                     style: theme.textTheme.bodyMedium,
                   ),
                   const SizedBox(
@@ -84,7 +97,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 ],
               ),
             ),
-          ),
+          );
+  },
+),
           const SizedBox(
             height: 10,
           ),

@@ -94,6 +94,7 @@ class SignUpScreen extends StatelessWidget {
                         LabelTextField(
                           controller: _nameController,
                           label: "Username",
+                          hintText: "Enter your name",
                         ),
                         const SizedBox(
                           height: 20,
@@ -101,6 +102,7 @@ class SignUpScreen extends StatelessWidget {
                         LabelTextField(
                             controller: _emailController,
                             label: "Email",
+                            hintText: "Enter your E-mail address",
                             type: TextInputType.emailAddress,
                             validate: (value) {
                               return validateEmail(value);
@@ -111,10 +113,11 @@ class SignUpScreen extends StatelessWidget {
                         LabelTextField(
                           controller: _passwordController,
                           label: "Password",
+                          hintText: "Enter your password",
                           isPassword: true,
                           type: TextInputType.visiblePassword,
                           validate: (value) {
-                            return validatePassword(value);
+                            // return validatePassword(value); //todo password validation
                           },
                           onFieldSubmitted: (value) {
                             // if (_formKey.currentState!.validate()) {}
@@ -126,10 +129,11 @@ class SignUpScreen extends StatelessWidget {
                         LabelTextField(
                           controller: _confirmPasswordController,
                           label: "Confirm Password",
+                          hintText: "Re-type your password",
                           isPassword: true,
                           type: TextInputType.visiblePassword,
                           validate: (value) {
-                            return validateConfirmPassword(_passwordController.text , value);
+                            // return validateConfirmPassword(_passwordController.text , value); // todo confirm password validation
                           },
                           onFieldSubmitted: (value) {
                             // if (_formKey.currentState!.validate()) {}
@@ -141,6 +145,7 @@ class SignUpScreen extends StatelessWidget {
                         LabelTextField(
                           controller: _mobileController,
                           label: "Phone",
+                          hintText: "Enter your Contact number",
                           type: TextInputType.phone,
                           validate: (value) {
                             return validateMobileNumber(value);
@@ -206,7 +211,7 @@ class SignUpScreen extends StatelessWidget {
                               function: () {
                                 Navigator.pop(context);
                               },
-                              text: 'Sign in instead',
+                              text: 'Login',
                             ),
                           ],
                         ),

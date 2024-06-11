@@ -214,7 +214,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     ),
                     Expanded(
                       child: Container(
-                        color: backgroundGray,
+                        color: AppColor.backgroundGray,
                         child: ListView.builder(
                           reverse: true,
                           itemCount: messages.length,

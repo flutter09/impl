@@ -15,7 +15,7 @@ class FileIndicator extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
       decoration: BoxDecoration(
-        color: lightGray,
+        color: AppColor.lightGray,
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Row(
@@ -51,8 +51,8 @@ class FileIndicator extends StatelessWidget {
               padding : const EdgeInsets.all(3),
               width:40, height: 40,
               child: isDownloading == true ?
-              const CircularProgressIndicator(color: colorPrimary,strokeWidth: 3,) :
-              IconButton(padding: const EdgeInsets.all(0),onPressed: startDownload, icon:const Icon(Icons.download , color: colorPrimary,)),
+              CircularProgressIndicator(color: AppColor.colorPrimary,strokeWidth: 3,) :
+              IconButton(padding: EdgeInsets.all(0),onPressed: startDownload, icon: Icon(Icons.download , color: AppColor.colorPrimary,)),
           ) : const SizedBox()
         ],
       ),

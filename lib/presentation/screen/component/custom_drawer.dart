@@ -62,7 +62,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
             alignment: Alignment.bottomLeft,
-            color: colorPrimary300,
+            color: AppColor.colorPrimary300,
             child: Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -132,8 +132,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
           SizedBox(
             width: double.infinity,
             child: defaultTextButton(
-              style: const TextStyle(
-                  fontWeight: FontWeight.w400, color: colorPrimary),
+              style: TextStyle(
+                  fontWeight: FontWeight.w400, color: AppColor.colorPrimary),
               function: () async {
                 showAlertDialog(
                     context: context,

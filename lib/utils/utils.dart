@@ -262,8 +262,8 @@ Future<String> pickDate(BuildContext context) async {
     builder: (context, child) {
       return Theme(
         data: Theme.of(context).copyWith(
-          colorScheme: const ColorScheme.light(
-            primary: colorPrimary, // <-- SEE HERE
+          colorScheme: ColorScheme.light(
+            primary: AppColor.colorPrimary, // <-- SEE HERE
             onPrimary: Colors.white, // <-- SEE HERE
           ),
           textButtonTheme: TextButtonThemeData(

@@ -29,17 +29,17 @@ class FavouriteListItem extends StatelessWidget {
                   borderRadius:
                   const BorderRadius.all(Radius.circular(30)),
                   color: Colors.white,
-                  border: Border.all(width: 1 , color: lightGray), /*(index % 2 == 0)
+                  border: Border.all(width: 1 , color: AppColor.lightGray), /*(index % 2 == 0)
                         ? Border.all(width: 0)
                         : Border.all(color: const Color.fromRGBO(0, 132, 255, 1), width: 3))*/
                 ),
                 child: ClipOval(
                   child: (isAddButton ?? false)
                       ? IconButton(
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.add,
                       size: 20,
-                      color: lightGray,
+                      color: AppColor.lightGray,
                     ), onPressed: onPress,)
                       : Image.asset(
                       imgUrl ?? "assets/images/group_icon.png",

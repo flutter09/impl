@@ -32,7 +32,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           (isDrawerIcon ?? false)
               ? Icons.list_sharp
               : Icons.arrow_back_ios_sharp,
-          color: colorGray,
+          color: AppColor.colorGray,
         ),
       ),
     );
@@ -55,13 +55,13 @@ class AppBarAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      backgroundColor: backgroundColor ?? lightGray,
+      backgroundColor: backgroundColor ?? AppColor.lightGray,
       child: IconButton(
         onPressed: onPress,
         icon: Icon(
           icon,
           size: 22,
-          color: iconColor ?? darkGray,
+          color: iconColor ?? AppColor.darkGray,
         ),
       ),
     );

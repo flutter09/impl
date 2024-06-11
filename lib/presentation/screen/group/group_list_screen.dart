@@ -64,7 +64,7 @@ class _GroupListScreenState extends State<GroupListScreen> {
               Visibility(visible: state is LoadingState , child: const Center(child: CircularProgressIndicator()),),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
-                color: backgroundGray,
+                color: AppColor.backgroundGray,
                 child: Column(
                   children: [
                     const SizedBox(
@@ -87,8 +87,8 @@ class _GroupListScreenState extends State<GroupListScreen> {
                               ],
                             )),
                         defaultTextButton(
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w400, color: colorPrimary),
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400, color: AppColor.colorPrimary),
                           function: () {
                             Navigator.of(context)
                                 .pushNamed(Routes.createGroupNewScreen);

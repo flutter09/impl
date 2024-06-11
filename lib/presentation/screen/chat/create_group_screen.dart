@@ -85,8 +85,8 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(64)),
-                    color: lightGray,
-                    border: Border.all(width: 1, color: lightGray),
+                    color: AppColor.lightGray,
+                    border: Border.all(width: 1, color: AppColor.lightGray),
                   ),
                   child: image == null
                       ? const CircleAvatar(
@@ -106,7 +106,7 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
                   child: AppBarAction(
                     icon: Icons.add_a_photo,
                     iconColor: Colors.white,
-                    backgroundColor: colorPrimary,
+                    backgroundColor: AppColor.colorPrimary,
                     onPress: selectImage,
                   ),
                 ),
@@ -145,7 +145,7 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: createGroup,
-        backgroundColor: colorPrimary,
+        backgroundColor: AppColor.colorPrimary,
         child: const Icon(
           Icons.done,
           color: Colors.white,

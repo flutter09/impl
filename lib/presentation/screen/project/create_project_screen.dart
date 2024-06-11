@@ -208,22 +208,22 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
                         Row(
                           children: [
                             Expanded(
-                              child: const Text(
+                              child: Text(
                                 "Members",
                                 style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w500,
-                                    color: colorGray),
+                                    color: AppColor.colorGray),
                               ).tr(),
                             ),
                             GestureDetector(
                               onTap: selectUser,
-                              child: const Text(
+                              child: Text(
                                 "+ Add Member",
                                 style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w500,
-                                    color: colorPrimary),
+                                    color: AppColor.colorPrimary),
                               ).tr(),
                             ),
                           ],

@@ -82,17 +82,13 @@ class _SignInScreenState extends State<SignInScreen> {
                           'Sign-In',
                           style: theme.textTheme.headlineLarge,
                         ).tr(),
-                        Text(
-                          'Access IMPM using your mail and password',
-                          style: theme.textTheme.bodyMedium,
-                        ).tr(),
                         const SizedBox(
                           height: 30,
                         ),
                         LabelTextField(
                             controller: _controller,
-                            label: "Email or Username or phone",
-                            hintText: "Enter Email or username or phone",
+                            label: "Username",
+                            hintText: "Enter your email or username or phone",
                             type: TextInputType.emailAddress,
                             validate: (value) {
                               return validateEmailPhone(value);
@@ -118,9 +114,9 @@ class _SignInScreenState extends State<SignInScreen> {
                           child: Align(
                             alignment: Alignment.centerRight,
                             child: defaultTextButton(
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: colorPrimary),
+                                  color: AppColor.colorGray),
                               function: () {
                                 Navigator.pushNamed(
                                     context, Routes.forgotPasswordRoute);
@@ -165,9 +161,9 @@ class _SignInScreenState extends State<SignInScreen> {
                               style: theme.textTheme.bodyMedium,
                             ),
                             defaultTextButton(
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: colorPrimary),
+                                  color: AppColor.colorPrimary),
                               function: () {
                                 Navigator.pushNamed(
                                     context, Routes.signUpRoute);
@@ -176,13 +172,13 @@ class _SignInScreenState extends State<SignInScreen> {
                             ),
                           ],
                         ),
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.symmetric(horizontal: 40.0 , vertical: 8),
                           child: Row(
                             children: <Widget>[
                               Expanded(
                                 child: Divider(
-                                  color: colorGray,
+                                  color: AppColor.colorGray,
                                 ),
                               ),
                               Padding(
@@ -191,13 +187,13 @@ class _SignInScreenState extends State<SignInScreen> {
                                   'OR',
                                   style: TextStyle(
                                     fontSize: 18,
-                                    color: colorGray,
+                                    color: AppColor.colorGray,
                                   ),
                                 ),
                               ),
                               Expanded(
                                 child: Divider(
-                                  color: colorGray,
+                                  color: AppColor.colorGray,
                                 ),
                               ),
                             ],
@@ -218,9 +214,9 @@ class _SignInScreenState extends State<SignInScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             defaultTextButton(
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: colorPrimary),
+                                  color: AppColor.colorPrimary),
                               function: () {
                                 Navigator.pushNamed(
                                     context, Routes.signUpRoute);
@@ -228,9 +224,9 @@ class _SignInScreenState extends State<SignInScreen> {
                               text: 'Terms & Conditions',
                             ),
                             defaultTextButton(
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: colorPrimary),
+                                  color: AppColor.colorPrimary),
                               function: () {
                                 Navigator.pushNamed(
                                     context, Routes.signUpRoute);
@@ -238,9 +234,9 @@ class _SignInScreenState extends State<SignInScreen> {
                               text: 'Privacy policies',
                             ),
                             defaultTextButton(
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: colorPrimary),
+                                  color: AppColor.colorPrimary),
                               function: () {
                                 Navigator.pushNamed(
                                     context, Routes.signUpRoute);

@@ -95,8 +95,8 @@ class _CustomUserAdditionCardState extends State<CustomUserAdditionCard> {
         ),
         child: ExpansionTile(
           controller: controller,
-          textColor: colorPrimary,
-          iconColor: colorPrimary,
+          textColor: AppColor.colorPrimary,
+          iconColor: AppColor.colorPrimary,
           leading: const CircleAvatar(
             backgroundImage:
                 NetworkImage("https://randomuser.me/api/portraits/men/5.jpg"),
@@ -110,7 +110,7 @@ class _CustomUserAdditionCardState extends State<CustomUserAdditionCard> {
               ? IconButton(
                   onPressed: () {},
                   icon: const Icon(Icons.done),
-                  color: colorPrimary,
+                  color: AppColor.colorPrimary,
                 )
               : null,
           children: <Widget>[
@@ -152,10 +152,10 @@ class _CustomUserAdditionCardState extends State<CustomUserAdditionCard> {
                         defaultTextButton(
                             function: onSave,
                             text: "Save",
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
-                                color: colorPrimary)),
+                                color: AppColor.colorPrimary)),
                         const SizedBox(
                           width: 10,
                         ),
@@ -164,10 +164,10 @@ class _CustomUserAdditionCardState extends State<CustomUserAdditionCard> {
                               setExpansion(false);
                             },
                             text: "Cancel",
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
-                                color: colorGray)),
+                                color: AppColor.colorGray)),
                       ],
                     )
                   ],

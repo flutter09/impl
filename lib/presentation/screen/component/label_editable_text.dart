@@ -66,8 +66,8 @@ class _LabeledEditableText extends State<LabeledEditableText> {
       children: [
         Text(
           widget.label ?? "",
-          style: const TextStyle(
-              fontSize: 16, fontWeight: FontWeight.w500, color: colorGray),
+          style:  TextStyle(
+              fontSize: 16, fontWeight: FontWeight.w500, color: AppColor.colorGray),
         ).tr(),
         const SizedBox(
           height: 8,
@@ -95,7 +95,7 @@ class _LabeledEditableText extends State<LabeledEditableText> {
                                 passwordVisible
                                     ? Icons.visibility
                                     : Icons.visibility_off,
-                                color: colorGray),
+                                color: AppColor.colorGray),
                             onPressed: () {
                               setState(
                                 () {
@@ -105,7 +105,7 @@ class _LabeledEditableText extends State<LabeledEditableText> {
                             },
                           )
                         : widget.isLock == true
-                            ? const Icon(Icons.lock, color: colorGray)
+                            ?  Icon(Icons.lock, color: AppColor.colorGray)
                             : null,
                   ),
                   keyboardType: widget.type,
@@ -162,8 +162,8 @@ class _LabelTextDropDownState extends State<LabelTextDropDown> {
       children: [
         Text(
           widget.label ?? "",
-          style: const TextStyle(
-              fontSize: 18, fontWeight: FontWeight.w500, color: colorGray),
+          style:  TextStyle(
+              fontSize: 18, fontWeight: FontWeight.w500, color: AppColor.colorGray),
         ).tr(),
         const SizedBox(
           height: 10,

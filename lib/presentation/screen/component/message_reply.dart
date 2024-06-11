@@ -13,15 +13,15 @@ class MessageReply extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-          color: lightGray,
+      decoration:  BoxDecoration(
+          color: AppColor.lightGray,
           borderRadius: BorderRadius.only(topLeft: Radius.circular(10) , topRight:  Radius.circular(10))
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           MessageWidget(messages: reply,isReply: true,),
-          IconButton(onPressed: onCancel, icon: const Icon(Icons.cancel , color: colorPrimary,),)
+          IconButton(onPressed: onCancel, icon:  Icon(Icons.cancel , color: AppColor.colorPrimary,),)
         ],
       ),
     );

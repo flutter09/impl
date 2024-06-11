@@ -524,7 +524,7 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
                     height: 24,
                     width: 24,
                     decoration: BoxDecoration(
-                      color: colorPrimary,
+                      color: AppColor.colorPrimary,
                       borderRadius: BorderRadius.circular(24),
                     ),
                     child: Icon(
@@ -545,25 +545,25 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
                                 onPressed: () {},
                                 icon: Icon(
                                   Icons.image,
-                                  color: colorPrimary,
+                                  color: AppColor.colorPrimary,
                                 )),
                             IconButton(
                                 onPressed: () {},
                                 icon: Icon(
                                   Icons.camera,
-                                  color: colorPrimary,
+                                  color: AppColor.colorPrimary,
                                 )),
                             IconButton(
                                 onPressed: () {},
                                 icon: Icon(
                                   Icons.attach_file,
-                                  color: colorPrimary,
+                                  color: AppColor.colorPrimary,
                                 )),
                             IconButton(
                                 onPressed: () {},
                                 icon: Icon(
                                   Icons.mic,
-                                  color: colorPrimary,
+                                  color: AppColor.colorPrimary,
                                 )),
                           ],
                         ),
@@ -594,7 +594,7 @@ class _MessageReplyFieldState extends State<MessageReplyField> {
                           reply: widget.reply));
                       messageController.clear();
                     }, //todo send msg
-                    backgroundColor: colorPrimary,
+                    backgroundColor: AppColor.colorPrimary,
                     elevation: 0,
                     child: const Icon(
                       Icons.send,
@@ -660,7 +660,7 @@ class _UserListView extends StatelessWidget {
                   return InkWell(
                     child: Container(
                       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-                        decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(5)),color: backgroundGray),
+                        decoration:  BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(5)),color: AppColor.backgroundGray),
                         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                         child: Text(
                           user,
@@ -679,7 +679,7 @@ class _UserListView extends StatelessWidget {
               child: Container(
                 /*height: 16,
                 width: 16,*/
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: colorPrimary),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: AppColor.colorPrimary),
                 child: IconButton(
                   onPressed: onClose,
                   padding: EdgeInsets.zero,

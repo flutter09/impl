@@ -111,8 +111,8 @@ class CustomCardWidget extends StatelessWidget {
                       child: LinearProgressIndicator(
                         value: progressPercentage / 100,
                         valueColor:
-                            const AlwaysStoppedAnimation<Color>(colorPrimary),
-                        backgroundColor: lightGray,
+                        AlwaysStoppedAnimation<Color>(AppColor.colorPrimary),
+                        backgroundColor: AppColor.lightGray,
                       ),
                     ),
                   ),
@@ -127,7 +127,7 @@ class CustomCardWidget extends StatelessWidget {
                         child: GroupImageStack(groupImageUrls: groupImageUrls)),
                     TimeIndicator(
                       leftTime: "7 days",
-                      textColor: colorPrimary,
+                      textColor: AppColor.colorPrimary,
                     ),
                   ],
                 ),

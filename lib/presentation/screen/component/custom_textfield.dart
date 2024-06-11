@@ -51,8 +51,8 @@ class _LabelTextFieldState extends State<LabelTextField> {
       children: [
         Text(
           widget.label ?? "",
-          style: const TextStyle(
-              fontSize: 16, fontWeight: FontWeight.w500, color: colorGray),
+          style: TextStyle(
+              fontSize: 16, fontWeight: FontWeight.w500, color: AppColor.colorGray),
         ).tr(),
         const SizedBox(
           height: 8,
@@ -73,7 +73,7 @@ class _LabelTextFieldState extends State<LabelTextField> {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 hintText: widget.hintText,
-                hintStyle: const TextStyle(color: lightGray),
+                hintStyle: TextStyle(color: AppColor.lightGray),
                 errorText: widget.errorText,
                 suffixIcon: widget.isPassword == true
                     ? IconButton(
@@ -81,7 +81,7 @@ class _LabelTextFieldState extends State<LabelTextField> {
                             passwordVisible
                                 ? Icons.visibility
                                 : Icons.visibility_off,
-                            color: colorGray),
+                            color: AppColor.colorGray),
                         onPressed: () {
                           setState(
                             () {
@@ -90,9 +90,9 @@ class _LabelTextFieldState extends State<LabelTextField> {
                           );
                         },
                       )
-                    : widget.readOnly == true ? const Icon(
+                    : widget.readOnly == true ? Icon(
                     Icons.lock,
-                    color: colorGray) : null,),
+                    color: AppColor.colorGray) : null,),
             keyboardType: widget.type,
             onFieldSubmitted: widget.onFieldSubmitted,
             onChanged: widget.onChanged,

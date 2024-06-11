@@ -74,7 +74,7 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
           }
           return Container(
             padding: const EdgeInsets.symmetric(horizontal: 8),
-            color: backgroundGray,
+            color: AppColor.backgroundGray,
             child: Column(
               children: [
                 const SizedBox(
@@ -105,9 +105,9 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                         }
                       },
                       iconSize: 30,
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.add_circle_outline_sharp,
-                        color: colorGray,
+                        color: AppColor.colorGray,
                       ),
                     ),
                   ],

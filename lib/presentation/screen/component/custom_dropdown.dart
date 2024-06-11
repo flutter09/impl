@@ -128,8 +128,8 @@ class _LabelMultipleChipDropDownState extends State<LabelMultipleChipDropDown> {
       children: [
         Text(
           widget.label ?? "",
-          style: const TextStyle(
-              fontSize: 18, fontWeight: FontWeight.w500, color: colorGray),
+          style: TextStyle(
+              fontSize: 18, fontWeight: FontWeight.w500, color: AppColor.colorGray),
         ).tr(),
         const SizedBox(
           height: 10,
@@ -177,8 +177,8 @@ class _LabelDropDownState extends State<LabelDropDown> {
       children: [
         Text(
           widget.label ?? "",
-          style: const TextStyle(
-              fontSize: 18, fontWeight: FontWeight.w500, color: colorGray),
+          style: TextStyle(
+              fontSize: 18, fontWeight: FontWeight.w500, color: AppColor.colorGray),
         ).tr(),
         const SizedBox(
           height: 10,

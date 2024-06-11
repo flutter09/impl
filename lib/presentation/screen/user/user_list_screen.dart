@@ -51,9 +51,9 @@ class _UserListScreenState extends State<UserListScreen> {
             onPressed: () {
               // Navigator.of(context).pushNamed(Routes.addUserScreen);
             },
-            icon: const Icon(
+            icon: Icon(
               Icons.notifications_active,
-              color: colorGray,
+              color: AppColor.colorGray,
             ),
           ),
           const Padding(
@@ -80,7 +80,7 @@ class _UserListScreenState extends State<UserListScreen> {
             children: [
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
-                color: backgroundGray,
+                color: AppColor.backgroundGray,
                 child: Column(
                   children: [
                     const SizedBox(
@@ -110,9 +110,9 @@ class _UserListScreenState extends State<UserListScreen> {
                               saveUserListCubit.getSaveUserList();
                             }
                           },
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.person_add_alt_1_sharp,
-                            color: colorGray,
+                            color: AppColor.colorGray,
                           ),
                         )
                       ],
@@ -141,9 +141,9 @@ class _UserListScreenState extends State<UserListScreen> {
                                   width: 40.0,
                                   height: 40.0,
                                   padding: const EdgeInsets.all(6),
-                                  decoration: const BoxDecoration(
+                                  decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: colorPurple,
+                                    color: AppColor.colorPurple,
                                   ),
                                   child: FittedBox(
                                     child: Text(

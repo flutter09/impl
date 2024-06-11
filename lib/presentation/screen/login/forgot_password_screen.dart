@@ -111,9 +111,9 @@ class ForgotPasswordScreen extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.center,
                             child: defaultTextButton(
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: colorPrimary),
+                                  color: AppColor.colorPrimary),
                               function: () {
                                 Navigator.pushNamedAndRemoveUntil(context,
                                     Routes.signInRoute, (route) => false);

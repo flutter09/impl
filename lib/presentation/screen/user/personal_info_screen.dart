@@ -99,7 +99,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
               : Container(
                   height: double.infinity,
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  color: backgroundGray,
+                  color: AppColor.backgroundGray,
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

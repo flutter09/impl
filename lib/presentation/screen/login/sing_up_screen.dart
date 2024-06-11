@@ -205,9 +205,9 @@ class SignUpScreen extends StatelessWidget {
                               style: theme.textTheme.bodyMedium,
                             ),
                             defaultTextButton(
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: colorPrimary),
+                                  color: AppColor.colorPrimary),
                               function: () {
                                 Navigator.pop(context);
                               },
@@ -220,9 +220,9 @@ class SignUpScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             defaultTextButton(
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: colorPrimary),
+                                  color: AppColor.colorPrimary),
                               function: () {
                                 Navigator.pushNamed(
                                     context, Routes.signUpRoute);
@@ -230,9 +230,9 @@ class SignUpScreen extends StatelessWidget {
                               text: 'Terms & Conditions',
                             ),
                             defaultTextButton(
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: colorPrimary),
+                                  color: AppColor.colorPrimary),
                               function: () {
                                 Navigator.pushNamed(
                                     context, Routes.signUpRoute);
@@ -240,9 +240,9 @@ class SignUpScreen extends StatelessWidget {
                               text: 'Privacy policies',
                             ),
                             defaultTextButton(
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: colorPrimary),
+                                  color: AppColor.colorPrimary),
                               function: () {
                                 Navigator.pushNamed(
                                     context, Routes.signUpRoute);

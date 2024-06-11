@@ -76,9 +76,9 @@ class _MessageWidgetState extends State<MessageWidget> {
                       child: Text(
                         widget.messages.time ?? "now",
                         //todo logic if time difference is less than 1 minute then show "now"
-                        style: const TextStyle(
+                        style:  TextStyle(
                             fontSize: 12,
-                            color: colorGray,
+                            color: AppColor.colorGray,
                             fontWeight: FontWeight.normal),
                       ),
                     ),
@@ -88,7 +88,7 @@ class _MessageWidgetState extends State<MessageWidget> {
                       borderRadius: BorderRadius.circular(15),
                       color: (widget.messages.messageType == "receiver"
                           ? Colors.white
-                          : colorPrimary),
+                          : AppColor.colorPrimary),
                     ),
                     padding: const EdgeInsets.all(8),
                     child: Column(
@@ -103,7 +103,7 @@ class _MessageWidgetState extends State<MessageWidget> {
                             style: TextStyle(
                               fontSize: 12,
                               color: (widget.messages.messageType == "receiver"
-                                  ? colorGray
+                                  ? AppColor.colorGray
                                   : Colors.white),
                             ),
                           ),
@@ -117,7 +117,7 @@ class _MessageWidgetState extends State<MessageWidget> {
                               borderRadius: BorderRadius.circular(15),
                               color: (widget.messages.reply?.messageType ==
                                   "sender"
-                                  ? colorPrimaryDark
+                                  ? AppColor.colorPrimaryDark
                                   : Colors.grey.shade400),
                             ),
                             padding: const EdgeInsets.all(8),
@@ -135,7 +135,7 @@ class _MessageWidgetState extends State<MessageWidget> {
                                       color:
                                       (widget.messages.reply?.messageType ==
                                           "receiver"
-                                          ? colorGray
+                                          ? AppColor.colorGray
                                           : Colors.white),
                                     ),
                                   ),
@@ -205,7 +205,7 @@ class _MessageWidgetState extends State<MessageWidget> {
                                             color: (widget.messages.reply
                                                 ?.messageType ==
                                                 "receiver"
-                                                ? colorGray
+                                                ? AppColor.colorGray
                                                 : Colors.white),
                                           ),
                                         ),
@@ -285,12 +285,12 @@ class _MessageWidgetState extends State<MessageWidget> {
                                         style: TextStyle(fontSize: 16 , color:(widget.messages
                                             .messageType ==
                                             "receiver"
-                                            ? colorGray
+                                            ? AppColor.colorGray
                                             : Colors.white) ),
                                         cursorColor: (widget.messages
                                             .messageType ==
                                             "receiver"
-                                            ? colorGray
+                                            ? AppColor.colorGray
                                             : Colors.white) ,
                                         decoration: const InputDecoration(
                                           contentPadding: EdgeInsets.symmetric(horizontal: 4 , vertical: 0),
@@ -312,7 +312,7 @@ class _MessageWidgetState extends State<MessageWidget> {
                                           color: (widget.messages
                                               .messageType ==
                                               "receiver"
-                                              ? colorGray
+                                              ? AppColor.colorGray
                                               : Colors.white),
                                         )),
                                     IconButton(
@@ -322,7 +322,7 @@ class _MessageWidgetState extends State<MessageWidget> {
                                           color: (widget.messages
                                               .messageType ==
                                               "receiver"
-                                              ? colorGray
+                                              ? AppColor.colorGray
                                               : Colors.white),
                                         ))
                                   ],
@@ -341,7 +341,7 @@ class _MessageWidgetState extends State<MessageWidget> {
                                     fontSize: 15,
                                     color: (widget.messages.messageType ==
                                         "receiver"
-                                        ? colorGray
+                                        ? AppColor.colorGray
                                         : Colors.white),
                                   ),
                                 ),
@@ -357,12 +357,12 @@ class _MessageWidgetState extends State<MessageWidget> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8.0, vertical: 2.0),
-                      child: (widget.messages.isRead ?? false) ? const Stack(
+                      child: (widget.messages.isRead ?? false) ?  Stack(
                         children: [
-                          Icon(Icons.check , color: colorPrimary,size: 15,),
+                          Icon(Icons.check , color: AppColor.colorPrimary,size: 15,),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Icon(Icons.check , color: colorPrimary,size: 15,),
+                            child: Icon(Icons.check , color: AppColor.colorPrimary,size: 15,),
                           ),
                         ],
                       ) : const Icon(Icons.check,size: 15,),

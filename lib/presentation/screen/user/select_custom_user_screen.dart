@@ -69,7 +69,7 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                   const SizedBox(height: 10),
                   Expanded(
                     child: Container(
-                      color: backgroundGray,
+                      color: AppColor.backgroundGray,
                       padding: const EdgeInsets.all(10.0),
                       child: ListView.builder(
                           itemCount: selectCustomUserCubit.saveUserList.length,
@@ -102,7 +102,7 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: onCompleteSelection,
-        backgroundColor: colorPrimary,
+        backgroundColor: AppColor.colorPrimary,
         child: const Icon(
           Icons.done,
           color: Colors.white,

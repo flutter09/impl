@@ -93,9 +93,9 @@ class _AddUserScreenState extends State<AddUserScreen> {
                       Container(
                         width: 50,
                         height: 50,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(6)),
-                            color: colorPrimary),
+                            color: AppColor.colorPrimary),
                         child: IconButton(
                           onPressed: addUserCubit.searchUser,
                           icon: const Icon(
@@ -131,7 +131,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(6),
                                   border:
-                                  Border.all(color: colorPrimary, width: 1)),
+                                  Border.all(color: AppColor.colorPrimary, width: 1)),
                               padding: const EdgeInsets.all(4),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,

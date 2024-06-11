@@ -29,7 +29,7 @@ class ChatListTile extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(30)),
               /*color: const Color.fromRGBO(51, 51, 51, 1),*/
-              border: Border.all(width: 1 , color: lightGray),
+              border: Border.all(width: 1 , color: AppColor.lightGray),
             ),
             child: ClipOval(
               child: Image.asset(

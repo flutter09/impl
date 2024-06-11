@@ -139,13 +139,13 @@ class _SaveUserEditingDialogState extends State<SaveUserEditingDialog> {
               Navigator.of(context).pop();
             },
             text: "Cancel",
-            style: const TextStyle(
-                fontSize: 18, fontWeight: FontWeight.w500, color: colorGray,),),
+            style: TextStyle(
+                fontSize: 18, fontWeight: FontWeight.w500, color: AppColor.colorGray,),),
         defaultTextButton(
           function: onSave,
           text: "Update",
-          style: const TextStyle(
-            fontSize: 18, fontWeight: FontWeight.w500, color: colorGray,),),
+          style: TextStyle(
+            fontSize: 18, fontWeight: FontWeight.w500, color: AppColor.colorGray,),),
       ],
     );
   }

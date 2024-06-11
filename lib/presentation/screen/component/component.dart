@@ -1,6 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:gradients/gradients.dart';
 
 Widget defaultButton({
   required VoidCallback onTap,
@@ -298,10 +297,8 @@ Widget primaryButton({
       height: height,
       clipBehavior: Clip.antiAliasWithSaveLayer,
       decoration: BoxDecoration(
-
         borderRadius: BorderRadius.circular(radius),
-        gradient: LinearGradientPainter(
-          colorSpace: ColorSpace.cmyk,
+        gradient: LinearGradient(
           colors: colors ??
               [
                 Colors.purple.shade200,

@@ -30,7 +30,7 @@ class ApiServiceImpl implements ApiService {
       ));
     }
     dio?.options =
-        BaseOptions(connectTimeout: 5 * 60 * 1000, receiveTimeout: 5 * 60 * 1000);
+        BaseOptions(connectTimeout: const Duration(milliseconds: 5 * 60 * 1000), receiveTimeout: const Duration(milliseconds: 5 * 60 * 1000));
   }
 
   static final ApiServiceImpl apiServiceImpl = ApiServiceImpl._();
@@ -123,9 +123,9 @@ class ApiServiceImpl implements ApiService {
         data: data,
         options: Options(
             contentType: 'multipart/form-data',
-            sendTimeout: 5 * 60 * 1000,
+            sendTimeout: const Duration(milliseconds: 5 * 60 * 1000),
             // 60 seconds
-            receiveTimeout: 5 * 60 * 1000));
+            receiveTimeout: const Duration(milliseconds: 5 * 60 * 1000)));
     if (response?.statusCode == 200) {
       try {
         print("Response : ${response?.data}");

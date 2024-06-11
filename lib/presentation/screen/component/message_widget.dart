@@ -21,7 +21,7 @@ class MessageWidget extends StatefulWidget {
 
   final VoidCallback? onLongPress;
   final VoidCallback? onPress;
-  final VoidCallback? onLeftSwipe;
+  final Function(DragUpdateDetails)? onLeftSwipe;
   final ChatMessage messages;
   final bool? isReply;
   final bool? isEdit;

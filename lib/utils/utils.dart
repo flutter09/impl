@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:chat_application/utils/resources/api_message.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:enough_giphy_flutter/enough_giphy_flutter.dart';
+// import 'package:enough_giphy_flutter/enough_giphy_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -46,7 +46,7 @@ Future<File?> pickVideoFromGallery(BuildContext context) async {
   return video;
 }
 
-Future<GiphyGif?> pickGIF(BuildContext context) async {
+/*Future<GiphyGif?> pickGIF(BuildContext context) async {
   GiphyGif? gif;
   try {
     gif = await Giphy.getGif(
@@ -57,7 +57,7 @@ Future<GiphyGif?> pickGIF(BuildContext context) async {
     showSnackBar(context: context, content: e.toString());
   }
   return gif;
-}
+}*/
 
 String dateToDDMMMYYYY(String date) {
   DateFormat originalDateFormat = DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
@@ -268,7 +268,7 @@ Future<String> pickDate(BuildContext context) async {
           ),
           textButtonTheme: TextButtonThemeData(
             style: TextButton.styleFrom(
-              primary: Colors.red, // button text color
+              foregroundColor: Colors.red, // button text color
             ),
           ),
         ),

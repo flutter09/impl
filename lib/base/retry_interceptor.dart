@@ -10,7 +10,7 @@ class RetryInterceptor{
   RetryInterceptor({required this.dio , required this.connectivity});
 
   Future<Response> scheduleRetryRequest(RequestOptions requestOptions) async {
-    StreamSubscription<ConnectivityResult>? streamSubscription;
+    StreamSubscription<List<ConnectivityResult>>? streamSubscription;
     final response = Completer<Response>();
     streamSubscription =
         connectivity?.onConnectivityChanged.listen((connectivityResult) {

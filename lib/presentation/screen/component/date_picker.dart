@@ -114,7 +114,7 @@ class _LabelDatePickerTextFieldState extends State<LabelDatePickerTextField> {
             ),
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
-                primary: Colors.red, // button text color
+                foregroundColor: Colors.red, // button text color
               ),
             ),
           ),

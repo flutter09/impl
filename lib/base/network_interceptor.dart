@@ -15,7 +15,7 @@ class NetworkInterceptor extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     options = RequestOptions(
         path: options.path,
-        receiveTimeout: 2000,
+        receiveTimeout: const Duration(milliseconds: 2000),
         method: options.method,
         queryParameters: options.queryParameters,
         data: options.data,
@@ -25,7 +25,7 @@ class NetworkInterceptor extends Interceptor {
   }
 
   bool _shouldRetry(DioError err) {
-    return err.type == DioErrorType.other && err.error is SocketException;
+    return err.type == DioErrorType.connectionTimeout && err.error is SocketException;
   }
 
   @override

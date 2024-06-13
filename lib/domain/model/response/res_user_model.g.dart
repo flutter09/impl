@@ -26,7 +26,7 @@ ResUserModel _$ResUserModelFromJson(Map<String, dynamic> json) => ResUserModel(
           (json['tokens'] as List<dynamic>?)?.map((e) => e as String?).toList(),
       referralCode: json['referral_code'] as String?,
       referredBy: json['referred_by'] as String?,
-      referredCredit: json['referred_credit'] as int?,
+      referredCredit: (json['referred_credit'] as num?)?.toInt(),
       userSaveId: (json['userSave_id'] as List<dynamic>?)
           ?.map((e) => e == null
               ? null
@@ -35,8 +35,8 @@ ResUserModel _$ResUserModelFromJson(Map<String, dynamic> json) => ResUserModel(
       isEmailVerify: json['is_email_verify'] as bool?,
       createdAt: json['createdAt'] as String?,
       updatedAt: json['updatedAt'] as String?,
-      uniqueId: json['unique_id'] as int?,
-      v: json['__v'] as int?,
+      uniqueId: (json['unique_id'] as num?)?.toInt(),
+      v: (json['__v'] as num?)?.toInt(),
     )..defaultName = json['default_name'] as String?;
 
 Map<String, dynamic> _$ResUserModelToJson(ResUserModel instance) =>
@@ -71,7 +71,9 @@ Map<String, dynamic> _$ResUserModelToJson(ResUserModel instance) =>
 UserSaveData _$UserSaveDataFromJson(Map<String, dynamic> json) => UserSaveData(
       userId: json['user_id'] as String?,
       userName: json['userName'] as String?,
-      roles: (json['roles'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      roles: (json['roles'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
       name: json['name'] as String?,
       email: json['email'] as String?,
       phone: json['phone'] as String?,

@@ -67,6 +67,7 @@ dependencies:
   url_launcher: ^6.1.12
   json_annotation: ^4.8.1
   collection:
+  country_code_picker: ^3.0.0
 
 
 

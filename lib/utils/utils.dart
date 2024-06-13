@@ -130,12 +130,20 @@ String? validateEmail(String email) {
   }
 }
 
+String? validateRequireField(String value) {
+  if (value.trim().isEmpty) {
+    return "This field is required.";
+  } else {
+    return null;
+  }
+}
+
 String? validateEmailPhone(String value) {
   if (value.trim().isEmpty) {
-    return "this field is required.";
+    return "This field is required.";
   } else if (!validateEmailPattern(value) &&
       !validatePhoneNumberPattern(value)) {
-    return "Invalid value";
+    return "Invalid email";
   } else {
     return null;
   }

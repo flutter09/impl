@@ -1,5 +1,6 @@
 import 'package:chat_application/config/route/route_manager.dart';
 import 'package:chat_application/presentation/screen/component/custom_image_button.dart';
+import 'package:chat_application/presentation/screen/component/loading_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,200 +53,206 @@ class _SignInScreenState extends State<SignInScreen> {
             }
           },
           builder: (context, state) {
-            if (state is LoadingState) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            return Center(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Form(
-                    key: formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            "assets/images/impm_logo.png",
-                            width: 200,
-                            height: 100,
-                            fit: BoxFit.fill,
+            return LoadingScreen(
+              isLoading: state is LoadingState,
+              child: Center(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Align(
+                            alignment: Alignment.center,
+                            child: Image.asset(
+                              "assets/images/impm_logo.png",
+                              width: 200,
+                              height: 100,
+                              fit: BoxFit.fill,
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        Text(
-                          'Sign-In',
-                          style: theme.textTheme.headlineLarge,
-                        ).tr(),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        LabelTextField(
-                            controller: _controller,
-                            label: "Username",
-                            hintText: "Enter your email or username or phone",
-                            type: TextInputType.emailAddress,
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          Text(
+                            'Sign-In',
+                            style: theme.textTheme.headlineLarge,
+                          ).tr(),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          LabelTextField(
+                              controller: _controller,
+                              label: "Username",
+                              hintText: "Enter your email or username or phone",
+                              type: TextInputType.emailAddress,
+                              validate: (value) {
+                                return validateEmailPhone(value);
+                              },
+                            isRequired: true,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          LabelTextField(
+                            controller: _passwordController,
+                            label: "Password",
+                            hintText: "Enter your password",
+                            isPassword: true,
+                            type: TextInputType.visiblePassword,
                             validate: (value) {
-                              return validateEmailPhone(value);
-                            }),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        LabelTextField(
-                          controller: _passwordController,
-                          label: "Password",
-                          hintText: "Enter your password",
-                          isPassword: true,
-                          type: TextInputType.visiblePassword,
-                          validate: (value) {
-                            // return validatePassword(value); // todo : password validation
-                          },
-                          onFieldSubmitted: (value) {
-                            // if (_formKey.currentState!.validate()) {}
-                          },
-                        ),
-                        SizedBox(
-                          width: double.infinity,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: defaultTextButton(
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColor.colorGray),
-                              function: () {
-                                Navigator.pushNamed(
-                                    context, Routes.forgotPasswordRoute);
-                              },
-                              text: 'Forgot Password'.tr(),
+                              if (value.trim().isEmpty) {
+                                return "Password is required.";
+                              }
+                              return null;
+                              // return validatePassword(value); // todo : password validation
+                            },
+                            onFieldSubmitted: (value) {
+                              // if (_formKey.currentState!.validate()) {}
+                            },
+                          ),
+                          SizedBox(
+                            width: double.infinity,
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: defaultTextButton(
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColor.colorGray),
+                                function: () {
+                                  Navigator.pushNamed(
+                                      context, Routes.forgotPasswordRoute);
+                                },
+                                text: 'Forgot Password'.tr(),
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        BlocBuilder<SignInCubit, BaseState>(
-                          builder: (context, state) {
-                            return SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  // Navigator.pushNamedAndRemoveUntil(context, Routes.chatListRoute, (route) => false);//todo remove this navigation
-                                  if (formKey.currentState!.validate()) {
-                                    loginCubit.login(
-                                      _controller.text,
-                                      _passwordController.text,
-                                    );
-                                  }
+                          const SizedBox(height: 8),
+                          BlocBuilder<SignInCubit, BaseState>(
+                            builder: (context, state) {
+                              return SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    // Navigator.pushNamedAndRemoveUntil(context, Routes.chatListRoute, (route) => false);//todo remove this navigation
+                                    if (formKey.currentState!.validate()) {
+                                      loginCubit.login(
+                                        _controller.text,
+                                        _passwordController.text,
+                                      );
+                                    }
+                                  },
+                                  child: const Text(
+                                    'Sign in',
+                                  ).tr(),
+                                ),
+                              );
+                            },
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'New on our platform?',
+                                style: theme.textTheme.bodyMedium,
+                              ),
+                              defaultTextButton(
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColor.btnBlue),
+                                function: () {
+                                  Navigator.pushNamed(
+                                      context, Routes.signUpRoute);
                                 },
-                                child: const Text(
-                                  'Sign in',
-                                  /*style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),*/
-                                ).tr(),
-                              ),
-                            );
-                          },
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'New on our platform?',
-                              style: theme.textTheme.bodyMedium,
-                            ),
-                            defaultTextButton(
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColor.colorPrimary),
-                              function: () {
-                                Navigator.pushNamed(
-                                    context, Routes.signUpRoute);
-                              },
-                              text: 'Create an account',
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 40.0 , vertical: 8),
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Divider(
-                                  color: AppColor.colorGray,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Text(
-                                  'OR',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: AppColor.colorGray,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Divider(
-                                  color: AppColor.colorGray,
-                                ),
+                                text: 'Create an account',
                               ),
                             ],
                           ),
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CustomImageButton(assetPath: 'assets/images/ic_google.png', onPressed: (){} , iconColor: Colors.black54 ),
-                            SizedBox(width: 10),
-                            CustomImageButton(assetPath: 'assets/images/ic_linkedin.png', onPressed: (){}, iconColor: Colors.black54),
-                          ]
-                        ),
-                        SizedBox(height: 50),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            defaultTextButton(
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColor.colorPrimary),
-                              function: () {
-                                Navigator.pushNamed(
-                                    context, Routes.signUpRoute);
-                              },
-                              text: 'Terms & Conditions',
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 40.0 , vertical: 8),
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Divider(
+                                    color: AppColor.colorGray,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                  child: Text(
+                                    'OR',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: AppColor.colorGray,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Divider(
+                                    color: AppColor.colorGray,
+                                  ),
+                                ),
+                              ],
                             ),
-                            defaultTextButton(
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColor.colorPrimary),
-                              function: () {
-                                Navigator.pushNamed(
-                                    context, Routes.signUpRoute);
-                              },
-                              text: 'Privacy policies',
-                            ),
-                            defaultTextButton(
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColor.colorPrimary),
-                              function: () {
-                                Navigator.pushNamed(
-                                    context, Routes.signUpRoute);
-                              },
-                              text: 'Help',
-                            ),
-                          ],
-                        ),
-                      ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CustomImageButton(assetPath: 'assets/images/ic_google.png', onPressed: (){} , iconColor: Colors.black54 ),
+                              SizedBox(width: 10),
+                              CustomImageButton(assetPath: 'assets/images/ic_linkedin.png', onPressed: (){}, iconColor: Colors.black54),
+                            ]
+                          ),
+                          SizedBox(height: 50),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              defaultTextButton(
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w100,
+                                    color: AppColor.txtPurple),
+                                function: () {
+                                  Navigator.pushNamed(
+                                      context, Routes.signUpRoute);
+                                },
+                                text: 'Terms & Conditions',
+                              ),
+                              defaultTextButton(
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w100,
+                                    color: AppColor.txtPurple),
+                                function: () {
+                                  Navigator.pushNamed(
+                                      context, Routes.signUpRoute);
+                                },
+                                text: 'Privacy policies',
+                              ),
+                              defaultTextButton(
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w100,
+                                    color: AppColor.txtPurple),
+                                function: () {
+                                  Navigator.pushNamed(
+                                      context, Routes.signUpRoute);
+                                },
+                                text: 'Help',
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

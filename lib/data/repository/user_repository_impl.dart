@@ -24,12 +24,11 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<Result<ResUserModel>> login(ReqLogin request) async {
-    var response = await apiService.post<ResUserModel>(
+    var response = await apiService.postForm<ResUserModel>(
         DioApiConstants.userLogin, ResUserModel.fromJson,
-        data: request.toJson());
+        data: request.toFormData());
     if (response is Success) {
       var result = (response as Success).data as ApiResponse;
-      print(result.data);
       if (result.success ?? false) {
         return Success(result.data);
       } else {
@@ -77,7 +76,7 @@ class UserRepositoryImpl implements UserRepository {
             FormData()) // key , file , base form data instance
             : FormData());
 
-    var response = await apiService.postFile<ResUserModel>(
+    var response = await apiService.postForm<ResUserModel>(
         DioApiConstants.userRegister, ResUserModel.fromJson,
         data: formData);
 
@@ -148,7 +147,7 @@ class UserRepositoryImpl implements UserRepository {
     });
 
     var response = await apiService
-        .postFile<String>(DioApiConstants.uploadFile, null, data: data);
+        .postForm<String>(DioApiConstants.uploadFile, null, data: data);
 
     if (response is Success) {
       var result = (response as Success).data as ApiResponse;
@@ -216,7 +215,7 @@ class UserRepositoryImpl implements UserRepository {
         await addFileToFormData("image", image, FormData()) // key , file , base form data instance
             : FormData());
 
-    var response = await apiService.postFile<ResUserModel>(DioApiConstants.updateUser, ResUserModel.fromJson, data: formData);
+    var response = await apiService.postForm<ResUserModel>(DioApiConstants.updateUser, ResUserModel.fromJson, data: formData);
 
     if (response is Success) {
       var result = (response as Success).data as ApiResponse;

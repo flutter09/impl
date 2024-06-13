@@ -34,5 +34,5 @@ ResGroup _$ResGroupFromJson(Map<String, dynamic> json) => ResGroup(
       updatedAt: json['updatedAt'] == null
           ? null
           : DateTime.parse(json['updatedAt'] as String),
-      uniqueId: json['unique_id'] as int?,
+      uniqueId: (json['unique_id'] as num?)?.toInt(),
     );

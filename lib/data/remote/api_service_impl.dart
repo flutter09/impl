@@ -29,8 +29,9 @@ class ApiServiceImpl implements ApiService {
         error: true,
       ));
     }
-    dio?.options =
-        BaseOptions(connectTimeout: const Duration(milliseconds: 5 * 60 * 1000), receiveTimeout: const Duration(milliseconds: 5 * 60 * 1000));
+    dio?.options = BaseOptions(
+        connectTimeout: const Duration(milliseconds: 5 * 60 * 1000),
+        receiveTimeout: const Duration(milliseconds: 5 * 60 * 1000));
   }
 
   static final ApiServiceImpl apiServiceImpl = ApiServiceImpl._();
@@ -45,10 +46,8 @@ class ApiServiceImpl implements ApiService {
     var response = await dio?.delete(DioApiConstants.baseUrl);
     if (response?.statusCode == 200) {
       try {
-        print("Response : ${response?.data}");
         return Success(ApiResponse.fromJson(response?.data, fromJsonT));
       } catch (e) {
-        print("Error : ${e.toString()}");
         return Error(ErrorResponse(errorMessage: e.toString()));
       }
     } else {
@@ -65,10 +64,8 @@ class ApiServiceImpl implements ApiService {
         queryParameters: queryParameters);
     if (response?.statusCode == 200) {
       try {
-        print("Response : ${response?.data}");
         return Success(ApiResponse.fromJson(response?.data, fromJsonT));
       } catch (e) {
-        print("Error : ${e.toString()}");
         return Error(ErrorResponse(errorMessage: e.toString()));
       }
     } else {
@@ -83,10 +80,8 @@ class ApiServiceImpl implements ApiService {
     var response = await dio?.patch(DioApiConstants.baseUrl + url, data: data);
     if (response?.statusCode == 200) {
       try {
-        print("Response : ${response?.data}");
         return Success(ApiResponse.fromJson(response?.data, fromJsonT));
       } catch (e) {
-        print("Error : ${e.toString()}");
         return Error(ErrorResponse(errorMessage: e.toString()));
       }
     } else {
@@ -102,10 +97,8 @@ class ApiServiceImpl implements ApiService {
     var response = await dio?.post(DioApiConstants.baseUrl + url, data: data);
     if (response?.statusCode == 200) {
       try {
-        print("Response : ${response?.data}");
         return Success(ApiResponse.fromJson(response?.data, fromJsonT));
       } catch (e) {
-        print("Error : API SERVICE IMPL / ${e.toString()}");
         return Error(ErrorResponse(errorMessage: e.toString()));
       }
     } else {
@@ -116,7 +109,7 @@ class ApiServiceImpl implements ApiService {
   }
 
   @override
-  Future<Result<ApiResponse<T>>?> postFile<T>(
+  Future<Result<ApiResponse<T>>?> postForm<T>(
       String url, T Function(Map<String, dynamic> json)? fromJsonT,
       {data}) async {
     var response = await dio?.post(DioApiConstants.baseUrl + url,
@@ -128,10 +121,8 @@ class ApiServiceImpl implements ApiService {
             receiveTimeout: const Duration(milliseconds: 5 * 60 * 1000)));
     if (response?.statusCode == 200) {
       try {
-        print("Response : ${response?.data}");
         return Success(ApiResponse.fromJson(response?.data, fromJsonT));
       } catch (e) {
-        print("Error : ${e.toString()}");
         return Error(ErrorResponse(errorMessage: e.toString()));
       }
     } else {

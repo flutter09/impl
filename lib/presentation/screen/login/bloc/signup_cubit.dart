@@ -17,7 +17,7 @@ class SignUpCubit extends BaseCubit<BaseState, String> {
   SignUpCubit(this._userRepository, this._preferenceRepository)
       : super(BaseInitState(), "");
 
-  Future<void> registerUser(String name, String email, String phone,
+  Future<void> registerUser(String first_name, String last_name, String unique_name, String email, String phone,
       String password, File? file) async {
     if (isBusy) return;
 
@@ -26,7 +26,7 @@ class SignUpCubit extends BaseCubit<BaseState, String> {
       try {
         final response = await _userRepository.registerUser(
             ReqUserRegister(
-                name: name, email: email, phone: phone, password: password),
+                first_name: first_name, last_name: last_name, unique_name: unique_name, email: email, phone: phone, password: password),
             file);
         if (response is Success) {
           print("success response");

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'req_login.g.dart';
@@ -19,4 +20,6 @@ class ReqLogin {
       _$ReqLoginFromJson(json);
 
   Map<String, dynamic> toJson() => _$ReqLoginToJson(this);
+
+  FormData toFormData() => FormData.fromMap(toJson());
 }

@@ -49,7 +49,6 @@ class SignInCubit extends BaseCubit<BaseState, String> {
           _preferenceRepository.setUserMail(user.email ?? '');
           _preferenceRepository.setUserPhone(user.phone ?? '');
           _preferenceRepository.setUser(user);
-          print('set token ${user.tokens?.last}');
           emit(SignInState(token: user.tokens?.last ?? ""));
         }
       } catch (e) {

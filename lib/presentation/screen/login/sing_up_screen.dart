@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +17,11 @@ import 'bloc/singin_state.dart';
 import 'otp_varification_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
-  final _nameController = TextEditingController();
+  final _firstNameController = TextEditingController();
+
+  final _lastNameController = TextEditingController();
+
+  final _uniqueNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -85,16 +90,35 @@ class SignUpScreen extends StatelessWidget {
                           style: theme.textTheme.headlineLarge,
                         ).tr(),
                         Text(
-                          'Create new IMPM account',
+                          'Access IMPL using your email and password',
                           style: theme.textTheme.bodyMedium,
                         ).tr(),
                         const SizedBox(
                           height: 30,
                         ),
                         LabelTextField(
-                          controller: _nameController,
-                          label: "Username",
-                          hintText: "Enter your name",
+                          controller: _uniqueNameController,
+                          label: "User name",
+                          hintText: "Enter your Username",
+                          isRequired: true,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        LabelTextField(
+                          controller: _firstNameController,
+                          label: "First name",
+                          hintText: "Enter your firstname",
+                          isRequired: true,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        LabelTextField(
+                          controller: _lastNameController,
+                          label: "Last name",
+                          hintText: "Enter your lastname",
+                          isRequired: true,
                         ),
                         const SizedBox(
                           height: 20,
@@ -102,8 +126,9 @@ class SignUpScreen extends StatelessWidget {
                         LabelTextField(
                             controller: _emailController,
                             label: "Email",
-                            hintText: "Enter your E-mail address",
+                            hintText: "Enter your email address",
                             type: TextInputType.emailAddress,
+                            isRequired: true,
                             validate: (value) {
                               return validateEmail(value);
                             }),
@@ -115,6 +140,7 @@ class SignUpScreen extends StatelessWidget {
                           label: "Password",
                           hintText: "Enter your password",
                           isPassword: true,
+                          isRequired: true,
                           type: TextInputType.visiblePassword,
                           validate: (value) {
                             // return validatePassword(value); //todo password validation
@@ -131,6 +157,7 @@ class SignUpScreen extends StatelessWidget {
                           label: "Confirm Password",
                           hintText: "Re-type your password",
                           isPassword: true,
+                          isRequired: true,
                           type: TextInputType.visiblePassword,
                           validate: (value) {
                             // return validateConfirmPassword(_passwordController.text , value); // todo confirm password validation
@@ -145,14 +172,31 @@ class SignUpScreen extends StatelessWidget {
                         LabelTextField(
                           controller: _mobileController,
                           label: "Phone",
-                          hintText: "Enter your Contact number",
+                          hintText: "Enter your phone number",
                           type: TextInputType.phone,
+                          isRequired: true,
                           validate: (value) {
                             return validateMobileNumber(value);
                           },
                           onFieldSubmitted: (value) {
                             // if (_formKey.currentState!.validate()) {}
                           },
+                          outsidePrefix:  Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: AppColor.colorGray, width: 0.5),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            alignment: Alignment.center,
+                            child: const CountryCodePicker(
+                              onChanged: print,
+                              initialSelection: 'IN',
+                              favorite: ['+91','IN'],
+                              showCountryOnly: false,
+                              showOnlyCountryWhenClosed: false,
+                              alignLeft: false,
+                              showFlag: false,
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 20),
                         /*LabelTextField(
@@ -179,7 +223,9 @@ class SignUpScreen extends StatelessWidget {
                               //register a user
                               if (_formKey.currentState!.validate()) {
                                 signUpCubit.registerUser(
-                                    _nameController.text,
+                                    _firstNameController.text,
+                                    _lastNameController.text,
+                                    _uniqueNameController.text,
                                     _emailController.text,
                                     _mobileController.text,
                                     _passwordController.text,
@@ -188,9 +234,6 @@ class SignUpScreen extends StatelessWidget {
                             },
                             child: const Text(
                               'Sign up',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
                             ).tr(),
                           ),
                         ),
@@ -221,8 +264,9 @@ class SignUpScreen extends StatelessWidget {
                           children: [
                             defaultTextButton(
                               style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColor.colorPrimary),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w100,
+                                  color: AppColor.txtPurple),
                               function: () {
                                 Navigator.pushNamed(
                                     context, Routes.signUpRoute);
@@ -231,8 +275,9 @@ class SignUpScreen extends StatelessWidget {
                             ),
                             defaultTextButton(
                               style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColor.colorPrimary),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w100,
+                                  color: AppColor.txtPurple),
                               function: () {
                                 Navigator.pushNamed(
                                     context, Routes.signUpRoute);
@@ -241,8 +286,9 @@ class SignUpScreen extends StatelessWidget {
                             ),
                             defaultTextButton(
                               style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColor.colorPrimary),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w100,
+                                  color: AppColor.txtPurple),
                               function: () {
                                 Navigator.pushNamed(
                                     context, Routes.signUpRoute);

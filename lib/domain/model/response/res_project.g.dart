@@ -20,8 +20,8 @@ ResProject _$ResProjectFromJson(Map<String, dynamic> json) => ResProject(
       createdBy: json['create_by'] as String?,
       createdAt: json['createdAt'] as String?,
       updatedAt: json['updatedAt'] as String?,
-      uniqueId: json['unique_id'] as int?,
-      version: json['__v'] as int?,
+      uniqueId: (json['unique_id'] as num?)?.toInt(),
+      version: (json['__v'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ResProjectToJson(ResProject instance) =>

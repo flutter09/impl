@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../config/theme/app_theme.dart';
 
@@ -7,22 +8,32 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool? isDrawerIcon;
   final VoidCallback? onLeadPress;
   final List<Widget>? actions;
+  final String? assertImage;
 
   const CustomAppBar({
     Key? key,
     this.title,
     this.isDrawerIcon,
     this.onLeadPress,
-    this.actions,
+    this.actions, this.assertImage,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.transparent,
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+        statusBarBrightness: Brightness.light, // For iOS (dark icons)
+      ),
       elevation: 0,
       actions: actions,
-      title: Text(
+      titleSpacing: 0,
+      title: assertImage != null ? Image.asset(
+        assertImage!,
+        height: 56,
+        width: 90,
+        fit: BoxFit.scaleDown,
+      ):Text(
         title ?? "",
         style: Theme.of(context).textTheme.titleLarge,
       ),
@@ -44,23 +55,33 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class AppBarAction extends StatelessWidget {
-  final IconData icon;
+  final IconData? icon;
   final VoidCallback onPress;
   final Color? backgroundColor;
   final Color? iconColor;
-  const AppBarAction({
-    super.key, required this.icon, required this.onPress, this.backgroundColor,this.iconColor
-  });
+  final String? text;
+  const AppBarAction(
+      {super.key,
+      this.icon,
+      required this.onPress,
+      this.backgroundColor,
+      this.iconColor, this.text});
 
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      backgroundColor: backgroundColor ?? AppColor.lightGray,
-      child: IconButton(
+      backgroundColor: backgroundColor ?? AppColor.backgroundGray,
+      child: text != null ? Container(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.all(6.0),
+        child: FittedBox(
+          child: Text(text!, style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
+        ),
+      ) : IconButton(
         onPressed: onPress,
         icon: Icon(
           icon,
-          size: 22,
+          size: 24,
           color: iconColor ?? AppColor.darkGray,
         ),
       ),
@@ -132,7 +153,7 @@ class ImageAppBar extends StatelessWidget implements PreferredSizeWidget {
                     Text(
                       onlineState ?? "Offline",
                       style:
-                      TextStyle(color: Colors.grey.shade600, fontSize: 13),
+                          TextStyle(color: Colors.grey.shade600, fontSize: 13),
                     ),
                   ],
                 ),

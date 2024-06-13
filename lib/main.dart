@@ -3,7 +3,6 @@ import 'package:chat_application/presentation/screen/login/bloc/singin_cubit.dar
 import 'package:chat_application/utils/resources/string_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
 
 import 'config/route/route_manager.dart';
 import 'config/theme/app_theme.dart';
@@ -28,19 +27,20 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Sizer(builder: (context, orientation, deviceType) {
-      return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        onGenerateRoute: RouteGenerator.getRoute,
-        initialRoute: /*Routes
-            .dashboardScreen*/ di.di<SignInCubit>().checkLogin() ? Routes.dashboardScreen : Routes.signInRoute,
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        title: AppStrings.appTitle,
-        theme: AppTheme.light,
-      );
-    });
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      onGenerateRoute: RouteGenerator.getRoute,
+      initialRoute: /*Routes
+            .dashboardScreen*/
+          di.di<SignInCubit>().checkLogin()
+              ? Routes.dashboardScreen
+              : Routes.signInRoute,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      title: AppStrings.appTitle,
+      theme: AppTheme.light,
+    );
     // ),
     //);
   }

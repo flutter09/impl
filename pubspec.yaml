@@ -53,21 +53,18 @@ dependencies:
   uuid: ^4.4.0
   intl: ^0.19.0
   cached_network_image: ^3.2.3
-  cached_video_player:
-    git:
-      url: https://github.com/vikram25897/flutter_cached_video_player
-      ref: feature/gradle_version_bump
+  cached_video_player: ^2.0.4
   emoji_picker_flutter: ^2.2.0
   #  flutter_sound: ^9.2.13
   path_provider: ^2.0.15
   permission_handler: ^11.3.1
-  audioplayers: ^6.0.0
   swipe_to: ^1.0.2
   story_view: ^0.16.0
   url_launcher: ^6.1.12
   json_annotation: ^4.8.1
   collection:
   country_code_picker: ^3.0.0
+  gap: ^3.0.1
 
 
 

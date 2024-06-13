@@ -23,81 +23,69 @@ Widget defaultButton({
       ),
     );
 
-PreferredSizeWidget  defaultAppBar({
+PreferredSizeWidget defaultAppBar({
   required BuildContext context,
-  String ? title,
-   List<Widget> ? actions,
-}) => AppBar(
-  leading: IconButton(
-    onPressed: ()
-    {
-      Navigator.pop(context);
-    }, icon:  const Icon(
-    Icons.arrow_back_ios_sharp,
-  ),
-  ),
-  titleSpacing: 5.0,
-  title: Text(
-    title!,
-  ),
-  actions: actions,
-);
-
+  String? title,
+  List<Widget>? actions,
+}) =>
+    AppBar(
+      leading: IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: const Icon(
+          Icons.arrow_back_ios_sharp,
+        ),
+      ),
+      titleSpacing: 5.0,
+      title: Text(
+        title!,
+      ),
+      actions: actions,
+    );
 
 Widget defaultFormField({
-   context,
+  context,
   required TextEditingController controller,
   required TextInputType keyboardType,
-   TextInputType ? type,
+  TextInputType? type,
   bool isPassword = false,
   bool enabled = true,
-   onSubmit,
-   onChange,
+  onSubmit,
+  onChange,
   onTap,
   required FormFieldValidator validate,
-   String ? label,
-   IconData?prefix,
+  String? label,
+  IconData? prefix,
   IconData? suffix,
   Function? suffixPressed,
   bool isClikable = true,
   String? labelText,
-
   Color? fillColor,
   Color? enabledBorderColor,
   Color? focusedBorderColor,
   TextStyle? style,
   TextStyle? labelStyle,
   bool hasBorder = true,
-  OutlineInputBorder ? focusedBorder,
-  OutlineInputBorder?  enabledBorder,
-
-
-
-
+  OutlineInputBorder? focusedBorder,
+  OutlineInputBorder? enabledBorder,
 }) =>
     TextFormField(
-
-
       cursorColor: Colors.blue,
       controller: controller,
       keyboardType: type,
       obscureText: isPassword,
-
       onFieldSubmitted: onSubmit,
       onChanged: onChange,
       onTap: onTap,
       validator: validate,
       style: style ?? TextStyle(),
-
-
       decoration: InputDecoration(
-
         focusedBorder: focusedBorder,
         border: OutlineInputBorder(),
         enabledBorder: OutlineInputBorder(),
-        labelText:labelText,
-        labelStyle:  TextStyle(),
-
+        labelText: labelText,
+        labelStyle: TextStyle(),
         prefixIcon: Icon(
           prefix,
         ),
@@ -111,27 +99,29 @@ Widget defaultFormField({
                 ))
             : null,
       ),
-
-
-
-
     );
 
 Widget defaultTextButton({
   TextStyle? style,
   required Function function,
   required String text,
+  bool enable = true,
 }) =>
     TextButton(
-      onPressed: (){function();},
-      style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.blue[50]) , padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 0 , horizontal: 6))),
-      child: Text(text,style: style,),
-);
-
-
-
-
-
+      onPressed: enable
+          ? () {
+              function();
+            }
+          : null,
+      style: ButtonStyle(
+          overlayColor: MaterialStateProperty.all(Colors.blue[50]),
+          padding: const MaterialStatePropertyAll(
+              EdgeInsets.symmetric(vertical: 0, horizontal: 6))),
+      child: Text(
+        text,
+        style: style,
+      ),
+    );
 
 Widget myDivider() => Padding(
       padding: const EdgeInsets.all(5.0),
@@ -141,10 +131,6 @@ Widget myDivider() => Padding(
         color: Colors.grey[400],
       ),
     );
-
-
-
-
 
 // ignore: non_constant_identifier_names
 void navigateTo(context, widget) => Navigator.push(
@@ -156,17 +142,14 @@ void navigateTo(context, widget) => Navigator.push(
 
 // ignore: non_constant_identifier_names
 void navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
-  context,
-  MaterialPageRoute(
-    builder: (context) => widget,
-  ),
-    (route)
-    {
-      return false;
-    },
-
-);
-
+      context,
+      MaterialPageRoute(
+        builder: (context) => widget,
+      ),
+      (route) {
+        return false;
+      },
+    );
 
 void showToast({
   required String text,
@@ -201,39 +184,45 @@ Widget baseAlertDialog({
   String? outlinedButtonText,
   String? elevatedButtonText,
   IconData? elevatedButtonIcon,
-}){
+}) {
   return AlertDialog(
-    title: Text('$title',),
-    titlePadding: EdgeInsetsDirectional.only(start:13,top: 15 ),
-    content: Text('$content',),
+    title: Text(
+      '$title',
+    ),
+    titlePadding: EdgeInsetsDirectional.only(start: 13, top: 15),
+    content: Text(
+      '$content',
+    ),
     elevation: 8,
     contentPadding: EdgeInsets.all(15),
     actions: [
       OutlinedButton(
-          onPressed: (){
+          onPressed: () {
             Navigator.of(context).pop(false);
           },
-          child: Text('$outlinedButtonText')
-      ),
+          child: Text('$outlinedButtonText')),
       SizedBox(
         width: 100,
         child: ElevatedButton(
-          style:ButtonStyle(backgroundColor:MaterialStateProperty.all(Colors.blueAccent)) ,
-          onPressed: (){
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.blueAccent)),
+          onPressed: () {
             Navigator.of(context).pop(true);
           },
-          child:Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(elevatedButtonIcon),
-              SizedBox(width: 5,),
-              Text('$elevatedButtonText',style: TextStyle(color: Colors.white)),
+              SizedBox(
+                width: 5,
+              ),
+              Text('$elevatedButtonText',
+                  style: TextStyle(color: Colors.white)),
             ],
           ),
         ),
       ),
     ],
-
   );
 }
 
@@ -248,37 +237,34 @@ Widget buildIconWithNumber({
   VoidCallback? onPressed,
   alignment = const Alignment(1.6, -0.8),
 }) =>
-    Column(
-      children: [
+    Column(children: [
       Stack(
-      alignment: alignment,
-      children: [
-        IconButton(
-          onPressed: onPressed,
-          icon: Icon(
-            icon,
-            color: iconColor,
-            size: size,
-          ),
-        ),
-        if (condition)
-          CircleAvatar(
-            radius: radius,
-            backgroundColor:Color(0xFF182140),
-            child: Text(
-              number.toString(),
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: fontSize,
-                color: Colors.white,
-              ),
+        alignment: alignment,
+        children: [
+          IconButton(
+            onPressed: onPressed,
+            icon: Icon(
+              icon,
+              color: iconColor,
+              size: size,
             ),
           ),
-      ],
-    ),
-]
-    );
-
+          if (condition)
+            CircleAvatar(
+              radius: radius,
+              backgroundColor: Color(0xFF182140),
+              child: Text(
+                number.toString(),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: fontSize,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+        ],
+      ),
+    ]);
 
 Widget primaryButton({
   required String text,
@@ -322,20 +308,19 @@ Widget primaryButton({
     );
 
 Widget backButton(context) => Row(children: [
-  IconButton(
-    icon: Icon(
-      Icons.arrow_back,
-    ),
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
-  ),
-  Text(
-    "Back",
-    style: TextStyle(
-
-      fontSize: 18,
-      fontWeight: FontWeight.bold,
-    ),
-  ),
-]);
+      IconButton(
+        icon: Icon(
+          Icons.arrow_back,
+        ),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+      Text(
+        "Back",
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ]);

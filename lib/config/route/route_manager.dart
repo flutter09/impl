@@ -2,7 +2,6 @@ import 'package:chat_application/presentation/screen/chat/chat_details_screen.da
 import 'package:chat_application/presentation/screen/chat/chat_list_screen.dart';
 import 'package:chat_application/presentation/screen/chat/chat_setting_screen.dart';
 import 'package:chat_application/presentation/screen/chat/create_group_screen.dart';
-import 'package:chat_application/presentation/screen/dashboard/dashboard_screen.dart';
 import 'package:chat_application/presentation/screen/group/create_group_new_screen.dart';
 import 'package:chat_application/presentation/screen/group/group_list_screen.dart';
 import 'package:chat_application/presentation/screen/login/forgot_password_screen.dart';
@@ -18,8 +17,8 @@ import 'package:chat_application/presentation/screen/user/personal_info_screen.d
 import 'package:chat_application/presentation/screen/user/user_list_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../domain/model/request/custom_user.dart';
 import '../../domain/model/response/res_project.dart';
+import '../../presentation/screen/main_screen.dart';
 import '../../presentation/screen/user/select_custom_user_screen.dart';
 import '../../utils/resources/string_manager.dart';
 
@@ -97,14 +96,20 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => ProjectListScreen());
       case Routes.groupListScreen:
         ResProject? currentProject = routeSettings.arguments as ResProject?;
-        return MaterialPageRoute(builder: (_) => GroupListScreen(currentProject: currentProject,));
+        return MaterialPageRoute(
+            builder: (_) => GroupListScreen(
+                  currentProject: currentProject,
+                ));
       case Routes.createGroupNewScreen:
         ResProject? currentProject = routeSettings.arguments as ResProject?;
-        return MaterialPageRoute(builder: (_) => CreateGroupNewScreen(currentProject: currentProject,));
+        return MaterialPageRoute(
+            builder: (_) => CreateGroupNewScreen(
+                  currentProject: currentProject,
+                ));
       case Routes.personalInfoScreen:
         return MaterialPageRoute(builder: (_) => PersonalInfoScreen());
       case Routes.dashboardScreen:
-        return MaterialPageRoute(builder: (_) => DashBoardScreen());
+        return MaterialPageRoute(builder: (_) => MainScreen());
       case Routes.selectCustomUser:
         List<ResProjectMember>? selectedUser =
             routeSettings.arguments as List<ResProjectMember>?;
@@ -112,7 +117,7 @@ class RouteGenerator {
             builder: (_) => SelectUserScreen(selectedContact: selectedUser));
       case Routes.mediaViewerScreen:
         String url = routeSettings.arguments as String;
-        return MaterialPageRoute(builder: (_)=> MediaViewer(resource: url));
+        return MaterialPageRoute(builder: (_) => MediaViewer(resource: url));
       default:
         return unDefinedRoute();
     }

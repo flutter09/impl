@@ -5,7 +5,6 @@ abstract class AppTheme {
     return ThemeData(
         appBarTheme: const AppBarTheme(
           elevation: 0,
-          color: Colors.white,
         ),
         scaffoldBackgroundColor: Colors.white,
         primaryColor: AppColor.colorPrimary,
@@ -36,7 +35,7 @@ abstract class AppTheme {
                 backgroundColor: WidgetStateProperty.all(AppColor.colorPrimary),
                 foregroundColor: WidgetStatePropertyAll(AppColor.white))),
         textTheme: TextTheme(
-            headlineLarge: TextStyle(fontSize: 40, color: AppColor.colorHeader),
+            headlineLarge: TextStyle(fontSize: 40, color: AppColor.colorHeader, fontWeight: FontWeight.w600),
             headlineMedium:
                 TextStyle(fontSize: 36, color: AppColor.colorHeader),
             titleLarge: TextStyle(
@@ -75,4 +74,6 @@ class AppColor {
   static Color white = Colors.white;
   static Color errorRed = const Color(0xffED756B);
   static Color txtPurple = const Color(0xff7A3FFF);
+  static Color notifyRed = const Color(0xffE85347);
+  static Color yellow = const Color(0xffF4BD0F);
 }

@@ -13,3 +13,5 @@ class ErrorState extends BaseState {
 
   const ErrorState({this.errorMessage});
 }
+
+class RefreshState extends BaseState {}

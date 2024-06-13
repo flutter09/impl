@@ -1,4 +1,5 @@
 import 'package:chat_application/config/route/route_manager.dart';
+import 'package:chat_application/presentation/screen/component/loading_screen.dart';
 import 'package:chat_application/presentation/screen/user/bloc/save_user_list_cubit.dart';
 import 'package:chat_application/presentation/screen/user/save_user_editing_dailog.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -41,55 +42,28 @@ class _UserListScreenState extends State<UserListScreen> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: CustomAppBar(
-        isDrawerIcon: true,
-        onLeadPress: () => _openDrawer(),
-        actions: [
-          IconButton(
-            onPressed: () {
-              // Navigator.of(context).pushNamed(Routes.addUserScreen);
-            },
-            icon: Icon(
-              Icons.notifications_active,
-              color: AppColor.colorGray,
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0),
-            child: CircleAvatar(
-              backgroundImage:
-                  NetworkImage("https://randomuser.me/api/portraits/men/5.jpg"),
-              maxRadius: 20,
-            ),
-          )
-        ],
-      ),
-      drawer: const CustomDrawer(),
-      body: BlocConsumer<SaveUserListCubit, BaseState>(
-        bloc: saveUserListCubit,
-        listener: (context, state) {
-          if (state is ErrorState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-                getSnackBar(state.errorMessage ?? "error invalid"));
-          }
-        },
-        builder: (context, state) {
-          return Stack(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                color: AppColor.backgroundGray,
-                child: Column(
+    return BlocConsumer<SaveUserListCubit, BaseState>(
+      bloc: saveUserListCubit,
+      listener: (context, state) {
+        if (state is ErrorState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              getSnackBar(state.errorMessage ?? "error invalid"));
+        }
+      },
+      builder: (context, state) {
+        return LoadingScreen(
+          isLoading: state is LoadingState,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
                   children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: Column(
+                    Expanded(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
@@ -102,107 +76,103 @@ class _UserListScreenState extends State<UserListScreen> {
                             )
                           ],
                         )),
-                        IconButton(
-                          onPressed: () async {
-                            var result = await Navigator.of(context)
-                                .pushNamed(Routes.addUserScreen);
-                            if (result != null && result == true) {
-                              saveUserListCubit.getSaveUserList();
-                            }
-                          },
-                          icon: Icon(
-                            Icons.person_add_alt_1_sharp,
-                            color: AppColor.colorGray,
-                          ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                          itemCount: saveUserListCubit.saveUserList.length,
-                          itemBuilder: (context, index) {
-                            var project = saveUserListCubit.saveUserList[index];
-                            return Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16.0),
-                              ),
-                              clipBehavior: Clip.hardEdge,
-                              child: ListTile(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, Routes.groupListScreen,
-                                      arguments: project);
-                                },
-                                tileColor: Colors.white,
-                                leading: Container(
-                                  width: 40.0,
-                                  height: 40.0,
-                                  padding: const EdgeInsets.all(6),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: AppColor.colorPurple,
-                                  ),
-                                  child: FittedBox(
-                                    child: Text(
-                                      project.firstName?[0].toUpperCase() ?? "",
-                                      style: TextStyle(
-                                          color: Colors.white.withOpacity(0.8),
-                                          fontSize: 14),
-                                    ),
-                                  ),
-                                ),
-                                title: Text(
-                                  project.firstName ?? '',
-                                  style: theme.textTheme.titleMedium,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                subtitle: Text(
-                                  project.email ?? '',
-                                  style: theme.textTheme.bodySmall,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                trailing: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.edit),
-                                      onPressed: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return SaveUserEditingDialog(
-                                                userSaveData: project);
-                                          },
-                                        );
-                                      },
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(Icons.person_off),
-                                      onPressed: () {
-                                        // Handle add person icon pressed
-                                        // Add your logic here
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }),
+                    IconButton(
+                      onPressed: () async {
+                        var result = await Navigator.of(context)
+                            .pushNamed(Routes.addUserScreen);
+                        if (result != null && result == true) {
+                          saveUserListCubit.getSaveUserList();
+                        }
+                      },
+                      icon: Icon(
+                        Icons.person_add_alt_1_sharp,
+                        color: AppColor.colorGray,
+                      ),
                     )
                   ],
                 ),
-              ),
-              if (state is LoadingState)
-                const Center(child: CircularProgressIndicator()),
-            ],
-          );
-        },
-      ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: saveUserListCubit.saveUserList.length,
+                      itemBuilder: (context, index) {
+                        var project = saveUserListCubit.saveUserList[index];
+                        return Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                          clipBehavior: Clip.hardEdge,
+                          child: ListTile(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, Routes.groupListScreen,
+                                  arguments: project);
+                            },
+                            tileColor: Colors.white,
+                            leading: Container(
+                              width: 40.0,
+                              height: 40.0,
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColor.colorPurple,
+                              ),
+                              child: FittedBox(
+                                child: Text(
+                                  project.firstName?[0].toUpperCase() ?? "",
+                                  style: TextStyle(
+                                      color: Colors.white.withOpacity(0.8),
+                                      fontSize: 14),
+                                ),
+                              ),
+                            ),
+                            title: Text(
+                              project.firstName ?? '',
+                              style: theme.textTheme.titleMedium,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            subtitle: Text(
+                              project.email ?? '',
+                              style: theme.textTheme.bodySmall,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.edit),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return SaveUserEditingDialog(
+                                            userSaveData: project);
+                                      },
+                                    );
+                                  },
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.person_off),
+                                  onPressed: () {
+                                    // Handle add person icon pressed
+                                    // Add your logic here
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

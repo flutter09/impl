@@ -34,7 +34,3 @@ class UpdateSaveUserState extends BaseState {
 class SaveUserListState extends BaseState {
   const SaveUserListState();
 }
-
-class RefreshState extends BaseState {
-
-}

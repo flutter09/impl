@@ -20,7 +20,6 @@ class ProjectListScreen extends StatefulWidget {
 }
 
 class _ProjectListScreenState extends State<ProjectListScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final projectCubit = di.di<ProjectCubit>();
 
@@ -31,145 +30,118 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
     projectCubit.getProjects();
   }
 
-  void _openDrawer() {
-    _scaffoldKey.currentState!.openDrawer();
-  }
-
-  /*void _closeDrawer() {
-    Navigator.of(context).pop();
-  }*/
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: CustomAppBar(
-        title: 'IMPM',
-        isDrawerIcon: true,
-        onLeadPress: () => _openDrawer(),
-        actions: const <Widget>[
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0),
-            child: CircleAvatar(
-              backgroundImage:
-                  NetworkImage("https://randomuser.me/api/portraits/men/5.jpg"),
-              maxRadius: 20,
-            ),
-          )
-        ],
-      ),
-      drawer: const CustomDrawer(),
-      body: BlocConsumer<ProjectCubit, BaseState>(
-        bloc: projectCubit,
-        listener: (context, state) {
-          if (state is ErrorState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-                getSnackBar(state.errorMessage ?? "error invalid"));
-          }
-        },
-        builder: (context, state) {
-          if (state is LoadingState) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            color: AppColor.backgroundGray,
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Projects".tr(),
-                          style: theme.textTheme.headlineLarge,
-                        ),
-                        Text(
-                          "you have total ${projectCubit.projectList.length} projects",
-                          style: theme.textTheme.bodySmall,
-                        )
-                      ],
-                    )),
-                    IconButton(
-                      onPressed: () async {
-                        var result = await Navigator.of(context)
-                            .pushNamed(Routes.createProjectRoute);
-                        if(result!= null && result == true){
-                          projectCubit.getProjects();
-                        }
-                      },
-                      iconSize: 30,
-                      icon: Icon(
-                        Icons.add_circle_outline_sharp,
-                        color: AppColor.colorGray,
-                      ),
+    return BlocConsumer<ProjectCubit, BaseState>(
+      bloc: projectCubit,
+      listener: (context, state) {
+        if (state is ErrorState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              getSnackBar(state.errorMessage ?? "error invalid"));
+        }
+      },
+      builder: (context, state) {
+        if (state is LoadingState) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Projects".tr(),
+                            style: theme.textTheme.headlineLarge,
+                          ),
+                          Text(
+                            "you have total ${projectCubit.projectList.length} projects",
+                            style: theme.textTheme.bodySmall,
+                          )
+                        ],
+                      )),
+                  IconButton(
+                    onPressed: () async {
+                      var result = await Navigator.of(context)
+                          .pushNamed(Routes.createProjectRoute);
+                      if(result!= null && result == true){
+                        projectCubit.getProjects();
+                      }
+                    },
+                    iconSize: 30,
+                    icon: Icon(
+                      Icons.add_circle_outline_sharp,
+                      color: AppColor.colorGray,
                     ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                      itemCount: projectCubit.projectList.length,
-                      itemBuilder: (context, index) {
-                        var project = projectCubit.projectList[index];
-                        return Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                          clipBehavior: Clip.hardEdge,
-                          child: ListTile(
-                            onTap: () {
-                              /*Navigator.pushNamed(
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: ListView.builder(
+                    itemCount: projectCubit.projectList.length,
+                    itemBuilder: (context, index) {
+                      var project = projectCubit.projectList[index];
+                      return Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        clipBehavior: Clip.hardEdge,
+                        child: ListTile(
+                          onTap: () {
+                            /*Navigator.pushNamed(
                                   context, Routes.groupListScreen,arguments: project);*/
-                            },
-                            tileColor: Colors.white,
-                            leading: CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(project.image ?? ""),
-                              maxRadius: 20,
-                            ),
-                            title: Text(
-                              project.name??'',
-                              style: theme.textTheme.titleMedium,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  icon: const Icon(Icons.edit),
-                                  onPressed: () {
-                                    // Handle edit icon pressed
-                                    // Add your logic here
-                                  },
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.person_add),
-                                  onPressed: () {
-                                    // Handle add person icon pressed
-                                    // Add your logic here
-                                  },
-                                ),
-                              ],
-                            ),
+                          },
+                          tileColor: Colors.white,
+                          leading: CircleAvatar(
+                            backgroundImage:
+                            NetworkImage(project.image ?? ""),
+                            maxRadius: 20,
                           ),
-                        );
-                      }),
-                )
-              ],
-            ),
-          );
-        },
-      ),
+                          title: Text(
+                            project.name??'',
+                            style: theme.textTheme.titleMedium,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () {
+                                  // Handle edit icon pressed
+                                  // Add your logic here
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.person_add),
+                                onPressed: () {
+                                  // Handle add person icon pressed
+                                  // Add your logic here
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }),
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 }

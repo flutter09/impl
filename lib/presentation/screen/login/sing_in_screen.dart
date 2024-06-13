@@ -47,9 +47,11 @@ class _SignInScreenState extends State<SignInScreen> {
           bloc: loginCubit,
           listener: (context, state) {
             if (state is SignInState) {
-              Navigator.pushNamedAndRemoveUntil(context, Routes.dashboardScreen, (Route<dynamic> route) => false);
+              Navigator.pushNamedAndRemoveUntil(context, Routes.dashboardScreen,
+                  (Route<dynamic> route) => false);
             } else if (state is ErrorState) {
-              ScaffoldMessenger.of(context).showSnackBar(getSnackBar(state.errorMessage ?? "error invalid"));
+              ScaffoldMessenger.of(context).showSnackBar(
+                  getSnackBar(state.errorMessage ?? "error invalid"));
             }
           },
           builder: (context, state) {
@@ -86,13 +88,13 @@ class _SignInScreenState extends State<SignInScreen> {
                             height: 30,
                           ),
                           LabelTextField(
-                              controller: _controller,
-                              label: "Username",
-                              hintText: "Enter your email or username or phone",
-                              type: TextInputType.emailAddress,
-                              validate: (value) {
-                                return validateEmailPhone(value);
-                              },
+                            controller: _controller,
+                            label: "Username",
+                            hintText: "Enter your email or username or phone",
+                            type: TextInputType.emailAddress,
+                            validate: (value) {
+                              return validateEmailPhone(value);
+                            },
                             isRequired: true,
                           ),
                           const SizedBox(
@@ -120,6 +122,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             child: Align(
                               alignment: Alignment.centerRight,
                               child: defaultTextButton(
+                                enable: false,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     color: AppColor.colorGray),
@@ -176,7 +179,8 @@ class _SignInScreenState extends State<SignInScreen> {
                             ],
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 40.0 , vertical: 8),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 40.0, vertical: 8),
                             child: Row(
                               children: <Widget>[
                                 Expanded(
@@ -185,7 +189,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 8.0),
                                   child: Text(
                                     'OR',
                                     style: TextStyle(
@@ -204,14 +209,19 @@ class _SignInScreenState extends State<SignInScreen> {
                           ),
                           SizedBox(height: 10),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              CustomImageButton(assetPath: 'assets/images/ic_google.png', onPressed: (){} , iconColor: Colors.black54 ),
-                              SizedBox(width: 10),
-                              CustomImageButton(assetPath: 'assets/images/ic_linkedin.png', onPressed: (){}, iconColor: Colors.black54),
-                            ]
-                          ),
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                CustomImageButton(
+                                    assetPath: 'assets/images/ic_google.png',
+                                    onPressed: () {},
+                                    iconColor: Colors.black54),
+                                SizedBox(width: 10),
+                                CustomImageButton(
+                                    assetPath: 'assets/images/ic_linkedin.png',
+                                    onPressed: () {},
+                                    iconColor: Colors.black54),
+                              ]),
                           SizedBox(height: 50),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

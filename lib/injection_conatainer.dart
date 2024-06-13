@@ -1,5 +1,6 @@
 import 'package:chat_application/data/local/preference_repository.dart';
 import 'package:chat_application/data/local/preference_repository_impl.dart';
+import 'package:chat_application/data/repository/common_repository.dart';
 import 'package:chat_application/data/repository/group_repository_impl.dart';
 import 'package:chat_application/data/repository/project_repository_impl.dart';
 import 'package:chat_application/data/repository/save_user_repository_impl.dart';
@@ -7,6 +8,7 @@ import 'package:chat_application/domain/repository/group_repository.dart';
 import 'package:chat_application/domain/repository/project_repository.dart';
 import 'package:chat_application/domain/repository/save_user_repository.dart';
 import 'package:chat_application/presentation/screen/component/component_bloc_cubit.dart';
+import 'package:chat_application/presentation/screen/dashboard/bloc/dashboard_cubit.dart';
 import 'package:chat_application/presentation/screen/group/bloc/group_cubit.dart';
 import 'package:chat_application/presentation/screen/login/bloc/forgot_password_cubit.dart';
 import 'package:chat_application/presentation/screen/login/bloc/generate_password_cubit.dart';
@@ -39,6 +41,7 @@ Future<void> init() async {
   di.registerFactory(() => SelectCustomUserCubit(di.call()));
   di.registerFactory(() => GroupCubit(di.call(),di.call()));
   di.registerFactory(() => ComponentBlocCubit(di.call()));
+  di.registerFactory(() => DashboardCubit(di.call()));
 
 
   di.registerLazySingleton<PreferenceRepository>(()=>PreferenceRepositoryImpl());
@@ -46,6 +49,7 @@ Future<void> init() async {
   di.registerLazySingleton<SaveUserRepository>(() => SaveUserRepositoryImpl(apiService: di.call()));
   di.registerLazySingleton<ProjectRepository>(() => ProjectRepositoryImpl(apiService: di.call()));
   di.registerLazySingleton<GroupRepository>(() => GroupRepositoryImpl(apiService: di.call()));
+  di.registerLazySingleton<CommonRepository>(() => CommonRepository(apiService: di.call()));
 
   di.registerLazySingleton<ApiService>(() => ApiServiceImpl());
 }

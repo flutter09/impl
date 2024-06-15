@@ -1,3 +1,4 @@
+import 'package:chat_application/config/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -15,7 +16,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        if (widget.isLoading) const Center(child: CircularProgressIndicator()),
+        if (widget.isLoading) Center(child: CircularProgressIndicator(color: AppColor.colorPurple,)),
         IgnorePointer(
           ignoring: widget.isLoading,
           child: widget.child,

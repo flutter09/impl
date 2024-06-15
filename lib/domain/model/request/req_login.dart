@@ -1,14 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-part 'req_login.g.dart';
 
-@JsonSerializable()
 class ReqLogin {
-  @JsonKey(name: 'email')
   final String email;
 
-  @JsonKey(name: 'password')
   final String password;
 
   ReqLogin({
@@ -23,3 +18,12 @@ class ReqLogin {
 
   FormData toFormData() => FormData.fromMap(toJson());
 }
+ReqLogin _$ReqLoginFromJson(Map<String, dynamic> json) => ReqLogin(
+  email: json['email'] as String,
+  password: json['password'] as String,
+);
+
+Map<String, dynamic> _$ReqLoginToJson(ReqLogin instance) => <String, dynamic>{
+  'email': instance.email,
+  'password': instance.password,
+};

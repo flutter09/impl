@@ -7,8 +7,11 @@ import '../model/response/res_project.dart';
 
 abstract class ProjectRepository{
   Future<Result<String>> registerProject(ReqRegisterProject registerProject);
-  Future<Result<List<ResProject>>> getProjects();
-  Future<Result<ResProject>> getProjectDetail(ReqProjectDetail reqProjectDetail);
-  Future<Result<ResProject>> updateProject(ResProject resProject);
-  Future<Result<ResProject>> addProjectMember(ReqAddProjectMember reqAddProjectMember);
+  Future<Result<Project>> getProjectDetail(ReqProjectDetail reqProjectDetail);
+  Future<Result<Project>> updateProject(Project resProject);
+  Future<Result<Project>> addProjectMember(ReqAddProjectMember reqAddProjectMember);
+  Future<Result<OurProjectList>> getMyProject();
+  Future<Result<FavouriteProjectList>> getMyFavouriteProject();
+  Future<Result<ProjectList>> getOtherProject();
+  Future<Result<FavouriteProjectList>> getOtherFavouriteProject();
 }

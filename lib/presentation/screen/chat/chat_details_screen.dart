@@ -129,7 +129,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   void updateMsg(int index, String newMessage) {
     setState(() {
       messages.reversed.toList()[index].messageContent = newMessage;
-      print("new msg : $newMessage");
+
       editableIndex = null;
     });
   }
@@ -243,7 +243,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                   .toList(),
                               onItemSelected: (item) {
                                 // Handle selected item here
-                                print("Selected item: $item");
                                 switch (item) {
                                   case Constants.editMenuItem:
                                     setState(() {

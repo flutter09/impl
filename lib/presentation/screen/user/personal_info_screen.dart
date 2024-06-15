@@ -194,7 +194,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                               .dobController.text) {
                                         setState(() {
                                           personalInfoCubit.dobController.text =
-                                              dateToDDMMMYYYY(date);
+                                              dateToFormat(date);
                                         });
                                       }
                                     },

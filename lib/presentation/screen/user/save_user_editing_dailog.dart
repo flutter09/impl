@@ -6,19 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../config/theme/app_theme.dart';
-import '../../../domain/model/request/custom_user.dart';
 import '../../../domain/model/request/req_add_save_user.dart';
-import '../../../domain/model/response/res_user_model.dart';
 import '../../../injection_conatainer.dart' as di;
 import '../../../utils/utils.dart';
-import '../component/custom_dropdown.dart';
 import '../component/custom_textfield.dart';
 import 'bloc/add_user_cubit.dart';
 
 class SaveUserEditingDialog extends StatefulWidget {
   const SaveUserEditingDialog({super.key, required this.userSaveData});
 
-  final SaveUserData userSaveData;
+  final SaveUser userSaveData;
 
   @override
   _SaveUserEditingDialogState createState() => _SaveUserEditingDialogState();
@@ -39,15 +36,14 @@ class _SaveUserEditingDialogState extends State<SaveUserEditingDialog> {
     nameController.text = widget.userSaveData.firstName ?? "";
     emailController.text = widget.userSaveData.email ?? "";
     phoneController.text = widget.userSaveData.phone ?? "";
-    roles.addAll(
-        addUserCubit.getRoleFromIndexes(widget.userSaveData.roles ?? []));
+    // roles.addAll(
+    //     addUserCubit.getRoleFromIndexes(widget.userSaveData.roles ?? []));
     super.initState();
   }
 
   String? roleError;
 
   void addToRole(List<String> list) {
-    print("add to role : $list");
     setState(() {
       roles.clear();
       roles.addAll(list);

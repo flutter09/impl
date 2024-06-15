@@ -1,25 +1,16 @@
 import 'package:dio/dio.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-part 'req_user_register.g.dart';
 
-@JsonSerializable()
 class ReqUserRegister {
 
-  @JsonKey(name: 'email')
   final String email;
 
-  @JsonKey(name: 'phone')
   final String phone;
 
-  @JsonKey(name: 'password')
   final String password;
 
-  @JsonKey(name: 'first_name')
   final String first_name;
-  @JsonKey(name: 'last_name')
   final String last_name;
-  @JsonKey(name: 'unique_name')
   final String unique_name;
 
 
@@ -37,3 +28,22 @@ class ReqUserRegister {
 
   FormData toFormData() => FormData.fromMap(toJson());
 }
+ReqUserRegister _$ReqUserRegisterFromJson(Map<String, dynamic> json) =>
+    ReqUserRegister(
+      email: json['email'] as String,
+      phone: json['phone'] as String,
+      password: json['password'] as String,
+      first_name: json['first_name'] as String,
+      last_name: json['last_name'] as String,
+      unique_name: json['unique_name'] as String,
+    );
+
+Map<String, dynamic> _$ReqUserRegisterToJson(ReqUserRegister instance) =>
+    <String, dynamic>{
+      'email': instance.email,
+      'phone': instance.phone,
+      'password': instance.password,
+      'first_name': instance.first_name,
+      'last_name': instance.last_name,
+      'unique_name': instance.unique_name,
+    };

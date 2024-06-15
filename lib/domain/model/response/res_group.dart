@@ -1,14 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:chat_application/utils/utils.dart';
 
-part 'res_group.g.dart';
 
-@JsonSerializable()
 class ResGroupMember {
-  @JsonKey(name: 'user_id')
   final String? userId;
   final String? role;
-  @JsonKey(name: '_id')
   final String? id;
 
   ResGroupMember({
@@ -71,4 +66,34 @@ class ResGroup {
   };
 }
 
+ResGroupMember _$ResGroupMemberFromJson(Map<String, dynamic> json) =>
+    ResGroupMember(
+      userId: json['user_id'] as String?,
+      role: json['role'] as String?,
+      id: json['_id'] as String?,
+    );
+
+Map<String, dynamic> _$ResGroupMemberToJson(ResGroupMember instance) =>
+    <String, dynamic>{
+      'user_id': instance.userId,
+      'role': instance.role,
+      '_id': instance.id,
+    };
+
+ResGroup _$ResGroupFromJson(Map<String, dynamic> json) => ResGroup(
+  id: json['_id'] as String?,
+  name: json['name'] as String?,
+  groupMembers: (json['group_members'] as List<dynamic>?)
+      ?.map((e) => ResGroupMember.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  projectId: json['project_id'] as String?,
+  createdBy: json['create_by'] as String?,
+  createdAt: json['createdAt'] == null
+      ? null
+      : DateTime.parse(json['createdAt'] as String),
+  updatedAt: json['updatedAt'] == null
+      ? null
+      : DateTime.parse(json['updatedAt'] as String),
+  uniqueId: (json['unique_id'] as num?)?.toInt(),
+);
 

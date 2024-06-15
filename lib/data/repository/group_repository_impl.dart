@@ -65,7 +65,6 @@ class GroupRepositoryImpl extends GroupRepository {
         throw Exception(result.description);
       }
     } else {
-      print('repo mapping');
       throw Exception((response as Error).errorResponse.errorMessage);
     }
   }

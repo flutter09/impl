@@ -11,7 +11,7 @@ class GetProjects extends BaseState {
 }
 
 class GetProjectDetail extends BaseState {
-  final ResProject resProject;
+  final Project resProject;
   GetProjectDetail({required this.resProject});
 }
 

@@ -1,10 +1,7 @@
-import 'package:json_annotation/json_annotation.dart';
 
-part 'req_send_otp.g.dart';
 
-@JsonSerializable()
+
 class ReqSendOtp{
-  @JsonKey(name : 'email')
   final String email;
 
   ReqSendOtp({
@@ -17,3 +14,12 @@ class ReqSendOtp{
   Map<String, dynamic> toJson() => _$ReqSendOtpToJson(this);
 
 }
+
+ReqSendOtp _$ReqSendOtpFromJson(Map<String, dynamic> json) => ReqSendOtp(
+  email: json['email'] as String,
+);
+
+Map<String, dynamic> _$ReqSendOtpToJson(ReqSendOtp instance) =>
+    <String, dynamic>{
+      'email': instance.email,
+    };

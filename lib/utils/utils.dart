@@ -59,11 +59,15 @@ Future<File?> pickVideoFromGallery(BuildContext context) async {
   return gif;
 }*/
 
-String dateToDDMMMYYYY(String date) {
-  DateFormat originalDateFormat = DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
-  DateTime parsedDate = originalDateFormat.parseStrict(date);
-  DateFormat newDateFormat = DateFormat('dd MMM yyyy');
-  return newDateFormat.format(parsedDate);
+String dateToFormat(String date, {String? format}) {
+  try {
+    DateTime parsedDate = DateTime.parse(date);
+    DateFormat newDateFormat = DateFormat(format ?? 'dd MMM yyyy');
+    return newDateFormat.format(parsedDate);
+  }catch(e){
+    debugPrint('dateToFormat : ${e.toString()}');
+    return '';
+  }
 }
 
 String dateToNormal(String formattedDate) {
@@ -336,3 +340,19 @@ SnackBar getSnackBar(String message) {
 
 DateTime dateTimeFromJson(String date) => DateTime.parse(date);
 String dateTimeToJson(DateTime date) => date.toIso8601String();
+
+String getTwoCharString(String? name) {
+  if (name == null || name.isEmpty) {
+    return '';
+  }
+  List<String> parts = name.split(' ');
+  if (parts.length > 1) {
+    try {
+      return parts[0][0].toUpperCase() + parts[1][0].toUpperCase();
+    }catch(e){
+      return parts[0][0].toUpperCase();
+    }
+  } else {
+    return name.length >= 2 ? name.substring(0, 2).toUpperCase() : name.toUpperCase();
+  }
+}

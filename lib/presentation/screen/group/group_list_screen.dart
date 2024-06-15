@@ -11,11 +11,10 @@ import '../../../injection_conatainer.dart' as di;
 import '../../../utils/utils.dart';
 import '../component/component.dart';
 import '../component/custom_appbar.dart';
-import '../component/custom_drawer.dart';
 import '../component/group_card.dart';
 
 class GroupListScreen extends StatefulWidget {
-  final ResProject? currentProject;
+  final Project? currentProject;
   const GroupListScreen({super.key, this.currentProject});
 
   @override

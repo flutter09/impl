@@ -1,13 +1,8 @@
-import 'package:json_annotation/json_annotation.dart';
-
 import '../../../utils/utils.dart';
 
-part 'error_response.g.dart';
 
-@JsonSerializable()
 class ErrorResponse {
 
-  @JsonKey(name: "error")
   String errorMessage;
 
   ErrorResponse({required this.errorMessage});
@@ -20,3 +15,13 @@ class ErrorResponse {
   Map<String,dynamic> toJson() => _$ErrorResponseToJson(this);
 
 }
+
+ErrorResponse _$ErrorResponseFromJson(Map<String, dynamic> json) =>
+    ErrorResponse(
+      errorMessage: json['error'] as String,
+    );
+
+Map<String, dynamic> _$ErrorResponseToJson(ErrorResponse instance) =>
+    <String, dynamic>{
+      'error': instance.errorMessage,
+    };

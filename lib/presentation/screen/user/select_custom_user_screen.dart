@@ -1,8 +1,5 @@
-import 'package:chat_application/base/base_cubit.dart';
 import 'package:chat_application/base/base_state.dart';
-import 'package:chat_application/domain/model/request/custom_user.dart';
 import 'package:chat_application/presentation/screen/user/bloc/select_custom_user_cubit.dart';
-import 'package:chat_application/presentation/screen/user/bloc/user_state.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +12,7 @@ import '../component/custom_appbar.dart';
 import '../component/custom_user_addition_card.dart';
 
 class SelectUserScreen extends StatefulWidget {
-  final List<ResProjectMember>? selectedContact;
+  final List<ProjectMember>? selectedContact;
 
   const SelectUserScreen({super.key, this.selectedContact});
 
@@ -74,14 +71,14 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                       child: ListView.builder(
                           itemCount: selectCustomUserCubit.saveUserList.length,
                           itemBuilder: (context, index) {
-                            ResProjectMember? user = selectCustomUserCubit.selectedMembers.firstWhereOrNull(
-                                    (element) => element.userId == selectCustomUserCubit.saveUserList[index].id);
+                            ProjectMember? user = selectCustomUserCubit.selectedMembers.firstWhereOrNull(
+                                    (element) => element.userId == selectCustomUserCubit.saveUserList[index].sId);
                             return CustomUserAdditionCard(
                               contact: selectCustomUserCubit.saveUserList[index].firstName ?? "",
                               options: /*selectCustomUserCubit.saveUserList[index].roles?.map((e) => e.toString()).toList() ?? []*/role,
                               isSelected: user != null,
-                              customName: user?.customName,
-                              roles: user?.customRole != null ? [user?.customRole ?? ''] : [],
+                              customName: user?.userName,
+                              roles: user?.role != null ? [user?.role ?? ''] : [],
                               onSave: (customName , roles){
                                 selectCustomUserCubit.addUser(selectCustomUserCubit.saveUserList[index] , customName , roles);
                                 setState(() {

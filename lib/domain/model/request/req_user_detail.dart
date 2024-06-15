@@ -1,19 +1,13 @@
-import 'package:json_annotation/json_annotation.dart';
 
-part 'req_user_detail.g.dart';
 
-@JsonSerializable()
+
 class ReqUserDetail {
-  @JsonKey(name: 'name')
   final String name;
 
-  @JsonKey(name: 'email')
   final String email;
 
-  @JsonKey(name: 'phone')
   final String phone;
 
-  @JsonKey(name: 'password')
   final String password;
 
   ReqUserDetail({
@@ -27,3 +21,18 @@ class ReqUserDetail {
 
   Map<String, dynamic> toJson() => _$ReqUserDetailToJson(this);
 }
+ReqUserDetail _$ReqUserDetailFromJson(Map<String, dynamic> json) =>
+    ReqUserDetail(
+      name: json['name'] as String,
+      email: json['email'] as String,
+      phone: json['phone'] as String,
+      password: json['password'] as String,
+    );
+
+Map<String, dynamic> _$ReqUserDetailToJson(ReqUserDetail instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'email': instance.email,
+      'phone': instance.phone,
+      'password': instance.password,
+    };

@@ -29,7 +29,6 @@ class SignUpCubit extends BaseCubit<BaseState, String> {
                 first_name: first_name, last_name: last_name, unique_name: unique_name, email: email, phone: phone, password: password),
             file);
         if (response is Success) {
-          print("success response");
           final userId = ((response as Success).data as ResUserModel).id ?? "";
           _preferenceRepository.setUserId(userId ?? "");
           emit(const SignUpState(register: true));

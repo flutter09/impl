@@ -9,5 +9,5 @@ abstract class SaveUserRepository{
   Future<Result<SearchUserData>> getSaveUser(ReqSendOtp email);
   Future<Result<String>> addSaveUser(ReqAddSaveUser reqAddSaveUser);
   Future<Result<String>> editSaveUser(ReqAddSaveUser reqAddSaveUser);
-  Future<Result<List<SaveUserData>>> getSaveUserList();
+  Future<Result<List<SaveUser>>> getSaveUserList();
 }

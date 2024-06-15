@@ -6,7 +6,29 @@ import 'package:gap/gap.dart';
 import 'budge_icon.dart';
 
 class ProductCard extends StatefulWidget {
-  const ProductCard({super.key});
+  final String title;
+  final String? description;
+  final List<String>? groupNames;
+  final Function()? onClick;
+  final Function(int)? onClickGroup;
+  final Function()? onDelete;
+  final Function()? onFavourite;
+  final Function()? onEdit;
+  final bool isEditable;
+  final bool isDeletable;
+  final bool isFavourite;
+
+  const ProductCard(
+      {super.key,
+      required this.title,
+      this.description,
+      this.groupNames,
+      this.onClick,
+      this.onClickGroup,
+      this.onDelete,
+      this.onFavourite,
+      this.onEdit,
+      this.isEditable = true, this.isDeletable = true, this.isFavourite = false});
 
   @override
   State<ProductCard> createState() => _ProductCardState();
@@ -16,7 +38,7 @@ class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: widget.onClick,
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -35,70 +57,85 @@ class _ProductCardState extends State<ProductCard> {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 24.0),
                       child: Text(
-                        'asdasdasda asasasfasfasfd',
+                        widget.title,
                         style: const TextStyle(
                             fontSize: 24, overflow: TextOverflow.ellipsis),
                       ),
                     ),
                   ),
-                  CupertinoButton(
-                    minSize: double.minPositive,
-                    padding: EdgeInsets.symmetric(horizontal: 2),
-                    onPressed: () {},
-                    child: Icon(Icons.edit,
-                      color: AppColor.colorPrimary,),
-                  ),
-                  CupertinoButton(
-                    minSize: double.minPositive,
-                    padding: EdgeInsets.symmetric(horizontal: 2),
-                    onPressed: () {},
-                    child: Icon(
-                      Icons.star_border,
-                      color: AppColor.yellow,
+                  Visibility(
+                    visible: widget.isEditable,
+                    child: CupertinoButton(
+                      minSize: double.minPositive,
+                      padding: const EdgeInsets.symmetric(horizontal: 2),
+                      onPressed: widget.onEdit,
+                      child: Icon(
+                        Icons.edit,
+                        color: AppColor.colorPrimary,
+                      ),
                     ),
                   ),
                   CupertinoButton(
                     minSize: double.minPositive,
-                    padding: EdgeInsets.symmetric(horizontal: 2),
-                    onPressed: () {},
-                    child: Icon(Icons.delete_outline,
-                      color: AppColor.notifyRed,),
+                    padding: const EdgeInsets.symmetric(horizontal: 2),
+                    onPressed: widget.onFavourite,
+                    child: Icon(
+                      widget.isFavourite ? Icons.star : Icons.star_border,
+                      color: AppColor.yellow,
+                    ),
+                  ),
+                  Visibility(
+                    visible: widget.isDeletable,
+                    child: CupertinoButton(
+                      minSize: double.minPositive,
+                      padding: const EdgeInsets.symmetric(horizontal: 2),
+                      onPressed: widget.onDelete,
+                      child: Icon(
+                        Icons.delete_outline,
+                        color: AppColor.notifyRed,
+                      ),
+                    ),
                   ),
                 ],
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 18.0),
                 child: Text(
-                  'asdasdasda asszfsdfsdfsdfsdfasasfasfsdfsdfsdfsdfdsfsdfsdfsdfsdfsdasfd',
+                  widget.description ?? '',
                   style: const TextStyle(
                       fontSize: 14, overflow: TextOverflow.ellipsis),
                 ),
               ),
-              Gap(8),
+              Gap(10),
               SizedBox(
-                height: 30,
+                height: 40,
                 child: ListView.builder(
-                    padding: EdgeInsets.zero,
+                    padding: EdgeInsets.only(top: 8),
                     scrollDirection: Axis.horizontal,
-                    itemCount: 20,
+                    itemCount: widget.groupNames?.length ?? 0,
                     itemBuilder: (context, index) {
-                      return BadgeIcon(
-                        count: 2505,
-                        maxShowCount: 100,
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 2),
-                          decoration: BoxDecoration(
-                              color: AppColor.colorPurple,
-                              borderRadius: BorderRadius.circular(8)),
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.all(6.0),
-                          child: FittedBox(
-                            child: Text(
-                              'G$index',
-                              style: const TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
+                      return GestureDetector(
+                        onTap: () => widget.onClickGroup?.call(index),
+                        child: BadgeIcon(
+                          badgeRight: -8,
+                          badgeTop: -8,
+                          count: 12,
+                          maxShowCount: 100,
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 2),
+                            decoration: BoxDecoration(
+                                color: AppColor.colorPurple,
+                                borderRadius: BorderRadius.circular(8)),
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.all(6.0),
+                            child: FittedBox(
+                              child: Text(
+                                widget.groupNames?[index] ?? '',
+                                style: const TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
                             ),
                           ),
                         ),

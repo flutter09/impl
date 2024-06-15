@@ -1,13 +1,9 @@
-import 'package:json_annotation/json_annotation.dart';
 
-part 'req_check_otp.g.dart';
 
-@JsonSerializable()
+
 class ReqCheckOtp {
-  @JsonKey(name: 'email')
   final String email;
 
-  @JsonKey(name: 'email_otp')
   final String emailOtp;
 
   ReqCheckOtp({
@@ -20,3 +16,13 @@ class ReqCheckOtp {
 
   Map<String, dynamic> toJson() => _$ReqCheckOtpToJson(this);
 }
+ReqCheckOtp _$ReqCheckOtpFromJson(Map<String, dynamic> json) => ReqCheckOtp(
+  email: json['email'] as String,
+  emailOtp: json['email_otp'] as String,
+);
+
+Map<String, dynamic> _$ReqCheckOtpToJson(ReqCheckOtp instance) =>
+    <String, dynamic>{
+      'email': instance.email,
+      'email_otp': instance.emailOtp,
+    };

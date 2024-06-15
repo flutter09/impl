@@ -28,7 +28,7 @@ class SignInCubit extends BaseCubit<BaseState, String> {
 
   bool checkLogin() {
     var token = _preferenceRepository.getAccessToken();
-    print('check token $token');
+
     return token.isNotEmpty;
   }
 

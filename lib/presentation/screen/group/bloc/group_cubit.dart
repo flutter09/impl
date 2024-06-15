@@ -24,7 +24,6 @@ class GroupCubit extends BaseCubit<BaseState, String> {
       emit(LoadingState());
       var response = await groupRepository.getGroups();
       if (response is Success) {
-        print('cubit sucess');
         groupList.clear();
         groupList.addAll((response as Success).data);
         emit(GetGroupsState());

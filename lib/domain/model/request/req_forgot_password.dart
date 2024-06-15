@@ -1,12 +1,8 @@
-import 'package:json_annotation/json_annotation.dart';
 
-part 'req_forgot_password.g.dart';
 
-@JsonSerializable()
+
 class ReqForgotPassword {
-  @JsonKey(name: 'email')
   final String email;
-  @JsonKey(name: 'password')
   final String password;
 
   ReqForgotPassword({
@@ -18,3 +14,14 @@ class ReqForgotPassword {
 
   Map<String, dynamic> toJson() => _$ReqForgotPasswordToJson(this);
 }
+ReqForgotPassword _$ReqForgotPasswordFromJson(Map<String, dynamic> json) =>
+    ReqForgotPassword(
+      email: json['email'] as String,
+      password: json['password'] as String,
+    );
+
+Map<String, dynamic> _$ReqForgotPasswordToJson(ReqForgotPassword instance) =>
+    <String, dynamic>{
+      'email': instance.email,
+      'password': instance.password,
+    };

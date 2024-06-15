@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:chat_application/base/retry_interceptor.dart';
@@ -54,5 +55,34 @@ class NetworkInterceptor extends Interceptor {
       'token': getString(PreferenceConstant.token),
       'user_id': getString(PreferenceConstant.userId)
     };
+  }
+}
+
+
+class NetworkLogInterceptor extends Interceptor {
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    log('***Request***');
+    log('--> ${options.method} ${options.uri}');
+    log('Headers: ${options.headers}');
+    log('Body: ${options.data}');
+    super.onRequest(options, handler);
+  }
+
+  @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    log('***Response***');
+    log('<-- ${response.statusCode} ${response.requestOptions.uri}');
+    log('Headers: ${response.headers}');
+    log('Response: ${response.data}');
+    super.onResponse(response, handler);
+  }
+
+  @override
+  void onError(DioError err, ErrorInterceptorHandler handler) {
+    log('***Response***');
+    log('<-- Error --> ${err.message}');
+    log('Response: ${err.response}');
+    super.onError(err, handler);
   }
 }

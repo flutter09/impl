@@ -1,17 +1,14 @@
-import 'dart:ffi';
-
 import 'package:chat_application/base/base_state.dart';
-import 'package:chat_application/base/extension/context_extension.dart';
 import 'package:chat_application/config/theme/app_theme.dart';
 import 'package:chat_application/injection_conatainer.dart';
 import 'package:chat_application/presentation/screen/component/loading_screen.dart';
 import 'package:chat_application/presentation/screen/component/product_card.dart';
 import 'package:chat_application/presentation/screen/dashboard/bloc/dashboard_cubit.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
+import '../../../utils/utils.dart';
 import '../component/dashboard_card.dart';
 
 class DashBoardScreen extends StatefulWidget {
@@ -30,14 +27,12 @@ class _DashBoardScreenState extends State<DashBoardScreen> with SingleTickerProv
     // TODO: implement initState
     super.initState();
     _tabController = TabController(length: 2, vsync: this,);
+    // dashboardCubit.getProject();
+    // dashboardCubit.getOtherProject();
+    // dashboardCubit.getFavouriteProject();
+    // dashboardCubit.getOtherFavouriteProject();
+    dashboardCubit.getSaveUserList();
   }
-
-  final List<Map<String, dynamic>> gridData = [
-    {"title": "Item 1", "description": "2"},
-    {"title": "Item 2", "description": "2"},
-    {"title": "Item 3", "description": "3"},
-    {"title": "Item 4", "description": "4"},
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +59,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with SingleTickerProv
                   padding: EdgeInsets.zero,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: gridData.length,
+                  itemCount: dashboardCubit.gridData.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 6,
@@ -73,8 +68,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> with SingleTickerProv
                   ),
                   itemBuilder: (BuildContext context, int index) {
                     return DashboardCard(
-                      title: gridData[index]['title'],
-                      description: gridData[index]['description'],
+                      title: dashboardCubit.gridData[index]['title'] ?? '',
+                      description: dashboardCubit.gridData[index]['description'] ?? '',
                     );
                   },
                 ),
@@ -99,21 +94,27 @@ class _DashBoardScreenState extends State<DashBoardScreen> with SingleTickerProv
                     controller: _tabController,
                     children: [
                       ListView.builder(
-                        itemCount: 10, // Number of items in the list
+                        itemCount: dashboardCubit.favouriteProject.length, // Number of items in the list
                         itemBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(6.0),
-                            child: ProductCard(),
+                          var project = dashboardCubit.favouriteProject[index];
+                          return ProductCard(
+                            title: project.name ?? '',
+                            description:
+                            'Updated at ${dateToFormat(project.updatedAt ?? '', format: 'dd MMM')}',
+                            groupNames: project.groupDetails?.map((e) => getTwoCharString(e.name ?? '')).toList(),
                           );
                         },
                       ),
                       // Second tab content
                       ListView.builder(
-                        itemCount: 5, // Number of items in the list
+                        itemCount: dashboardCubit.favouriteOtherProject.length, // Number of items in the list
                         itemBuilder: (BuildContext context, int index) {
-                          return ListTile(
-                            title: Text('Item ${index + 1}'),
-                            subtitle: Text('This is description for Item ${index + 1}'),
+                          var project = dashboardCubit.favouriteOtherProject[index];
+                          return ProductCard(
+                            title: project.name ?? '',
+                            description:
+                            'Updated at ${dateToFormat(project.updatedAt ?? '', format: 'dd MMM')}',
+                            groupNames: project.groupDetails?.map((e) => getTwoCharString(e.name ?? '')).toList(),
                           );
                         },
                       ),

@@ -1,14 +1,9 @@
 import 'package:chat_application/domain/model/request/req_register_group.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-part 'req_add_group_member.g.dart';
 
-@JsonSerializable()
 class ReqAddGroupMember {
-  @JsonKey(name: 'group_id')
   final String groupId;
 
-  @JsonKey(name: 'user_details')
   final ReqGroupMember userdetails;
 
   ReqAddGroupMember({
@@ -19,3 +14,16 @@ class ReqAddGroupMember {
   factory ReqAddGroupMember.fromJson(Map<String, dynamic> json) => _$ReqAddGroupMemberFromJson(json);
   Map<String, dynamic> toJson() => _$ReqAddGroupMemberToJson(this);
 }
+
+ReqAddGroupMember _$ReqAddGroupMemberFromJson(Map<String, dynamic> json) =>
+    ReqAddGroupMember(
+      groupId: json['group_id'] as String,
+      userdetails:
+      ReqGroupMember.fromJson(json['user_details'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$ReqAddGroupMemberToJson(ReqAddGroupMember instance) =>
+    <String, dynamic>{
+      'group_id': instance.groupId,
+      'user_details': instance.userdetails,
+    };

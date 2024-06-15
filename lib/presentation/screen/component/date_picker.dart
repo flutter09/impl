@@ -125,7 +125,7 @@ class _LabelDatePickerTextFieldState extends State<LabelDatePickerTextField> {
 
     if (picked != null && picked.toString() != widget.controller.text) {
       setState(() {
-        widget.controller.text = dateToDDMMMYYYY(picked.toString());
+        widget.controller.text = dateToFormat(picked.toString());
       });
     }
   }

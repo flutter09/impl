@@ -1,6 +1,5 @@
 import 'package:chat_application/base/base_state.dart';
 import 'package:chat_application/config/route/route_manager.dart';
-import 'package:chat_application/domain/model/request/custom_user.dart';
 import 'package:chat_application/domain/model/response/res_project.dart';
 import 'package:chat_application/presentation/screen/project/bloc/project_cubit.dart';
 import 'package:chat_application/presentation/screen/project/bloc/project_state.dart';
@@ -13,7 +12,6 @@ import '../../../injection_conatainer.dart' as di;
 import '../../../utils/utils.dart';
 import '../component/custom_appbar.dart';
 import '../component/custom_drawer.dart';
-import '../component/custom_dropdown.dart';
 import '../component/custom_textfield.dart';
 
 class CreateProjectScreen extends StatefulWidget {
@@ -39,10 +37,10 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
   }*/
 
   void selectUser() async {
-    List<ResProjectMember>? resultList = await Navigator.pushNamed(
+    List<ProjectMember>? resultList = await Navigator.pushNamed(
         context, Routes.selectCustomUser,
         arguments: projectCubit.selectedMembers)
-    as List<ResProjectMember>?;
+    as List<ProjectMember>?;
 
     projectCubit.updateSelectedProjectMember(resultList);
     setState(() {});
@@ -254,11 +252,11 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
                                 var user = projectCubit.selectedMembers[index];
                                 return ListTile(
                                   title: Text(
-                                    user.customName??'',
+                                    user.userName??'',
                                     style: theme.textTheme.bodyLarge,
                                   ),
                                   subtitle: Text(
-                                    user.customRole??'',
+                                    user.role??'',
                                     style: theme.textTheme.bodySmall,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -317,7 +315,7 @@ class _CreateProjectScreenState extends State<CreateProjectScreen> {
     );
   }
 
-  void deleteUser(ResProjectMember resProjectMember) {
+  void deleteUser(ProjectMember resProjectMember) {
     projectCubit.removeUser(resProjectMember);
     setState(() {});
   }

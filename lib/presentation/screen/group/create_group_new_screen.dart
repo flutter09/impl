@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:chat_application/presentation/screen/group/bloc/group_state.dart';
-import 'package:chat_application/presentation/screen/project/bloc/project_state.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +15,7 @@ import '../component/custom_textfield.dart';
 import 'bloc/group_cubit.dart';
 
 class CreateGroupNewScreen extends StatefulWidget {
-  final ResProject? currentProject;
+  final Project? currentProject;
   const CreateGroupNewScreen({super.key, this.currentProject});
 
   @override

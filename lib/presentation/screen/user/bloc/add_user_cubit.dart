@@ -2,7 +2,6 @@ import 'package:chat_application/data/local/preference_constant.dart';
 import 'package:chat_application/data/local/preference_utils.dart';
 import 'package:chat_application/domain/model/request/req_add_save_user.dart';
 import 'package:chat_application/domain/model/request/req_send_otp.dart';
-import 'package:chat_application/domain/model/response/save_user_model.dart';
 import 'package:chat_application/domain/model/response/search_user_model.dart';
 import 'package:chat_application/presentation/screen/user/bloc/user_state.dart';
 import 'package:collection/collection.dart';
@@ -12,7 +11,6 @@ import '../../../../base/base_cubit.dart';
 import '../../../../base/base_state.dart';
 import '../../../../base/result.dart';
 import '../../../../domain/repository/save_user_repository.dart';
-import '../../../../domain/repository/user_repository.dart';
 
 class AddUserCubit extends BaseCubit<BaseState, String> {
   final SaveUserRepository _saveUserRepository;
@@ -118,7 +116,6 @@ class AddUserCubit extends BaseCubit<BaseState, String> {
         indexes.add(index)
       }
     });
-    print("index : $indexes");
     return indexes;
   }
 

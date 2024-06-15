@@ -2,25 +2,25 @@ import 'package:chat_application/base/base_state.dart';
 import 'package:chat_application/config/route/route_manager.dart';
 import 'package:chat_application/config/theme/app_theme.dart';
 import 'package:chat_application/presentation/screen/component/loading_screen.dart';
-import 'package:chat_application/presentation/screen/project/bloc/project_cubit.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:chat_application/presentation/screen/project/bloc/project_detail_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../../injection_conatainer.dart' as di;
+import '../../../injection_conatainer.dart';
 import '../../../utils/utils.dart';
+import '../component/group_card.dart';
 import '../component/product_card.dart';
 
-class ProjectListScreen extends StatefulWidget {
-  const ProjectListScreen({super.key});
+class ProjectDetailScreen extends StatefulWidget {
+  const ProjectDetailScreen({super.key});
 
   @override
-  State<ProjectListScreen> createState() => _ProjectListScreenState();
+  State<ProjectDetailScreen> createState() => _ProjectDetailScreenState();
 }
 
-class _ProjectListScreenState extends State<ProjectListScreen> with SingleTickerProviderStateMixin {
-  final projectCubit = di.di<ProjectCubit>();
+class _ProjectDetailScreenState extends State<ProjectDetailScreen> with SingleTickerProviderStateMixin{
+  final projectDetailCubit = di<ProjectDetailCubit>();
   late TabController _tabController;
 
   @override
@@ -28,15 +28,14 @@ class _ProjectListScreenState extends State<ProjectListScreen> with SingleTicker
     // TODO: implement initState
     super.initState();
     _tabController = TabController(length: 2, vsync: this,);
-    projectCubit.getProjects();
-    projectCubit.getOtherProject();
+    projectDetailCubit.getProjectDetails();
   }
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return BlocConsumer<ProjectCubit, BaseState>(
-      bloc: projectCubit,
+    return BlocConsumer<ProjectDetailCubit, BaseState>(
+      bloc: projectDetailCubit,
       listener: (context, state) {
         if (state is ErrorState) {
           ScaffoldMessenger.of(context)
@@ -57,30 +56,44 @@ class _ProjectListScreenState extends State<ProjectListScreen> with SingleTicker
                   children: [
                     Expanded(
                         child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Projects".tr(),
-                          style: theme.textTheme.headlineLarge,
-                        ),
-                        Text(
-                          "you have total ${projectCubit.projectList.length + projectCubit.otherProjectList.length} projects",
-                          style: theme.textTheme.bodySmall,
-                        )
-                      ],
-                    )),
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              projectDetailCubit.project?.name ?? '',
+                              style: theme.textTheme.headlineLarge,
+                            ),
+                            Text(
+                              projectDetailCubit.project?.description ?? '',
+                              style: theme.textTheme.bodySmall,
+                            )
+                          ],
+                        ),),
                     IconButton(
                       onPressed: () async {
                         var result = await Navigator.of(context)
                             .pushNamed(Routes.createProjectRoute);
                         if (result != null && result == true) {
-                          projectCubit.getProjects();
+                          projectDetailCubit.editProject();
                         }
                       },
                       iconSize: 30,
                       icon: Icon(
-                        Icons.add_circle_outline_sharp,
+                        Icons.edit_note_outlined,
                         color: AppColor.colorGray,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () async {
+                        var result = await Navigator.of(context)
+                            .pushNamed(Routes.createProjectRoute);
+                        if (result != null && result == true) {
+                          projectDetailCubit.deleteProject();
+                        }
+                      },
+                      iconSize: 30,
+                      icon: Icon(
+                        Icons.delete_outline_outlined,
+                        color: AppColor.notifyRed,
                       ),
                     ),
                   ],
@@ -97,8 +110,8 @@ class _ProjectListScreenState extends State<ProjectListScreen> with SingleTicker
                   unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w400, fontSize: 14),
                   controller: _tabController,
                   tabs: const [
-                    Tab(text: 'My Project'),
-                    Tab(text: 'Other Project'),
+                    Tab(text: 'Groups'),
+                    Tab(text: 'Members'),
                   ],
                 ),
                 Expanded(
@@ -106,25 +119,20 @@ class _ProjectListScreenState extends State<ProjectListScreen> with SingleTicker
                     controller: _tabController,
                     children: [
                       ListView.builder(
-                          itemCount: projectCubit.projectList.length,
+                          itemCount: projectDetailCubit.project?.groupDetails?.length,
                           itemBuilder: (context, index) {
-                            var project = projectCubit.projectList[index];
-                            return ProductCard(
-                              title: project.name ?? '',
-                              description:
-                              'Updated at ${dateToFormat(project.updatedAt ?? '', format: 'dd MMM')}',
-                              groupNames: project.groupDetails?.map((e) => getTwoCharString(e.name ?? '')).toList(),
+                            var group = projectDetailCubit.project?.groupDetails?[index];
+                            return GroupCard(
+                              title: group?.name ?? '',
+                              groupNames: group?.groupMembers?.map((e) => getTwoCharString(e.userName ?? '')).toList(),
                             );
                           }),
                       ListView.builder(
-                          itemCount: projectCubit.otherProjectList.length,
+                          itemCount: projectDetailCubit.project?.projectMembers?.length,
                           itemBuilder: (context, index) {
-                            var project = projectCubit.otherProjectList[index];
+                            var member = projectDetailCubit.project?.projectMembers?[index];
                             return ProductCard(
-                              title: project.name ?? '',
-                              description:
-                              'Updated at ${dateToFormat(project.updatedAt ?? '', format: 'dd MMM')}',
-                              groupNames: project.groupDetails?.map((e) => getTwoCharString(e.name ?? '')).toList(),
+                              title: member?.userName ?? '',
                             );
                           }),
                     ],

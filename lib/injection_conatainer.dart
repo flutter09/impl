@@ -41,7 +41,7 @@ Future<void> init() async {
   di.registerFactory(() => SelectCustomUserCubit(di.call()));
   di.registerFactory(() => GroupCubit(di.call(),di.call()));
   di.registerFactory(() => ComponentBlocCubit(di.call()));
-  di.registerFactory(() => DashboardCubit(di.call()));
+  di.registerFactory(() => DashboardCubit(di.call(), di.call(), di.call()));
 
 
   di.registerLazySingleton<PreferenceRepository>(()=>PreferenceRepositoryImpl());

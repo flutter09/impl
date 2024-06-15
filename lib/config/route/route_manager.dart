@@ -95,13 +95,13 @@ class RouteGenerator {
       case Routes.projectListScreen:
         return MaterialPageRoute(builder: (_) => ProjectListScreen());
       case Routes.groupListScreen:
-        ResProject? currentProject = routeSettings.arguments as ResProject?;
+        Project? currentProject = routeSettings.arguments as Project?;
         return MaterialPageRoute(
             builder: (_) => GroupListScreen(
                   currentProject: currentProject,
                 ));
       case Routes.createGroupNewScreen:
-        ResProject? currentProject = routeSettings.arguments as ResProject?;
+        Project? currentProject = routeSettings.arguments as Project?;
         return MaterialPageRoute(
             builder: (_) => CreateGroupNewScreen(
                   currentProject: currentProject,
@@ -111,8 +111,8 @@ class RouteGenerator {
       case Routes.dashboardScreen:
         return MaterialPageRoute(builder: (_) => MainScreen());
       case Routes.selectCustomUser:
-        List<ResProjectMember>? selectedUser =
-            routeSettings.arguments as List<ResProjectMember>?;
+        List<ProjectMember>? selectedUser =
+            routeSettings.arguments as List<ProjectMember>?;
         return MaterialPageRoute(
             builder: (_) => SelectUserScreen(selectedContact: selectedUser));
       case Routes.mediaViewerScreen:

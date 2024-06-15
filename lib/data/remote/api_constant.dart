@@ -16,6 +16,9 @@ class DioApiConstants {
   static const String projectDetails = "user/project_details";
   static const String projectAddMembers = "user/project_add_member";
   static const String projectList = "user/project_list";
+  static const String ourProjectList = 'user/our_project_list';
+  static const String favouriteProject = 'user/favourite_project_list';
+  static const String ourFavouriteProject = 'user/our_favourite_project_list';
 
   //User Save
   static const String getOtherUserDetail= "user/get_other_user_details";

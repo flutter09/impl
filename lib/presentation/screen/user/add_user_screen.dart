@@ -6,11 +6,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../domain/model/request/custom_user.dart';
 import '../../../injection_conatainer.dart' as di;
 import '../../../utils/utils.dart';
 import '../component/custom_appbar.dart';
-import '../component/custom_dropdown.dart';
 import '../component/custom_textfield.dart';
 
 class AddUserScreen extends StatefulWidget {
@@ -29,7 +27,6 @@ class _AddUserScreenState extends State<AddUserScreen> {
   String? roleError;
 
   void addToRole(List<String> list) {
-    print("add to role : $list");
     setState(() {
       addUserCubit.roles.clear();
       addUserCubit.roles.addAll(list);
@@ -38,7 +35,6 @@ class _AddUserScreenState extends State<AddUserScreen> {
   }
 
   void onSave() {
-    print("save user");
     if (_formKey.currentState!.validate() /*&& addUserCubit.roles.isNotEmpty*/) {
       addUserCubit.addSaveUser();
     } else if (addUserCubit.roles.isEmpty) {

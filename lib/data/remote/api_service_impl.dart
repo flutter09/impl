@@ -23,11 +23,7 @@ class ApiServiceImpl implements ApiService {
       retryInterceptor: RetryInterceptor(dio: dio, connectivity: connectivity),
     ));
     if (kDebugMode) {
-      dio?.interceptors.add(LogInterceptor(
-        requestBody: true,
-        responseBody: true,
-        error: true,
-      ));
+      dio?.interceptors.add(NetworkLogInterceptor());
     }
     dio?.options = BaseOptions(
         connectTimeout: const Duration(milliseconds: 5 * 60 * 1000),
@@ -102,7 +98,6 @@ class ApiServiceImpl implements ApiService {
         return Error(ErrorResponse(errorMessage: e.toString()));
       }
     } else {
-      print("api service ${response?.statusMessage}");
       return Error(ErrorResponse(
           errorMessage: response?.statusMessage ?? "null response found"));
     }

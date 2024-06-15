@@ -18,7 +18,9 @@ class ProjectCubit extends BaseCubit<BaseState, String> {
   ProjectCubit(this.projectRepository, this.preferenceRepository) : super(BaseInitState(), "");
 
   //project list screen
-  List<ResProject> projectList = [];
+  List<Project> projectList = [];
+  List<Project> otherProjectList = [];
+
 
   // create project screen
   final projectNameController = TextEditingController();
@@ -30,24 +32,24 @@ class ProjectCubit extends BaseCubit<BaseState, String> {
   final categoryController = TextEditingController();
   final imageController = TextEditingController();
 
-  final List<ResProjectMember> selectedMembers = [];
+  final List<ProjectMember> selectedMembers = [];
 
-  void updateSelectedProjectMember(List<ResProjectMember>? resultList) {
+  void updateSelectedProjectMember(List<ProjectMember>? resultList) {
     selectedMembers.clear();
     selectedMembers.addAll(resultList ?? []);
   }
 
-  void removeUser(ResProjectMember resProjectMember) {
+  void removeUser(ProjectMember resProjectMember) {
     selectedMembers.remove(resProjectMember);
   }
 
   // update project
-  ResProject? editingProject;
+  Project? editingProject;
   final updateProjectNameController = TextEditingController();
   final updateProjectDescriptionController = TextEditingController();
 
   // add member
-  ResProjectMember? resProjectMember;
+  ProjectMember? resProjectMember;
   final memberCustomNameController = TextEditingController();
   final memberCustomRoleController = TextEditingController();
 
@@ -59,8 +61,8 @@ class ProjectCubit extends BaseCubit<BaseState, String> {
       var projectMembers = selectedMembers
           .map((e) => ReqProjectMember(
           userId: e.userId ??'',
-          userName: e.customName ?? "",
-          role: e.customRole ?? "")
+          userName: e.userName ?? "",
+          role: e.role ?? "")
       ).toList();
       projectMembers.add(
         ReqProjectMember(userId: preferenceRepository.getUserId(), userName: preferenceRepository.getUserName(), role: '1',)
@@ -87,12 +89,30 @@ class ProjectCubit extends BaseCubit<BaseState, String> {
 
     try {
       emit(LoadingState());
-      var response = await projectRepository.getProjects();
+      var response = await projectRepository.getMyProject();
       if (response is Success) {
-        print('cubit sucess');
         projectList.clear();
-        projectList.addAll((response as Success).data);
+        projectList.addAll(((response as Success).data as OurProjectList).project?.nonNulls ?? []);
         emit(GetProjects());
+      } else {
+        emit(ErrorState(
+            errorMessage: (response as Error).errorResponse.errorMessage));
+      }
+    } catch (e) {
+      emit(ErrorState(errorMessage: e.toString()));
+    }
+  }
+
+
+  Future<void> getOtherProject() async {
+    if (isBusy) return;
+
+    try {
+      emit(LoadingState());
+      var response = await projectRepository.getOtherProject();
+      if (response is Success) {
+            otherProjectList.addAll(((response as Success).data as ProjectList).project?.nonNulls ?? []);
+        emit(RefreshState());
       } else {
         emit(ErrorState(
             errorMessage: (response as Error).errorResponse.errorMessage));
@@ -146,9 +166,9 @@ class ProjectCubit extends BaseCubit<BaseState, String> {
       emit(LoadingState());
       var response =
           await projectRepository.addProjectMember(ReqAddProjectMember(
-              projectId: editingProject?.id ?? "",
+              projectId: editingProject?.sId ?? "",
               userDetails: UserDetails(
-                userId: resProjectMember?.id ?? "",
+                userId: resProjectMember?.sId ?? "",
                 userName: memberCustomNameController.text,
                 role: memberCustomRoleController.text,
               )));

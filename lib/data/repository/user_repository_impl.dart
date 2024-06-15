@@ -201,7 +201,6 @@ class UserRepositoryImpl implements UserRepository {
             .errorMessage);
       }
     } else {
-      print("user repo ${(response as Error).errorResponse.errorMessage}");
       throw Exception((response as Error).errorResponse.errorMessage);
     }
   }

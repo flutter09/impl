@@ -1,14 +1,10 @@
 import 'package:chat_application/base/result.dart';
-
 import 'package:chat_application/domain/model/request/req_add_save_user.dart';
-
 import 'package:chat_application/domain/model/request/req_send_otp.dart';
-
 import 'package:chat_application/domain/model/response/save_user_model.dart';
 import 'package:chat_application/domain/model/response/search_user_model.dart';
 
 import '../../base/api_response.dart';
-import '../../domain/model/response/error_response.dart';
 import '../../domain/repository/save_user_repository.dart';
 import '../local/preference_constant.dart';
 import '../local/preference_utils.dart';
@@ -79,21 +75,22 @@ class SaveUserRepositoryImpl extends SaveUserRepository {
   }
 
   @override
-  Future<Result<List<SaveUserData>>> getSaveUserList() async {
+  Future<Result<List<SaveUser>>> getSaveUserList() async {
     var response = await apiService.post<List<dynamic>>(
       /// list class is not able to directly cast so we can cast each element sapratly
-        DioApiConstants.getSaveUserList, SaveUserData.fromJson , data: {"user_id_of_main_user": getString(PreferenceConstant.userId)}
+        DioApiConstants.getSaveUserList, SaveUser.fromJson , data: <String,dynamic>{
+          "user_id_of_main_user": getString(PreferenceConstant.userId)
+        }
     );
 
     if (response is Success) {
       var result = (response as Success).data as ApiResponse;
       if (result.success ?? false) {
-        return Success((result.data as List<dynamic>).map((e) => e as SaveUserData).toList());
+        return Success((result.data as List<dynamic>).map((e) => e as SaveUser).toList());
       } else {
         throw Exception(result.description);
       }
     } else {
-      print('repo mapping');
       throw Exception((response as Error).errorResponse.errorMessage);
     }
   }

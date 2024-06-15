@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../config/theme/app_theme.dart';
-import '../../../domain/model/request/custom_user.dart';
 import 'component.dart';
 import 'custom_dropdown.dart';
 import 'custom_textfield.dart';
@@ -49,7 +48,6 @@ class _CustomUserAdditionCardState extends State<CustomUserAdditionCard> {
   TextEditingController nameController = TextEditingController();
 
   void onSave() {
-    print(roles);
     if (_formKey.currentState!.validate() && roles.isNotEmpty) {
 
       widget.onSave?.call(nameController.text , roles);
@@ -68,7 +66,6 @@ class _CustomUserAdditionCardState extends State<CustomUserAdditionCard> {
   }
 
   void addToRole(List<String> list) {
-    print("add to role : $list");
     setState(() {
       roles.clear();
       roles.addAll(list);

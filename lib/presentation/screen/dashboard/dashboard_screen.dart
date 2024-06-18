@@ -1,4 +1,5 @@
 import 'package:chat_application/base/base_state.dart';
+import 'package:chat_application/config/route/route_manager.dart';
 import 'package:chat_application/config/theme/app_theme.dart';
 import 'package:chat_application/injection_conatainer.dart';
 import 'package:chat_application/presentation/screen/component/loading_screen.dart';
@@ -27,10 +28,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> with SingleTickerProv
     // TODO: implement initState
     super.initState();
     _tabController = TabController(length: 2, vsync: this,);
-    // dashboardCubit.getProject();
-    // dashboardCubit.getOtherProject();
-    // dashboardCubit.getFavouriteProject();
-    // dashboardCubit.getOtherFavouriteProject();
+    dashboardCubit.getProject();
+    dashboardCubit.getOtherProject();
+    dashboardCubit.getFavouriteProject();
+    dashboardCubit.getOtherFavouriteProject();
     dashboardCubit.getSaveUserList();
   }
 
@@ -98,6 +99,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> with SingleTickerProv
                         itemBuilder: (BuildContext context, int index) {
                           var project = dashboardCubit.favouriteProject[index];
                           return ProductCard(
+                            onClick: (){
+                              Navigator.pushNamed(context, Routes.projectDetailScreen);
+                            },
                             title: project.name ?? '',
                             description:
                             'Updated at ${dateToFormat(project.updatedAt ?? '', format: 'dd MMM')}',

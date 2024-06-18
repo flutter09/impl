@@ -79,7 +79,8 @@ class SaveUserRepositoryImpl extends SaveUserRepository {
     var response = await apiService.post<List<dynamic>>(
       /// list class is not able to directly cast so we can cast each element sapratly
         DioApiConstants.getSaveUserList, SaveUser.fromJson , data: <String,dynamic>{
-          "user_id_of_main_user": getString(PreferenceConstant.userId)
+          "user_id_of_main_user": getString(PreferenceConstant.userId),
+      "user_id": getString(PreferenceConstant.userId)
         }
     );
 

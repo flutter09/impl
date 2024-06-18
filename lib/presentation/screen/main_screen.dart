@@ -9,7 +9,8 @@ import 'component/custom_appbar.dart';
 import 'dashboard/dashboard_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  final int selectedScreen;
+  const MainScreen({super.key, this.selectedScreen = 0});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -18,7 +19,9 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
-    return DrawerScreen(drawerItems: [
+    return DrawerScreen(
+        selectedScreen: widget.selectedScreen,
+        drawerItems: [
       DrawerItem(
           leading: const Icon(
             Icons.home_filled,

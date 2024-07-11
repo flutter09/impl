@@ -17,7 +17,7 @@ class ProjectRepositoryImpl extends ProjectRepository{
   @override
   Future<Result<Project>> addProjectMember(ReqAddProjectMember reqAddProjectMember) async {
     var response = await apiService.post<Project>(
-        DioApiConstants.projectAddMembers, Project.fromJson,
+        DioApiConstants.projectAddMembers, fromJsonT: Project.fromJson,
         data: reqAddProjectMember.toJson());
 
     if (response is Success) {
@@ -34,14 +34,14 @@ class ProjectRepositoryImpl extends ProjectRepository{
 
   @override
   Future<Result<Project>> getProjectDetail(ReqProjectDetail reqProjectDetail) async {
-    var response = await apiService.post<Project>(
-        DioApiConstants.projectDetails, Project.fromJson,
+    var response = await apiService.post(
+        DioApiConstants.projectDetails,
         data: reqProjectDetail.toJson());
 
     if (response is Success) {
       var result = (response as Success).data as ApiResponse;
       if (result.success ?? false) {
-        return Success(result.data);
+        return Success(Project.fromJson((result.data as List<dynamic>).first));
       } else {
         throw Exception(result.description);
       }
@@ -53,7 +53,7 @@ class ProjectRepositoryImpl extends ProjectRepository{
   @override
   Future<Result<String>> registerProject(ReqRegisterProject registerProject) async {
     var response = await apiService.post<String>(
-        DioApiConstants.projectRegister, null,
+        DioApiConstants.projectRegister, fromJsonT: null,
         data: registerProject.toJson());
 
     if (response is Success) {
@@ -71,7 +71,7 @@ class ProjectRepositoryImpl extends ProjectRepository{
   @override
   Future<Result<Project>> updateProject(Project resProject) async {
     var response = await apiService.post<Project>(
-        DioApiConstants.projectUpdate, Project.fromJson,
+        DioApiConstants.projectUpdate,fromJsonT:  Project.fromJson,
         data: resProject.toJson());
 
     if (response is Success) {
@@ -89,7 +89,7 @@ class ProjectRepositoryImpl extends ProjectRepository{
   Future<Result<OurProjectList>> getMyProject() async {
     var response = await apiService.post<OurProjectList>(
       /// list class is not able to directly cast so we can cast each element sapratly
-        DioApiConstants.ourProjectList, OurProjectList.fromJson
+        DioApiConstants.ourProjectList, fromJsonT: OurProjectList.fromJson
     );
 
     if (response is Success) {
@@ -107,7 +107,7 @@ class ProjectRepositoryImpl extends ProjectRepository{
   Future<Result<FavouriteProjectList>> getMyFavouriteProject() async {
     var response = await apiService.post<FavouriteProjectList>(
       /// list class is not able to directly cast so we can cast each element sapratly
-        DioApiConstants.ourFavouriteProject, FavouriteProjectList.fromJson
+        DioApiConstants.ourFavouriteProject, fromJsonT: FavouriteProjectList.fromJson
     );
 
     if (response is Success) {
@@ -125,7 +125,7 @@ class ProjectRepositoryImpl extends ProjectRepository{
   Future<Result<ProjectList>> getOtherProject() async {
     var response = await apiService.post<ProjectList>(
       /// list class is not able to directly cast so we can cast each element sapratly
-        DioApiConstants.projectList, ProjectList.fromJson
+        DioApiConstants.projectList, fromJsonT: ProjectList.fromJson
     );
 
     if (response is Success) {
@@ -143,7 +143,7 @@ class ProjectRepositoryImpl extends ProjectRepository{
   Future<Result<FavouriteProjectList>> getOtherFavouriteProject() async {
     var response = await apiService.post<FavouriteProjectList>(
       /// list class is not able to directly cast so we can cast each element sapratly
-        DioApiConstants.favouriteProject, FavouriteProjectList.fromJson
+        DioApiConstants.favouriteProject, fromJsonT: FavouriteProjectList.fromJson
     );
 
     if (response is Success) {

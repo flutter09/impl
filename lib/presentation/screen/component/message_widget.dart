@@ -21,7 +21,7 @@ class MessageWidget extends StatefulWidget {
 
   final VoidCallback? onLongPress;
   final VoidCallback? onPress;
-  final Function(DragUpdateDetails)? onLeftSwipe;
+  final Function()? onLeftSwipe;
   final ChatMessage messages;
   final bool? isReply;
   final bool? isEdit;
@@ -47,7 +47,7 @@ class _MessageWidgetState extends State<MessageWidget> {
   @override
   Widget build(BuildContext context) {
     return SwipeTo(
-      onLeftSwipe: widget.onLeftSwipe,
+      onLeftSwipe: (_) => widget.onLeftSwipe,
       child: GestureDetector(
         onTap: widget.onPress,
         onLongPress: widget.onLongPress,

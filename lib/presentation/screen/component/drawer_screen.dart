@@ -25,12 +25,14 @@ class DrawerScreen extends StatefulWidget {
   final Widget? drawerHeader;
   final List<DrawerItem> drawerItems;
   final List<Widget> appbarActions;
+  final Widget? child;
+  final int? selectedScreen;
 
   const DrawerScreen({
     super.key,
     required this.drawerItems,
     this.drawerHeader,
-    required this.appbarActions,
+    required this.appbarActions, this.child, this.selectedScreen,
   });
 
   @override
@@ -39,12 +41,19 @@ class DrawerScreen extends StatefulWidget {
 
 class _DrawerScreenState extends State<DrawerScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _selectedIndex = widget.selectedScreen ?? 0;
+  }
 
   void _openDrawer() {
     _scaffoldKey.currentState!.openDrawer();
   }
 
-  int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -65,7 +74,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
         actions:
             item.userCommonAction ? widget.appbarActions : item.appbarActions,
       ),
-      body: item.screen,
+      body: widget.child ?? item.screen,
       drawer: Drawer(
         backgroundColor: Colors.white,
         width: MediaQuery.of(context).size.width * 0.8,

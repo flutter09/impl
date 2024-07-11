@@ -257,7 +257,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               },
                               child: MessageWidget(
                                 messages: messages.reversed.toList()[index],
-                                onLeftSwipe: (_) {
+                                onLeftSwipe: () {
                                   setReply(messages.reversed.toList()[index]);
                                 },
                                 /*onLongPress: (){

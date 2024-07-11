@@ -46,7 +46,7 @@ class UserRepositoryImpl implements UserRepository {
   Future<Result<String>> forgotPassword(
       ReqForgotPassword reqForgotPassword) async {
     var response = await apiService.post<String>(
-        DioApiConstants.forgotPassword, null,
+        DioApiConstants.forgotPassword,fromJsonT:  null,
         data: reqForgotPassword.toJson());
 
     if (response is Success) {
@@ -99,7 +99,7 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<Result<String>> sendOtp(ReqSendOtp reqSendOtp) async {
     var response = await apiService.post<String>(
-        DioApiConstants.sendOtp, null,
+        DioApiConstants.sendOtp, fromJsonT: null,
         data: reqSendOtp.toJson());
 
     if (response is Success) {
@@ -121,7 +121,7 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<Result<ResUserModel>> verifyOtp(ReqCheckOtp reqCheckOtp) async {
     var response = await apiService.post<ResUserModel>(
-        DioApiConstants.checkOtp, ResUserModel.fromJson,
+        DioApiConstants.checkOtp, fromJsonT: ResUserModel.fromJson,
         data: reqCheckOtp.toJson());
     if (response is Success) {
       var result = (response as Success).data as ApiResponse;
@@ -188,7 +188,7 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<Result<ResUserModel>> getUserDetails() async {
     var response = await apiService.post<ResUserModel>(
-        DioApiConstants.getUserDetails, ResUserModel.fromJson);
+        DioApiConstants.getUserDetails, fromJsonT: ResUserModel.fromJson);
 
     if (response is Success) {
       var result = (response as Success).data as ApiResponse;

@@ -17,7 +17,7 @@ class GroupRepositoryImpl extends GroupRepository {
   @override
   Future<Result<ResGroup>> addGroupMember(ReqAddGroupMember addGroupMember) async {
     var response = await apiService.post<ResGroup>(
-        DioApiConstants.groupAddNumber, ResGroup.fromJson,
+        DioApiConstants.groupAddNumber, fromJsonT: ResGroup.fromJson,
         data: addGroupMember.toJson());
 
     if (response is Success) {
@@ -35,7 +35,7 @@ class GroupRepositoryImpl extends GroupRepository {
   @override
   Future<Result<ResGroup>> getGroupDetail(ReqGroupDetail reqGroupDetail) async {
     var response = await apiService.post<ResGroup>(
-        DioApiConstants.groupDetails, ResGroup.fromJson,
+        DioApiConstants.groupDetails, fromJsonT: ResGroup.fromJson,
         data: reqGroupDetail.toJson());
 
     if (response is Success) {
@@ -54,7 +54,7 @@ class GroupRepositoryImpl extends GroupRepository {
   Future<Result<List<ResGroup>>> getGroups() async {
     var response = await apiService.post<List<dynamic>>(
       /// list class is not able to directly cast so we can cast each element sapratly
-        DioApiConstants.groupList, ResGroup.fromJson
+        DioApiConstants.groupList, fromJsonT: ResGroup.fromJson
     );
 
     if (response is Success) {
@@ -72,7 +72,7 @@ class GroupRepositoryImpl extends GroupRepository {
   @override
   Future<Result<String>> registerGroup(ReqRegisterGroup reqRegisterGroup) async {
     var response = await apiService.post<String>(
-        DioApiConstants.groupRegister, null,
+        DioApiConstants.groupRegister, fromJsonT: null,
         data: reqRegisterGroup.toJson());
 
     if (response is Success) {
@@ -90,7 +90,7 @@ class GroupRepositoryImpl extends GroupRepository {
   @override
   Future<Result<ResGroup>> updateGroup(ReqRegisterGroup reqRegisterGroup) async {
     var response = await apiService.post<ResGroup>(
-        DioApiConstants.groupUpdate, ResGroup.fromJson,
+        DioApiConstants.groupUpdate, fromJsonT: ResGroup.fromJson,
         data: reqRegisterGroup.toJson());
 
     if (response is Success) {

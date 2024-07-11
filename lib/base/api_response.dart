@@ -24,15 +24,24 @@ class ApiResponse<T> {
 
     T? data;
     var jsonData = json['data'];
+
+    if(fromJsonT == null){
+      return ApiResponse<T>(
+        success: json['success'] as bool?,
+        message: json['message'] as int?,
+        data: json['data'],
+        description: json['description'] as String?,
+      );
+    }
     if(jsonData != null) {
       if (jsonData is String) {
         data = jsonData as T;
       } else if (jsonData is List) {
         if (jsonData.isEmpty) throw Exception("List is Empty");
         data = jsonData.map((e) => e as Map<String, dynamic>).map((item) =>
-            fromJsonT!(item)).toList() as T;
+            fromJsonT(item)).toList() as T;
       } else {
-        data = fromJsonT?.call(jsonData) as T?;
+        data = fromJsonT.call(jsonData) as T?;
       }
     }
 

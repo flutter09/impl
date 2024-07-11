@@ -88,13 +88,14 @@ class ApiServiceImpl implements ApiService {
 
   @override
   Future<Result<ApiResponse<T>>?> post<T>(
-      String url, dynamic Function(Map<String, dynamic> json)? fromJsonT,
-      {Map<dynamic, dynamic>? data}) async {
+      String url, {dynamic Function(Map<String, dynamic> json)? fromJsonT,
+      Map<dynamic, dynamic>? data}) async {
     var response = await dio?.post(DioApiConstants.baseUrl + url, data: data);
     if (response?.statusCode == 200) {
       try {
         return Success(ApiResponse.fromJson(response?.data, fromJsonT));
       } catch (e) {
+        debugPrint('mapping_error : ${e.toString()}');
         return Error(ErrorResponse(errorMessage: e.toString()));
       }
     } else {

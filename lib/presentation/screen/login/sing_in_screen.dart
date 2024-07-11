@@ -93,7 +93,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             hintText: "Enter your email or username or phone",
                             type: TextInputType.emailAddress,
                             validate: (value) {
-                              return validateEmailPhone(value);
+                              return validateRequireField(value);
                             },
                             isRequired: true,
                           ),

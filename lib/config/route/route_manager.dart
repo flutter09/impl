@@ -11,6 +11,7 @@ import 'package:chat_application/presentation/screen/login/sing_in_screen.dart';
 import 'package:chat_application/presentation/screen/login/sing_up_screen.dart';
 import 'package:chat_application/presentation/screen/media/media_viewer.dart';
 import 'package:chat_application/presentation/screen/project/create_project_screen.dart';
+import 'package:chat_application/presentation/screen/project/project_detail_screen.dart';
 import 'package:chat_application/presentation/screen/project/project_list_screen.dart';
 import 'package:chat_application/presentation/screen/user/add_user_screen.dart';
 import 'package:chat_application/presentation/screen/user/personal_info_screen.dart';
@@ -49,6 +50,7 @@ class Routes {
   static const String dashboardScreen = "/dashboard_screen";
   static const String selectCustomUser = "/selectCustomUser";
   static const String mediaViewerScreen = '/mediaViewerScreen';
+  static const String projectDetailScreen = '/projectDetailScreen';
 //static const String registerRoute = "/register";
 //static const String forgotPasswordRoute = "/forgotPassword";
 //static const String mainRoute = "/main";
@@ -109,7 +111,8 @@ class RouteGenerator {
       case Routes.personalInfoScreen:
         return MaterialPageRoute(builder: (_) => PersonalInfoScreen());
       case Routes.dashboardScreen:
-        return MaterialPageRoute(builder: (_) => MainScreen());
+        int selectedScreen = (routeSettings.arguments ?? 0) as int;
+        return MaterialPageRoute(builder: (_) => MainScreen(selectedScreen: selectedScreen,));
       case Routes.selectCustomUser:
         List<ProjectMember>? selectedUser =
             routeSettings.arguments as List<ProjectMember>?;
@@ -118,6 +121,9 @@ class RouteGenerator {
       case Routes.mediaViewerScreen:
         String url = routeSettings.arguments as String;
         return MaterialPageRoute(builder: (_) => MediaViewer(resource: url));
+      case Routes.projectDetailScreen:
+        String? projectId = routeSettings.arguments as String;
+        return MaterialPageRoute(builder: (_) => ProjectDetailScreen(projectId: projectId,));
       default:
         return unDefinedRoute();
     }

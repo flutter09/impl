@@ -21,6 +21,7 @@ class NetworkInterceptor extends Interceptor {
         queryParameters: options.queryParameters,
         data: options.data,
         headers: _headers(),
+        contentType: Headers.jsonContentType,
         baseUrl: options.baseUrl);
     handler.next(options);
   }
@@ -53,7 +54,7 @@ class NetworkInterceptor extends Interceptor {
   Map<String, String> _headers() {
     return {
       'token': getString(PreferenceConstant.token),
-      'user_id': getString(PreferenceConstant.userId)
+      'user_id': getString(PreferenceConstant.userId),
     };
   }
 }

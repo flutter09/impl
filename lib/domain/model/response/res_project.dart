@@ -183,7 +183,9 @@ class ProjectMember {
     data['chatName'] = this.chatName;
     data['role'] = this.role;
     data['added_by_user_id'] = this.addedByUserId;
-    data['_id'] = this.sId;
+    if(sId != null) {
+      data['_id'] = sId;
+    }
     return data;
   }
 }

@@ -159,7 +159,7 @@ class LabelDropDown extends StatefulWidget {
   });
 
   final String? label;
-  final FormFieldValidator? validate;
+  final String? Function(String?)? validate;
   final ValueChanged<String>? onChanged;
   final ValueChanged<String?>? onSave;
   final List<String>? options;
@@ -184,6 +184,8 @@ class _LabelDropDownState extends State<LabelDropDown> {
           height: 10,
         ),
         DropdownButtonFormField<String>(
+
+          dropdownColor: Colors.white,
           validator: widget.validate,
           onSaved: widget.onSave,
           value: widget.selectedOption,
@@ -196,13 +198,22 @@ class _LabelDropDownState extends State<LabelDropDown> {
           onChanged: (String? newValue) {
             if (newValue != null) {
               setState(() {
-                widget.onChanged!(newValue);
+                widget.onChanged?.call(newValue);
               });
             }
           },
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
+            border: OutlineInputBorder(
+              borderSide:
+              BorderSide(color: AppColor.colorGray, width: 0.5),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide:
+              BorderSide(color: AppColor.colorGray, width: 0.5),
+              borderRadius: BorderRadius.circular(6),
+            ),
           ),
         ),
       ],

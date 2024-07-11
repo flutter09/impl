@@ -56,7 +56,7 @@ class SaveUserRepositoryImpl extends SaveUserRepository {
   }
 
   @override
-  Future<Result<SearchUserData>> getSaveUser(ReqSendOtp email) async {
+  Future<Result<SearchUserData>> getSaveUser(ReqSearchUser email) async {
     var response = await apiService.post<SearchUserData>(
         DioApiConstants.getOtherUserDetail, fromJsonT: SearchUserData.fromJson,
         data: email.toJson()

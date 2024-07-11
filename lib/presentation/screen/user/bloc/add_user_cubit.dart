@@ -45,7 +45,7 @@ class AddUserCubit extends BaseCubit<BaseState, String> {
 
     try {
       emit(LoadingState());
-      var response = await _saveUserRepository.getSaveUser(ReqSendOtp(email: emailController.text));
+      var response = await _saveUserRepository.getSaveUser(ReqSearchUser(uniqueName: emailController.text));
       if (response is Success) {
         saveUserModel = (response as Success).data;
         emit(SaveUserState());

@@ -154,6 +154,6 @@ class PreferenceRepositoryImpl implements PreferenceRepository {
 
   @override
   setUser(ResUserModel user) {
-    setString(PreferenceConstant.userPhone, jsonEncode(user.toJson()));
+    setString(PreferenceConstant.user, jsonEncode(user.toJson()));
   }
 }

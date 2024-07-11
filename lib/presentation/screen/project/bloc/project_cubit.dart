@@ -9,38 +9,40 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../../base/result.dart';
 import '../../../../data/local/preference_repository.dart';
+import '../../../../data/repository/common_repository.dart';
+import '../../../../domain/model/response/save_user_model.dart';
 import '../../../../domain/repository/project_repository.dart';
+import '../../../../domain/repository/save_user_repository.dart';
+
+enum Role{
+  developer(name: 'Developer'),
+  projectManager(name: 'Project Manager'),
+  client(name: 'Client'),
+  other(name: 'Other'),
+  creator(name: 'Creator');
+
+  final String name;
+  const Role({required this.name});
+}
 
 class ProjectCubit extends BaseCubit<BaseState, String> {
   final ProjectRepository projectRepository;
   final PreferenceRepository preferenceRepository;
+  final CommonRepository commonRepository;
 
-  ProjectCubit(this.projectRepository, this.preferenceRepository) : super(BaseInitState(), "");
+  ProjectCubit(this.projectRepository, this.preferenceRepository, this.commonRepository) : super(BaseInitState(), "");
 
   //project list screen
   List<Project> projectList = [];
   List<Project> otherProjectList = [];
 
-
   // create project screen
   final projectNameController = TextEditingController();
-  final startDateController = TextEditingController();
-  final endDateController = TextEditingController();
   final projectDescController = TextEditingController();
-  final budgetController = TextEditingController();
-  final priorityController = TextEditingController();
-  final categoryController = TextEditingController();
-  final imageController = TextEditingController();
 
-  final List<ProjectMember> selectedMembers = [];
-
-  void updateSelectedProjectMember(List<ProjectMember>? resultList) {
-    selectedMembers.clear();
-    selectedMembers.addAll(resultList ?? []);
-  }
 
   void removeUser(ProjectMember resProjectMember) {
-    selectedMembers.remove(resProjectMember);
+    projectMemberList.remove(resProjectMember);
   }
 
   // update project
@@ -58,14 +60,15 @@ class ProjectCubit extends BaseCubit<BaseState, String> {
 
     try {
       emit(LoadingState());
-      var projectMembers = selectedMembers
-          .map((e) => ReqProjectMember(
-          userId: e.userId ??'',
-          userName: e.userName ?? "",
-          role: e.role ?? "")
-      ).toList();
+      List<ProjectMember> projectMembers = List.from(projectMemberList);
       projectMembers.add(
-        ReqProjectMember(userId: preferenceRepository.getUserId(), userName: preferenceRepository.getUserName(), role: '1',)
+        ProjectMember(
+          chatName: preferenceRepository.getUser().firstName,
+          addedByUserId: preferenceRepository.getUserId(),
+          userId: preferenceRepository.getUserId(),
+          userName: preferenceRepository.getUser().firstName,
+          role: Role.creator.name,
+        )
       );
       
       var response = await projectRepository.registerProject(ReqRegisterProject(
@@ -102,7 +105,6 @@ class ProjectCubit extends BaseCubit<BaseState, String> {
       emit(ErrorState(errorMessage: e.toString()));
     }
   }
-
 
   Future<void> getOtherProject() async {
     if (isBusy) return;
@@ -159,7 +161,7 @@ class ProjectCubit extends BaseCubit<BaseState, String> {
     }
   }
 
-  Future<void> addProjectMember() async {
+  /*Future<void> addProjectMember() async {
     if (isBusy) return;
 
     try {
@@ -179,6 +181,43 @@ class ProjectCubit extends BaseCubit<BaseState, String> {
             errorMessage: (response as Error).errorResponse.errorMessage));
       }
     } catch (e) {
+      emit(ErrorState(errorMessage: e.toString()));
+    }
+  }*/
+
+
+  final List<ProjectMember> projectMemberList = [];
+  void addProjectMember({SaveUser? saveUser, String? chatName, String? role}) {
+    projectMemberList.add(
+        ProjectMember(
+          userId: saveUser?.sId,
+          userName: saveUser?.firstName,
+          chatName: chatName,
+          role: role,
+          addedByUserId: preferenceRepository.getUserId(),
+        )
+    );
+    emit(RefreshState());
+  }
+
+
+
+  List<SaveUser> saveUserList = [];
+
+  Future<void> getSaveUserList() async {
+    if (isBusy) return;
+
+    try{
+      emit(LoadingState());
+      var response = await commonRepository.getSaveUserList();
+      if(response is Success){
+        saveUserList.clear();
+        saveUserList.addAll((response as Success).data as List<SaveUser>);
+        emit(RefreshState());
+      }else{
+        emit(ErrorState(errorMessage: (response as Error).errorResponse.errorMessage));
+      }
+    }catch(e){
       emit(ErrorState(errorMessage: e.toString()));
     }
   }

@@ -38,7 +38,7 @@ Future<void> init() async {
   di.registerFactory(() => PersonalInfoCubit(di.call(),di.call()));
   di.registerFactory(() => AddUserCubit(di.call()));
   di.registerFactory(() => SaveUserListCubit(di.call()));
-  di.registerFactory(() => ProjectCubit(di.call() , di.call()));
+  di.registerFactory(() => ProjectCubit(di.call() , di.call(), di.call()));
   di.registerFactory(() => SelectCustomUserCubit(di.call()));
   di.registerFactory(() => GroupCubit(di.call(),di.call()));
   di.registerFactory(() => ComponentBlocCubit(di.call()));

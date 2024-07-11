@@ -110,6 +110,9 @@ class _ProjectListScreenState extends State<ProjectListScreen> with SingleTicker
                           itemBuilder: (context, index) {
                             var project = projectCubit.projectList[index];
                             return ProductCard(
+                              onClick: (){
+                                Navigator.pushNamed(context, Routes.projectDetailScreen, arguments: project.sId);
+                              },
                               title: project.name ?? '',
                               description:
                               'Updated at ${dateToFormat(project.updatedAt ?? '', format: 'dd MMM')}',
@@ -121,6 +124,9 @@ class _ProjectListScreenState extends State<ProjectListScreen> with SingleTicker
                           itemBuilder: (context, index) {
                             var project = projectCubit.otherProjectList[index];
                             return ProductCard(
+                              onClick: (){
+                                Navigator.pushNamed(context, Routes.projectDetailScreen, arguments: project.sId);
+                              },
                               title: project.name ?? '',
                               description:
                               'Updated at ${dateToFormat(project.updatedAt ?? '', format: 'dd MMM')}',

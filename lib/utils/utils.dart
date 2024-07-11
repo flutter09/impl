@@ -134,8 +134,8 @@ String? validateEmail(String email) {
   }
 }
 
-String? validateRequireField(String value) {
-  if (value.trim().isEmpty) {
+String? validateRequireField(String? value) {
+  if (value?.trim().isEmpty ?? true) {
     return "This field is required.";
   } else {
     return null;

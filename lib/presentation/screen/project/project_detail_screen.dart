@@ -81,9 +81,10 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> with SingleTi
                           }
                         },
                         iconSize: 30,
+                        padding: EdgeInsets.zero,
                         icon: Icon(
-                          Icons.edit_note_outlined,
-                          color: AppColor.colorGray,
+                          Icons.edit,
+                          color: AppColor.colorPrimary,
                         ),
                       ),
                       IconButton(
@@ -95,9 +96,21 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> with SingleTi
                           }
                         },
                         iconSize: 30,
+                        padding: EdgeInsets.zero,
                         icon: Icon(
                           Icons.delete_outline_outlined,
                           color: AppColor.notifyRed,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () async {
+
+                        },
+                        iconSize: 30,
+                        padding: EdgeInsets.zero,
+                        icon: Icon(
+                          Icons.group_add,
+                          color: AppColor.colorPrimary,
                         ),
                       ),
                     ],

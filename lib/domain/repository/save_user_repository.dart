@@ -6,7 +6,7 @@ import 'package:chat_application/domain/model/response/search_user_model.dart';
 import '../../base/result.dart';
 
 abstract class SaveUserRepository{
-  Future<Result<SearchUserData>> getSaveUser(ReqSendOtp email);
+  Future<Result<SearchUserData>> getSaveUser(ReqSearchUser email);
   Future<Result<String>> addSaveUser(ReqAddSaveUser reqAddSaveUser);
   Future<Result<String>> editSaveUser(ReqAddSaveUser reqAddSaveUser);
   Future<Result<List<SaveUser>>> getSaveUserList();

@@ -206,26 +206,36 @@ class _GroupCardState extends State<GroupCard> {
                   ),
                   Visibility(
                     visible: widget.isEditable,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: AppBarAction(
+                        onPress: widget.addMember ?? (){},
+                        icon: Icons.add,
+                        iconColor: AppColor.colorPrimary,
+                        backgroundColor: AppColor.colorPurple.withOpacity(0.1),
+                      ),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
                     child: AppBarAction(
-                      onPress: widget.addMember ?? (){},
-                      icon: Icons.add,
+                      onPress: widget.onEdit ?? (){},
+                      icon: Icons.edit,
                       iconColor: AppColor.colorPrimary,
                       backgroundColor: AppColor.colorPurple.withOpacity(0.1),
                     ),
                   ),
-                  AppBarAction(
-                    onPress: widget.onEdit ?? (){},
-                    icon: Icons.edit,
-                    iconColor: AppColor.colorPrimary,
-                    backgroundColor: AppColor.colorPurple.withOpacity(0.1),
-                  ),
                   Visibility(
                     visible: widget.isDeletable,
-                    child: AppBarAction(
-                      onPress: widget.onDelete ?? (){},
-                      icon: Icons.delete,
-                      iconColor: AppColor.colorPrimary,
-                      backgroundColor: AppColor.colorPurple.withOpacity(0.1),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: AppBarAction(
+                        onPress: widget.onDelete ?? (){},
+                        icon: Icons.delete,
+                        iconColor: AppColor.colorPrimary,
+                        backgroundColor: AppColor.colorPurple.withOpacity(0.1),
+                      ),
                     ),
                   ),
                 ],

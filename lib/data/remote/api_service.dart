@@ -7,8 +7,8 @@ abstract class ApiService {
       required T Function(Map<String, dynamic> json) fromJsonT});
 
   Future<Result<ApiResponse<T>>?> post<T>(
-      String url, dynamic Function(Map<String, dynamic> json)? fromJsonT,
-      {Map data});
+      String url, {dynamic Function(Map<String, dynamic> json)? fromJsonT,
+      Map data});
 
   Future<Result<ApiResponse<T>>?> delete<T>(
       String url, T Function(Map<String, dynamic> json) fromJsonT);

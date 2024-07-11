@@ -182,6 +182,7 @@ class _GroupCardState extends State<GroupCard> {
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
+          side: BorderSide(color: AppColor.backgroundGray, width: .5)
         ),
         child: Padding(
           padding: const EdgeInsets.all(12.0),

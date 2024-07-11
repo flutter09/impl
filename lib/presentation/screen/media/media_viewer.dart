@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cached_video_player/cached_video_player.dart';
 import 'package:flutter/material.dart';
 
 class MediaViewer extends StatefulWidget {
@@ -12,35 +11,35 @@ class MediaViewer extends StatefulWidget {
 }
 
 class _MediaViewerState extends State<MediaViewer> {
-  late CachedVideoPlayerController _videoController;
+  // late CachedVideoPlayerController _videoController;
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
+  //
+  //   if (widget.resource.endsWith('.mp4')) {
+  //     _initializeVideoPlayer();
+  //   }
+  // }
 
-    if (widget.resource.endsWith('.mp4')) {
-      _initializeVideoPlayer();
-    }
-  }
-
-  @override
-  void dispose() {
-    _videoController.dispose();
-    super.dispose();
-  }
-
-  void _initializeVideoPlayer() {
-    _videoController = CachedVideoPlayerController.network(widget.resource);
-    _videoController.initialize().then((_) {
-      setState(() {});
-      _videoController.play();
-    });
-  }
+  // @override
+  // void dispose() {
+  //   _videoController.dispose();
+  //   super.dispose();
+  // }
+  //
+  // void _initializeVideoPlayer() {
+  //   _videoController = CachedVideoPlayerController.network(widget.resource);
+  //   _videoController.initialize().then((_) {
+  //     setState(() {});
+  //     _videoController.play();
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      /*body: Center(
         child: widget.resource.endsWith('.mp4')
             ? _videoController.value.isInitialized
             ? AspectRatio(
@@ -49,7 +48,7 @@ class _MediaViewerState extends State<MediaViewer> {
         )
             : const CircularProgressIndicator()
             : CachedNetworkImage(imageUrl: widget.resource),
-      ),
+      ),*/
     );
   }
 }

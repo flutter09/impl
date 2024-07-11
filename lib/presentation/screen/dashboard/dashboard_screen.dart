@@ -90,6 +90,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with SingleTickerProv
                     Tab(text: 'Other favourite'),
                   ],
                 ),
+                const Gap(4),
                 Expanded(
                   child: TabBarView(
                     controller: _tabController,
@@ -100,7 +101,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> with SingleTickerProv
                           var project = dashboardCubit.favouriteProject[index];
                           return ProductCard(
                             onClick: (){
-                              Navigator.pushNamed(context, Routes.projectDetailScreen);
+                              Navigator.pushNamed(context, Routes.projectDetailScreen, arguments: project.sId);
                             },
                             title: project.name ?? '',
                             description:
@@ -115,6 +116,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> with SingleTickerProv
                         itemBuilder: (BuildContext context, int index) {
                           var project = dashboardCubit.favouriteOtherProject[index];
                           return ProductCard(
+                            onClick: (){
+                              Navigator.pushNamed(context, Routes.projectDetailScreen, arguments: project.sId);
+                            },
                             title: project.name ?? '',
                             description:
                             'Updated at ${dateToFormat(project.updatedAt ?? '', format: 'dd MMM')}',

@@ -122,8 +122,8 @@ class RouteGenerator {
         String url = routeSettings.arguments as String;
         return MaterialPageRoute(builder: (_) => MediaViewer(resource: url));
       case Routes.projectDetailScreen:
-        // String? projectId = routeSettings.arguments as String;
-        return MaterialPageRoute(builder: (_) => const ProjectDetailScreen());
+        String? projectId = routeSettings.arguments as String;
+        return MaterialPageRoute(builder: (_) => ProjectDetailScreen(projectId: projectId,));
       default:
         return unDefinedRoute();
     }

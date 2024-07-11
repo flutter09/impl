@@ -20,7 +20,7 @@ class SaveUserRepositoryImpl extends SaveUserRepository {
   @override
   Future<Result<String>> addSaveUser(ReqAddSaveUser reqAddSaveUser) async {
     var response = await apiService.post<String>(
-        DioApiConstants.addUserSaveList, null,
+        DioApiConstants.addUserSaveList, fromJsonT: null,
         data: reqAddSaveUser.toJson()
     );
 
@@ -39,7 +39,7 @@ class SaveUserRepositoryImpl extends SaveUserRepository {
   @override
   Future<Result<String>> editSaveUser(ReqAddSaveUser reqAddSaveUser) async {
     var response = await apiService.post<String>(
-        DioApiConstants.editUserSaveList, null,
+        DioApiConstants.editUserSaveList, fromJsonT: null,
         data: reqAddSaveUser.toJson()
     );
 
@@ -58,7 +58,7 @@ class SaveUserRepositoryImpl extends SaveUserRepository {
   @override
   Future<Result<SearchUserData>> getSaveUser(ReqSendOtp email) async {
     var response = await apiService.post<SearchUserData>(
-        DioApiConstants.getOtherUserDetail, SearchUserData.fromJson,
+        DioApiConstants.getOtherUserDetail, fromJsonT: SearchUserData.fromJson,
         data: email.toJson()
     );
 
@@ -78,7 +78,7 @@ class SaveUserRepositoryImpl extends SaveUserRepository {
   Future<Result<List<SaveUser>>> getSaveUserList() async {
     var response = await apiService.post<List<dynamic>>(
       /// list class is not able to directly cast so we can cast each element sapratly
-        DioApiConstants.getSaveUserList, SaveUser.fromJson , data: <String,dynamic>{
+        DioApiConstants.getSaveUserList, fromJsonT: SaveUser.fromJson , data: <String,dynamic>{
           "user_id_of_main_user": getString(PreferenceConstant.userId),
       "user_id": getString(PreferenceConstant.userId)
         }

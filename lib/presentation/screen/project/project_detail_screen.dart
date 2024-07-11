@@ -2,6 +2,7 @@ import 'package:chat_application/base/base_state.dart';
 import 'package:chat_application/config/route/route_manager.dart';
 import 'package:chat_application/config/theme/app_theme.dart';
 import 'package:chat_application/presentation/screen/component/loading_screen.dart';
+import 'package:chat_application/presentation/screen/component/member_item.dart';
 import 'package:chat_application/presentation/screen/project/bloc/project_detail_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +15,8 @@ import '../component/main_parent_screen.dart';
 import '../component/product_card.dart';
 
 class ProjectDetailScreen extends StatefulWidget {
-  const ProjectDetailScreen({super.key});
+  final String projectId;
+  const ProjectDetailScreen({super.key, required this.projectId});
 
   @override
   State<ProjectDetailScreen> createState() => _ProjectDetailScreenState();
@@ -29,7 +31,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> with SingleTi
     // TODO: implement initState
     super.initState();
     _tabController = TabController(length: 2, vsync: this,);
-    projectDetailCubit.getProjectDetails();
+    projectDetailCubit.getProjectDetails(widget.projectId);
   }
 
   @override
@@ -116,6 +118,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> with SingleTi
                       Tab(text: 'Members'),
                     ],
                   ),
+                  Gap(4),
                   Expanded(
                     child: TabBarView(
                       controller: _tabController,
@@ -126,15 +129,15 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> with SingleTi
                               var group = projectDetailCubit.project?.groupDetails?[index];
                               return GroupCard(
                                 title: group?.name ?? '',
+                                description: group?.description ?? '',
                                 groupNames: group?.groupMembers?.map((e) => getTwoCharString(e.userName ?? '')).toList(),
                               );
                             }),
                         ListView.builder(
-                            itemCount: projectDetailCubit.project?.projectMembers?.length,
+                            itemCount: projectDetailCubit.project?.projectMembers?.length ?? 0,
                             itemBuilder: (context, index) {
                               var member = projectDetailCubit.project?.projectMembers?[index];
-                              return ProductCard(
-                                title: member?.userName ?? '',
+                              return MemberItem(name: member?.userName ?? '', role: member?.role,
                               );
                             }),
                       ],
